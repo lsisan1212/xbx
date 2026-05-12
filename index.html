@@ -43,58 +43,43 @@
     <div id="state" class="state"><div class="spinner"></div>正在掃描目錄...</div>
     <div id="grid" class="grid" style="display:none;"></div>
   </main>
-
   <script>
-    // 🔧 設定區（若自動偵測失敗，請手動填入）
-    const CONFIG = {
-      owner: '', // 例：'yourname'
-      repo: '',  // 例：'yourname.github.io' 或 'project-repo'
-      branch: 'main',
-      path: ''   // 若檔案在子資料夾，例：'notes/'
-    };
+    const CONFIG = { owner: '', repo: '', branch: 'main', path: '' };
 
-    // 🌐 自動偵測 GitHub Pages 環境
     function autoDetectRepo() {
       const host = window.location.hostname;
       const path = window.location.pathname;
       if (host.endsWith('.github.io')) {
         const owner = host.split('.')[0];
         const pathParts = path.split('/').filter(Boolean);
-        const repo = pathParts.length > 0 ? pathParts[0] : `${owner}.github.io`;
         CONFIG.owner = CONFIG.owner || owner;
-        CONFIG.repo = CONFIG.repo || repo;
+        CONFIG.repo = CONFIG.repo || (pathParts[0] || `${owner}.github.io`);
       }
     }
 
-    // 🧹 檔名美化：my-file_name.html → My File Name
     function cleanName(name) {
       return name.replace(/\.html$/i, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     }
 
-    // 📦 快取控制（避免觸發 GitHub API 60次/小時限制）
     const CACHE_KEY = 'gh_pages_index_cache';
     function getCache() {
       const raw = sessionStorage.getItem(CACHE_KEY);
       if (!raw) return null;
       const { data, time } = JSON.parse(raw);
-      return (Date.now() - time < 3600000) ? data : null; // 1小時有效
+      return (Date.now() - time < 3600000) ? data : null;
     }
-    function setCache(data) {
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, time: Date.now() }));
-    }
+    function setCache(data) { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, time: Date.now() })); }
 
-    // 🚀 主程式
     async function init() {
       autoDetectRepo();
       const stateEl = document.getElementById('state');
       const gridEl = document.getElementById('grid');
 
       if (!CONFIG.owner || !CONFIG.repo) {
-        stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo。請編輯此檔案頂部的 CONFIG 物件填入 owner 與 repo。</div>`;
+        stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo。請編輯 CONFIG 填入 owner 與 repo。</div>`;
         return;
       }
 
-      // 讀取快取
       const cached = getCache();
       if (cached) return render(cached);
 
@@ -111,7 +96,7 @@
         setCache(htmlFiles);
         render(htmlFiles);
       } catch (err) {
-        stateEl.innerHTML = `<div class="error">❌ 載入失敗：${err.message}<br><small>請確認 Repo 為公開狀態，或檢查 CONFIG 設定。</small></div>`;
+        stateEl.innerHTML = `<div class="error">❌ 載入失敗：${err.message}<br><small>請確認 Repo 為 Public，且 Pages 發布分支與 CONFIG.branch 一致。</small></div>`;
       }
     }
 
@@ -127,8 +112,11 @@
         return;
       }
 
+      // 🔧 防呆路徑解析
+      const baseDir = window.location.pathname.replace(/\/[^\/]*$/, '/');
+
       gridEl.innerHTML = files.map(f => {
-        const url = CONFIG.path ? `${CONFIG.path}${f.name}` : f.name;
+        const url = `${baseDir}${CONFIG.path || ''}${f.name}`;
         const date = new Date(f.updated_at || f.created_at).toLocaleDateString('zh-TW');
         return `
           <a href="${url}" class="card">
