@@ -3,45 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📚 筆記總覽 | Auto Index</title>
+  <title>📁 檔案目錄</title>
   <style>
     :root {
-      --bg: #f8f9fa; --surface: #ffffff; --text: #1f2937; --text-muted: #6b7280;
-      --primary: #2563eb; --primary-hover: #1d4ed8; --border: #e5e7eb;
-      --radius: 12px; --shadow: 0 4px 12px rgba(0,0,0,0.06);
-      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      --bg: #fafafa; --text: #111827; --text-muted: #6b7280;
+      --link: #2563eb; --link-hover: #1d4ed8; --border: #e5e7eb;
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem 1rem; }
-    header { max-width: 900px; margin: 0 auto 2rem; text-align: center; }
-    header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-    header p { color: var(--text-muted); font-size: 0.95rem; }
+    header { max-width: 800px; margin: 0 auto 2rem; text-align: center; }
+    header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.3rem; }
+    header p { color: var(--text-muted); font-size: 0.9rem; }
 
-    #container { max-width: 900px; margin: 0 auto; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-color: var(--primary); }
-    .card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; color: var(--primary); word-break: break-word; }
-    .card .meta { font-size: 0.8rem; color: var(--text-muted); margin-top: auto; display: flex; align-items: center; gap: 0.5rem; }
-    
+    #container { max-width: 800px; margin: 0 auto; }
+    .link-list { list-style: none; padding: 0; }
+    .link-list li { border-bottom: 1px solid var(--border); }
+    .link-list li:last-child { border-bottom: none; }
+    .link-list a {
+      display: block; padding: 0.7rem 0.5rem; color: var(--link); text-decoration: none;
+      font-size: 0.95rem; transition: all 0.2s ease; word-break: break-all; overflow-wrap: anywhere;
+    }
+    .link-list a:hover {
+      color: var(--link-hover); background: #f3f4f6; padding-left: 1rem; text-decoration: underline;
+    }
+    .link-list a::before { content: "📄 "; margin-right: 0.4rem; opacity: 0.6; }
+
     .state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
-    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+    .spinner { width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--link); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.8rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .error { color: #dc2626; background: #fef2f2; padding: 1rem; border-radius: var(--radius); border: 1px solid #fecaca; }
-    .empty { font-style: italic; }
+    .error { color: #dc2626; background: #fef2f2; padding: 0.8rem; border-radius: 8px; border: 1px solid #fecaca; margin-top: 1rem; }
+    .empty { font-style: italic; margin-top: 2rem; }
 
-    @media (max-width: 600px) { body { padding: 1rem; } header h1 { font-size: 1.5rem; } }
+    @media (max-width: 600px) { body { padding: 1rem; } header h1 { font-size: 1.3rem; } }
   </style>
 </head>
 <body>
   <header>
-    <h1>📁 筆記與文件總覽</h1>
-    <p>自動同步此 GitHub Pages 目錄下的所有 HTML 頁面</p>
+    <h1>📁 檔案目錄</h1>
+    <p>自動同步此資料夾下的所有 HTML 頁面</p>
   </header>
 
   <main id="container">
-    <div id="state" class="state"><div class="spinner"></div>正在掃描目錄...</div>
-    <div id="grid" class="grid" style="display:none;"></div>
+    <div id="state" class="state"><div class="spinner"></div>掃描中...</div>
+    <div id="list" style="display:none;"></div>
   </main>
 
   <script>
@@ -58,11 +63,7 @@
       }
     }
 
-    function cleanName(name) {
-      return name.replace(/\.html$/i, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    }
-
-    const CACHE_KEY = 'gh_pages_index_cache';
+    const CACHE_KEY = 'gh_index_cache';
     function getCache() {
       const raw = sessionStorage.getItem(CACHE_KEY);
       if (!raw) return null;
@@ -74,7 +75,7 @@
     async function init() {
       autoDetectRepo();
       const stateEl = document.getElementById('state');
-      const gridEl = document.getElementById('grid');
+      const listEl = document.getElementById('list');
 
       if (!CONFIG.owner || !CONFIG.repo) {
         stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo。請編輯 CONFIG 填入 owner 與 repo。</div>`;
@@ -92,40 +93,32 @@
 
         const htmlFiles = files
           .filter(f => f.name.endsWith('.html') && f.name.toLowerCase() !== 'index.html')
-          .sort((a, b) => a.name.localeCompare(b.name));
+          // 🔽 依檔名數字/日期由大到小遞減排序
+          .sort((a, b) => b.name.localeCompare(a.name, 'zh-Hant', { numeric: true }));
 
         setCache(htmlFiles);
         render(htmlFiles);
       } catch (err) {
-        stateEl.innerHTML = `<div class="error">❌ 載入失敗：${err.message}<br><small>請確認 Repo 為 Public，且 Pages 發布分支與 CONFIG.branch 一致。</small></div>`;
+        stateEl.innerHTML = `<div class="error">❌ 載入失敗：${err.message}<br><small>請確認 Repo 為 Public，且 Pages 分支與 CONFIG.branch 一致。</small></div>`;
       }
     }
 
     function render(files) {
       const stateEl = document.getElementById('state');
-      const gridEl = document.getElementById('grid');
+      const listEl = document.getElementById('list');
       stateEl.style.display = 'none';
-      gridEl.style.display = 'grid';
+      listEl.style.display = 'block';
 
       if (files.length === 0) {
-        gridEl.innerHTML = `<div class="state empty">📭 此目錄下找不到其他 .html 檔案</div>`;
-        gridEl.style.display = 'block';
+        listEl.innerHTML = `<div class="state empty">📭 此目錄下找不到其他 .html 檔案</div>`;
         return;
       }
 
       const baseDir = window.location.pathname.replace(/\/[^\/]*$/, '/');
-
-      gridEl.innerHTML = files.map(f => {
+      listEl.innerHTML = `<ul class="link-list">` + files.map(f => {
         const url = `${baseDir}${CONFIG.path || ''}${f.name}`;
-        return `
-          <a href="${url}" class="card">
-            <h3>${cleanName(f.name)}</h3>
-            <div class="meta">
-              <span>📄 ${f.name}</span>
-            </div>
-          </a>
-        `;
-      }).join('');
+        return `<li><a href="${url}">${f.name}</a></li>`;
+      }).join('') + `</ul>`;
     }
 
     init();
