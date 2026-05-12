@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 筆記總覽 | Auto Index</title>
+  <style>
+    :root {
+      --bg: #f8f9fa; --surface: #ffffff; --text: #1f2937; --text-muted: #6b7280;
+      --primary: #2563eb; --primary-hover: #1d4ed8; --border: #e5e7eb;
+      --radius: 12px; --shadow: 0 4px 12px rgba(0,0,0,0.06);
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem 1rem; }
+    header { max-width: 900px; margin: 0 auto 2rem; text-align: center; }
+    header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    header p { color: var(--text-muted); font-size: 0.95rem; }
+
+    #container { max-width: 900px; margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-color: var(--primary); }
+    .card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; color: var(--primary); }
+    .card .meta { font-size: 0.8rem; color: var(--text-muted); margin-top: auto; display: flex; justify-content: space-between; }
+    
+    .state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error { color: #dc2626; background: #fef2f2; padding: 1rem; border-radius: var(--radius); border: 1px solid #fecaca; }
+    .empty { font-style: italic; }
+
+    @media (max-width: 600px) { body { padding: 1rem; } header h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📁 筆記與文件總覽</h1>
+    <p>自動同步此 GitHub Pages 目錄下的所有 HTML 頁面</p>
+  </header>
+
+  <main id="container">
+    <div id="state" class="state"><div class="spinner"></div>正在掃描目錄...</div>
+    <div id="grid" class="grid" style="display:none;"></div>
+  </main>
+
+  <script>
+    // 🔧 設定區（若自動偵測失敗，請手動填入）
+    const CONFIG = {
+      owner: '', // 例：'yourname'
+      repo: '',  // 例：'yourname.github.io' 或 'project-repo'
+      branch: 'main',
+      path: ''   // 若檔案在子資料夾，例：'notes/'
+    };
+
+    // 🌐 自動偵測 GitHub Pages 環境
+    function autoDetectRepo() {
+      const host = window.location.hostname;
+      const path = window.location.pathname;
+      if (host.endsWith('.github.io')) {
+        const owner = host.split('.')[0];
+        const pathParts = path.split('/').filter(Boolean);
+        const repo = pathParts.length > 0 ? pathParts[0] : `${owner}.github.io`;
+        CONFIG.owner = CONFIG.owner || owner;
+        CONFIG.repo = CONFIG.repo || repo;
+      }
+    }
+
+    // 🧹 檔名美化：my-file_name.html → My File Name
+    function cleanName(name) {
+      return name.replace(/\.html$/i, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    // 📦 快取控制（避免觸發 GitHub API 60次/小時限制）
+    const CACHE_KEY = 'gh_pages_index_cache';
+    function getCache() {
+      const raw = sessionStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const { data, time } = JSON.parse(raw);
+      return (Date.now() - time < 3600000) ? data : null; // 1小時有效
+    }
+    function setCache(data) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, time: Date.now() }));
+    }
+
+    // 🚀 主程式
+    async function init() {
+      autoDetectRepo();
+      const stateEl = document.getElementById('state');
+      const gridEl = document.getElementById('grid');
+
+      if (!CONFIG.owner || !CONFIG.repo) {
+        stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo。請編輯此檔案頂部的 CONFIG 物件填入 owner 與 repo。</div>`;
+        return;
+      }
+
+      // 讀取快取
+      const cached = getCache();
+      if (cached) return render(cached);
+
+      try {
+        const apiURL = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.path}?ref=${CONFIG.branch}`;
+        const res = await fetch(apiURL);
+        if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
+        const files = await res.json();
+
+        const htmlFiles = files
+          .filter(f => f.name.endsWith('.html') && f.name.toLowerCase() !== 'index.html')
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        setCache(htmlFiles);
+        render(htmlFiles);
+      } catch (err) {
+        stateEl.innerHTML = `<div class="error">❌ 載入失敗：${err.message}<br><small>請確認 Repo 為公開狀態，或檢查 CONFIG 設定。</small></div>`;
+      }
+    }
+
+    function render(files) {
+      const stateEl = document.getElementById('state');
+      const gridEl = document.getElementById('grid');
+      stateEl.style.display = 'none';
+      gridEl.style.display = 'grid';
+
+      if (files.length === 0) {
+        gridEl.innerHTML = `<div class="state empty">📭 此目錄下找不到其他 .html 檔案</div>`;
+        gridEl.style.display = 'block';
+        return;
+      }
+
+      gridEl.innerHTML = files.map(f => {
+        const url = CONFIG.path ? `${CONFIG.path}${f.name}` : f.name;
+        const date = new Date(f.updated_at || f.created_at).toLocaleDateString('zh-TW');
+        return `
+          <a href="${url}" class="card">
+            <h3>${cleanName(f.name)}</h3>
+            <div class="meta">
+              <span>📄 ${f.name}</span>
+              <span>🕒 ${date}</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    init();
+  </script>
+</body>
+</html>
