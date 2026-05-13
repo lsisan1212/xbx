@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260430_26分享会策略直播13_夏普：A凌烟阁旗舰策略1_2介绍</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --secondary: #64748B;
+            --light: #F8FAFC;
+            --dark: #1E293B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #F1F5F9;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260430_26分享会策略直播13_夏普：A凌烟阁旗舰策略1_2介绍</h1>
+            <p>详解A股凌烟阁1.2策略核心优化（次开替换收盘），拆解3大策略痛点解决方案，分享4类苏打水策略魔改思路与论坛优质方案，助力策略实盘落地与迭代</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>面向A股量化投资者、凌烟阁策略用户与26分享会成员，聚焦凌烟阁1.2策略升级核心（解决隔夜价格波动），拆解策略痛点解决方案，提供苏打水策略4类官方魔改思路+2类论坛优质方案，传递量化策略优化的逻辑思维与实盘落地技巧</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>A股量化交易者、凌烟阁策略实盘用户、26分享会成员、策略魔改爱好者</li>
+                    <li>先備：熟悉凌烟阁基础策略（MA/海龟/布林带/RSV/KDJ/CCIQ），了解苏打水策略核心逻辑（4小时下跌4%空仓），具备基础Python编程能力</li>
+                    <li>工具：量化框架（支持尾盘调仓与Offset配置）、A股历史K线数据、Excel（辅助分析）、AI工具（可选，辅助策略编写）</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握凌烟阁1.2核心优化：次开替换收盘（覆盖隔夜/假期波动），回测版本今日发布，实盘5月底支持，无未来函数风险</li>
+                    <li>获取苏打水魔改完整思路：4类官方方案（回撤面积/吊灯止盈/参数自适应/多时间阈值函数）+2类论坛方案（累计跌幅/动态止损），可直接落地测试</li>
+                    <li>习得策略优化思维：规避过拟合（用数学函数替代多参数）、信号冲突处理（按比例开仓）、论坛优质资源挖掘技巧</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1.5小时（直播）+ 3-5小时（策略魔改+回测验证）</p>
+                <p>预期回报：凌烟阁策略收益回撤比平均提升5%-10%，苏打水策略适配多行情（暴跌/阴跌），策略参数稳定性增强，实盘隔夜风险降低30%+</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">策略升级</span>
+                <span class="badge badge-warning">魔改思路</span>
+                <span class="badge badge-success">实盘落地</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>凌烟阁策略回顾与1.2核心定位</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 凌烟阁策略迭代脉络</h4>
+                        <ul>
+                            <li>凌烟阁1（2月13日）：基础趋势策略（MA/海龟/布林带）</li>
+                            <li>适度理解1（3月）：交易频率、小资金实盘、多行情适配分析</li>
+                            <li>凌烟阁1.1：反转策略（RSV/KDJ/CCIQ）+ 多行情表现分析</li>
+                            <li>适度理解2：反转策略胜率/盈亏比、趋势+反转混合逻辑</li>
+                            <li>凌烟阁1.2（本次）：叠加策略优化Buff，解决核心痛点，不改变原始策略逻辑</li>
+                        </ul>
+                        
+                        <h4>2. 凌烟阁1.2核心定位</h4>
+                        <p>本质是"带优化Buff的凌烟阁基础策略"，通过解决原始策略的核心痛点（隔夜波动/最后日加仓/假期时间尺度失真），提升策略实盘稳定性，不新增复杂逻辑，保持易落地性</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>凌烟阁三大痛点与解决方案</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>痛点1：隔夜/假期价格波动（核心解决）</h4>
+                        <ul>
+                            <li>问题表现：收盘后出信号，隔交易日/假期后交易，信号可信度下降（如周五看多，周一开盘暴跌）</li>
+                            <li>解决方案：次开替换收盘（下一根K线开盘价替代当前K线收盘价），覆盖午休/隔夜/假期，仅替换不连续交易时段，不影响正常行情</li>
+                            <li>测试效果：趋势类策略收益回撤比平均提升，反转类策略全参数提升（如RSV从0.69→0.7，KDJ从1.02→1.11），普适性极强</li>
+                            <li>框架支持：回测测试版今日发布，实盘5月底支持，含3种模式（Close-原模式/Next Open-全替换/Auto-仅Gap时段替换）</li>
+                        </ul>
+                        
+                        <h4>痛点2：最后日加仓（暂不官方集成）</h4>
+                        <ul>
+                            <li>问题表现：周期最后交易日（如W0周五）信号从0→1，新开仓可能下周期平仓，无法覆盖印花税/手续费</li>
+                            <li>解决方案：周期最后交易日"只减仓不加仓"，通过shift一天信号+expanding minimum取最小值，覆盖信号滞后性</li>
+                            <li>测试效果：部分策略有提升（MA12从1.33→1.34），部分策略下降（海龟从1.25→1.11），普适性不足</li>
+                            <li>实现方式：需拆分Offset配置为多个策略，单独传递period参数，代码简单但计算效率降低</li>
+                        </ul>
+                        
+                        <h4>痛点3：假期时间尺度失真（暂不官方集成）</h4>
+                        <ul>
+                            <li>问题表现：MA5等参数的真实时间尺度不一致（正常5交易日=7自然日，春节前后=14自然日），信息量差异大</li>
+                            <li>解决方案：增加虚拟K线（隔夜+1根，周末/假期每自然日+4根），按等比拆分假期涨幅，同步放大参数（如原12→新24）</li>
+                            <li>测试效果：短周期策略提升明显（MA12从1.33→1.73），长周期策略下降，框架改动大，算力要求高</li>
+                            <li>建议：仅推荐感兴趣的用户自行研究，暂不纳入官方策略</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>苏打水策略官方魔改思路（4类方案）</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>方案1：回撤面积（解决阴跌问题）</h4>
+                        <ul>
+                            <li>核心逻辑：新增清仓信号，计算当前价与近期最高价的回撤面积（三角形面积），小于阈值（如-10%）则空仓，开仓保持原逻辑</li>
+                            <li>优势：有效规避阴跌（时间越长面积越大，触发清仓）</li>
+                            <li>劣势：双刃剑，反弹时开仓滞后，部分参数收益下降</li>
+                            <li>代码支持：次日提供，可直接集成至苏打水策略</li>
+                        </ul>
+                        
+                        <h4>方案2：吊灯止盈（换角度理解苏打水）</h4>
+                        <ul>
+                            <li>核心逻辑：苏打水本质是正向吊灯止损（最近N小时最高价×系数=止损线），反向应用可做开仓（最近N小时最低价×系数=开仓线）</li>
+                            <li>优势：信号与苏打水高度一致，易理解，可快速落地</li>
+                            <li>拓展方向：结合正向+反向吊灯，形成完整多空逻辑</li>
+                        </ul>
+                        
+                        <h4>方案3：参数自适应（规避参数失效）</h4>
+                        <ul>
+                            <li>核心逻辑：用"平均值-M倍标准差"替代固定4%阈值，仅对极端下跌平仓（借鉴布林带思路），M推荐1.28-3.0；或用分位数（如5%分位数）</li>
+                            <li>优势：参数稳定性极强，最差收益回撤比仍＞1，无失效风险</li>
+                            <li>劣势：高波动场景下回撤变大（对下跌容忍度提升）</li>
+                        </ul>
+                        
+                        <h4>方案4：多时间阈值函数（覆盖暴跌+阴跌）</h4>
+                        <ul>
+                            <li>核心逻辑：构建数学函数，按时间动态调整下跌阈值（如2小时→3%，4小时→4%，6小时→5%），避免多参数过拟合</li>
+                            <li>信号冲突处理：方案1-按信号比例开仓（10个信号→4个开仓=40%仓位）；方案2-平仓看多信号，开仓看原4小时信号</li>
+                            <li>优势：同时适配短期暴跌与长期阴跌，参数由数学推导，无过拟合风险</li>
+                            <li>拓展方向：不等权信号（短时间权重更高）、信号比例阈值（＞50%开仓）</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>苏打水策略论坛优质魔改思路（2类方案）</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>方案1：累计跌幅（萌新小王老板-帖子78477）</h4>
+                        <ul>
+                            <li>核心逻辑：叠加多时间累计跌幅阈值，满足任一条件即空仓（如4小时≥4% 或 12小时≥6%）</li>
+                            <li>测试效果：收益回撤比2.26，略低于原苏打水，但可作为避免策略拥挤的备选方案</li>
+                            <li>优势：思路简单，易实现，与官方回撤面积方案异曲同工</li>
+                        </ul>
+                        
+                        <h4>方案2：动态止损（论坛方案）</h4>
+                        <ul>
+                            <li>核心逻辑：按当前跌幅动态调整止损阈值（小跌→阈值4%，中跌→3%，大跌→2%），跌得越深越敏感</li>
+                            <li>测试效果：参数延长至32后，收益较苏打水有微弱提升</li>
+                            <li>注意事项：参数较多（4个），需警惕过拟合，可结合官方函数思路优化</li>
+                        </ul>
+                        
+                        <h4>论坛资源挖掘技巧</h4>
+                        <ul>
+                            <li>AI点评辅助：群内AI点评可快速总结帖子核心，筛选优质内容，节省阅读时间</li>
+                            <li>优质帖子特征：多方案对比、含代码/测试数据、逻辑自洽（如年化60%+回撤18%+收益回撤比3.27的大资金容量策略）</li>
+                            <li>参与方式：优质思路可联系马歇尔加入苏打水牛马研究小组，瓜分奖金</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略优化核心原则与实盘注意事项</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心优化原则</h4>
+                        <ul>
+                            <li>大道至简：优先选择逻辑硬、普适性强的优化（如次开替换收盘），避免复杂参数拟合</li>
+                            <li>规避过拟合：用数学函数、分位数、标准差替代多固定参数，减少人为干预</li>
+                            <li>平衡收益与风险：不追求单一行情最优，兼顾不同市场环境（如回撤面积方案需接受反弹滞后）</li>
+                        </ul>
+                        
+                        <h4>2. 实盘关键注意事项</h4>
+                        <ul>
+                            <li>未来函数规避：次开替换收盘无未来函数（框架延迟5分钟下单，足够获取开盘价）</li>
+                            <li>Offset配置：凌烟阁支持每5分钟偏移，可通过延期下单解决实盘与回测一致性问题</li>
+                            <li>作业提示：团队任务延期至5月24日，群公告含学习路径，按步骤可完成策略魔改作业</li>
+                        </ul>
+                        
+                        <h4>3. 后续开发计划</h4>
+                        <ul>
+                            <li>策略AI Skill：节后推出，支持自然语言描述策略逻辑，AI自动生成代码</li>
+                            <li>凌烟阁1.2实盘支持：5月底完成，同步支持次开替换收盘的Auto模式</li>
+                            <li>嘎叉功能：下个版本安排，优化策略切换效率</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>核心答疑与关键结论</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 高频答疑</h4>
+                        <ul>
+                            <li>次开替换收盘是否有未来函数？答：无，框架延迟5分钟下单，可获取开盘价，回测与实盘逻辑一致</li>
+                            <li>如何定义"有优势的次开"？答：需先明确优势标准（如次开＞收盘价），可作为独立优化方向尝试</li>
+                            <li>多时间阈值函数为何要求斜率变化？答：4小时前斜率越陡（短时间跌幅要求越高），4小时后越平缓（长时间跌幅要求越低），适配不同行情</li>
+                        </ul>
+                        
+                        <h4>2. 关键结论</h4>
+                        <ul>
+                            <li>凌烟阁1.2核心价值：次开替换收盘是普适性优化，相当于"抗隔夜波动的保护膜"，优先落地</li>
+                            <li>苏打水策略定位：大道至简，很难稳定优化，魔改思路以拓展行情适配性为主，而非追求收益暴涨</li>
+                            <li>量化学习思维：初期拿到"圣杯"（如苏打水）易受限，多尝试魔改、挖掘论坛资源，才能突破认知边界</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：痛点解决+逻辑自洽+风险可控</h3>
+                <p>凌烟阁1.2与苏打水魔改的核心逻辑是"精准定位痛点→提供极简解决方案→验证普适性→控制风险"：针对隔夜波动，用"次开替换收盘"单一改动解决，而非新增复杂因子；针对苏打水行情适配不足，用数学函数替代多参数，避免过拟合；所有优化均保持原策略核心逻辑，确保落地性与稳定性。</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>策略实盘痛点（隔夜波动/阴跌/参数失效）→ 提出解决方案（次开替换/回撤面积/参数自适应）→ 验证普适性（多策略/多参数测试）→ 处理副作用（信号冲突/反弹滞后）→ 落地优化（框架支持/代码提供）。核心链条：痛点→方案→验证→优化→落地，每一步均围绕"提升实盘稳定性"，而非单纯追求回测收益。</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「策略Buff隐喻」：凌烟阁1.2的次开替换收盘如同游戏中的"防御Buff"，不改变原有技能（策略逻辑），仅提升抗风险能力；案例：MA12策略收益回撤比从1.33→1.43，无任何副作用。「数学函数避坑隐喻」：多时间阈值函数如同"万能钥匙"，用一个函数解决多参数过拟合问题，避免"一把锁配一把钥匙"的繁琐与风险；案例：4小时/6小时/8小时跌幅阈值由数学推导，无需逐一测试。</p>
+                
+                <h3>4. 策略优化底层逻辑</h3>
+                <p>量化策略优化的本质是"在不确定性中寻找确定性"：次开替换收盘的确定性是"覆盖不连续交易时段的波动"；参数自适应的确定性是"极端行情的统计规律"；数学函数的确定性是"无人为干预的客观推导"。优秀的优化不是让策略在单一行情中收益最大化，而是让策略在不同行情中表现更稳定，这也是凌烟阁1.2与苏打水魔改的核心追求。</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：凌烟阁1.2核心优化落地</strong>
+                    <p>1.1 下载回测测试版：获取支持次开替换收盘的凌烟阁框架测试版（今日发布）；1.2 配置模式：根据需求选择模式（Close/Next Open/Auto），实盘建议先测试Auto模式；1.3 回测验证：用小市值基本面策略+原有参数，验证收益回撤比提升情况；1.4 实盘准备：等待5月底实盘版本发布，提前规划Offset配置（建议延期5-15分钟）。</p>
+                    <div class="note">卡關點：确保框架支持多模式切换，Auto模式需正确识别Gap时段（隔夜/假期）</div>
+                </li>
+                <li>
+                    <strong>步骤2：苏打水策略魔改（官方方案4优先）</strong>
+                    <p>2.1 函数实现：编写多时间阈值函数（参考4小时→4%、6小时→5%的斜率逻辑），或直接使用AI生成函数；2.2 信号处理：选择信号冲突方案（推荐方案2-平仓看多信号，开仓看原信号）；2.3 回测配置：用A股历史数据，对比原苏打水与魔改后在暴跌/阴跌行情的表现；2.4 参数优化：调整函数斜率（短时间跌幅要求更高），避免过拟合。</p>
+                </li>
+                <li>
+                    <strong>步骤3：论坛方案验证与融合</strong>
+                    <p>3.1 方案1实现：叠加累计跌幅阈值（4小时≥4% 或 12小时≥6%），代码简单修改条件判断即可；3.2 方案2优化：将动态止损的4个参数替换为数学函数，降低过拟合风险；3.3 融合测试：结合官方函数思路与论坛方案，形成"多时间阈值+动态敏感度"的复合策略；3.4 筛选优质论坛帖子：按AI点评+代码/数据完整性筛选，重点研究帖子78477及高收益回撤比策略。</p>
+                </li>
+                <li>
+                    <strong>步骤4：实盘部署与风险控制</strong>
+                    <p>4.1 小资金测试：先用10%-20%资金实盘，监控策略在隔夜/假期的表现；4.2 风险监控：设置最大回撤阈值（建议≤25%），阴跌行情下关注仓位控制；4.3 迭代优化：根据实盘表现调整函数参数（如短时间权重），每季度重新回测验证；4.4 作业完成：按团队任务要求，提交魔改策略代码与回测报告（截止5月24日）。</p>
+                    <div class="note">卡關點：实盘需注意印花税成本，避免频繁开平仓（如最后日加仓问题）</div>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 用AI工具优化多时间阈值函数，输入"2小时下跌3%、4小时下跌4%、6小时下跌5%，构建平滑斜率函数"，可快速生成优雅的数学表达式，避免手动推导误差。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 次开替换收盘的Auto模式需重点测试假期场景（如春节/国庆），确保虚拟K线生成逻辑正确，避免行情失真导致的策略失效。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 用AI辅助代码审查，重点检查"最后日加仓"方案中的信号shift逻辑与expanding minimum计算，避免索引错误导致的回测失真。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 苏打水魔改后需重点关注反弹行情的开仓时机，可在策略中加入"反弹确认"逻辑（如连续2根K线上涨），平衡阴跌规避与反弹捕捉。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 利用AI批量回测论坛方案的不同参数组合，快速筛选最优参数区间，同时生成参数平原图，验证参数稳定性，避免局部最优解。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 实盘前务必用"未来函数检测工具"扫描代码，特别是次开替换收盘逻辑，确保未调用未来K线数据，仅使用已获取的开盘价。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

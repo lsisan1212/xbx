@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260418_26分享会_A牛马直播7_Shengdong老板：主板战士策略大放送</title>
+    <style>
+        :root {
+            --primary: #DC2626;
+            --secondary: #6B7280;
+            --light: #F9FAFB;
+            --dark: #111827;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #F3F4F6;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260418_26分享会_A牛马直播7_Shengdong老板：主板战士策略大放送</h1>
+            <p>聚焦主板交易场景，分享3个实用量化策略（筹码盈利比例域内小市值/成交额收敛中性化组合/自由现金流中位数偏差），详解因子构建与处理方法，适配26年新手实盘</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>面向主板交易者与量化新手，提供"因子构建+因子处理+策略组合"的完整思路，通过3个实战策略演示筹码盈利比例、市值中性化、中位数偏差3种核心方法，助力挖掘非小市值依赖的量化机会</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>主板股票交易者、26年分享会新成员、量化策略入门者</li>
+                    <li>先備：了解基础量化因子概念，熟悉彩虹框架基本操作，具备简单代码阅读能力</li>
+                    <li>工具：彩虹策略客户端、因子分析工具、Excel、策略文件（帖子尾号78014下载）</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握筹码盈利比例因子构建逻辑，学会在特定域内优化小市值策略，提升稳定性</li>
+                    <li>理解市值中性化3种方法（直接/对数/高斯质），剥离因子的小市值依赖，构建大市值偏好策略</li>
+                    <li>学会中位数偏差处理方法，解决中间分箱收益最高的因子选股问题，适配自由现金流等特殊因子</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 2-3天（策略复现+参数优化）</p>
+                <p>预期回报：3个策略原始收益年化30%-70%，叠加定风波后收益回撤比可达3.8+，小市值策略稳定性提升20%+，大市值策略实现53%+大市值选股占比</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">主板策略</span>
+                <span class="badge badge-warning">因子处理</span>
+                <span class="badge badge-success">新手适配</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>策略一：筹码盈利比例域内小市值</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心因子：筹码盈利比例</h4>
+                        <ul>
+                            <li>因子定义：基于彩虹官方筹码数据的加权平均成本，计算当前价格相对加权平均成本的盈利比例，取N天平均值（示例N=3天）</li>
+                            <li>计算逻辑：（当前价格 - 加权平均成本）÷ 加权平均成本 × 100%，N天均值化</li>
+                            <li>加权平均成本示例：10元买100万股+12元买300万股+15元买600万股，加权平均成本=（10×100+12×300+15×600）÷（100+300+600）=13.9元</li>
+                        </ul>
+                        
+                        <h4>2. 因子分析核心结论</h4>
+                        <ul>
+                            <li>单调性：Rank IC斜向下，因子值越小越好（当前价格越接近加权平均成本，抛压越小）</li>
+                            <li>市值独立性：第一组分箱小市值占比低，收益不依赖小市值，具备独立价值</li>
+                            <li>风格暴露：偏向反转属性，适合震荡行情下的价值回归捕捉</li>
+                        </ul>
+                        
+                        <h4>3. 策略构建与表现</h4>
+                        <ul>
+                            <li>构建逻辑：在筹码盈利比例最小的10%股票中，按小市值选股（持仓周期Week，Offset=04，每日选5股）</li>
+                            <li>回测区间：2014年-2026年4月1日（12年）</li>
+                            <li>表现对比：原始小市值累计净值97倍→策略净值111倍，最大回撤略增但近年波动降低，选股更分散（单年选股从200+次降至几十次）</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略二：成交额收敛中性域内叠加筹码盈利比例</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 基础因子：成交额收敛因子</h4>
+                        <ul>
+                            <li>因子定义：计算成交额1日/5日/10日/20日/60日/120日6根均线的标准差，标准差越小表示成交额越稳定收敛</li>
+                            <li>核心问题：因子收益高度依赖小市值，第一组分箱小市值占比极高，无法区分是成交额收敛收益还是小市值收益</li>
+                        </ul>
+                        
+                        <h4>2. 市值中性化3种方法</h4>
+                        <ol>
+                            <li>直接中心化：对市值和成交额收敛因子直接做线性回归，计算残差（残差=实际值-模型拟合值），残差越小表示相同市值下成交额越收敛</li>
+                            <li>对数中心化：先对市值和成交额收敛因子取对数（减少极端值影响），再做线性回归求残差</li>
+                            <li>高斯质中心化：先对因子排名→归一化到-1~1→边缘修正（-1→-0.99999，1→0.99999）→高斯分布转换，再做回归求残差（效果最优）</li>
+                        </ol>
+                        
+                        <h4>3. 策略构建与表现</h4>
+                        <ul>
+                            <li>构建逻辑：选择成交额收敛残差最小的5%股票（域），叠加筹码盈利比例因子选股（剥离小市值依赖）</li>
+                            <li>表现对比：单独筹码盈利比例选股12年翻14倍→组合策略翻24倍，最大回撤从58%降至48%，收益回撤比从0.45升至0.68</li>
+                            <li>市值偏好：大市值（市场前30%）选股占比53.4%，小市值占比仅8%，选到中国石油、中国神华等中大市值股票</li>
+                            <li>方法对比：高斯质中心化＞对数中心化＞直接中心化，直接中心化大市值占比最高但收益略低</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略三：自由现金流中位数偏差小市值</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心问题：因子分箱特性</h4>
+                        <p>自由现金流因子分箱呈"中间高两端低"特征，第5组分箱（中间组）收益最高，但框架仅支持从小到大/从大到小排序，无法直接选中中间组</p>
+                        
+                        <h4>2. 中位数偏差处理方法</h4>
+                        <ol>
+                            <li>因子值减中位数：所有个股因子值减去当日全市场因子值中位数，得到偏差值（示例：因子值1-9，中位数5，偏差值为-4~4）</li>
+                            <li>取绝对值：偏差值取绝对值，将中间组（偏差值0）转换为最小值（示例：绝对值后为4~0~4）</li>
+                            <li>排序选股：按绝对值从小到大排序，选中原中间组股票</li>
+                        </ol>
+                        
+                        <h4>3. 策略构建与表现</h4>
+                        <ul>
+                            <li>构建逻辑：自由现金流因子经中位数偏差处理后，叠加小市值因子选股（添加一级风险标签优化稳定性）</li>
+                            <li>表现对比：原始小市值累计净值97倍→策略净值280倍，收益回撤比从0.88提升至1.53，无择时年化接近70%</li>
+                            <li>适配性：目前仅验证自由现金流因子有效，其他中间分箱收益最高的因子适配性待验证</li>
+                            <li>实盘关联：26年精心随机"主板战士"策略核心逻辑即为此方法</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>因子与策略的关键补充说明</h3>
+                <div class="timeline-content">
+                    <ul>
+                        <li>策略适用场景：所有策略均为无择时原始策略，适配主板交易，25年用户可叠加定风波（收益回撤比可达3.8+），26年用户建议先复现验证再实盘</li>
+                        <li>代码获取：26年用户从邢大群内帖子（尾号78014）下载因子文件与策略文件，25年用户建议查看原帖（含定风波配置）</li>
+                        <li>拓展应用：成交额收敛因子可替换为换手率收敛因子（原帖验证效果更优），市值中性化方法可复用至其他依赖小市值的因子（如成交额、换手率）</li>
+                        <li>保密策略：某中心化处理策略因与21年分享会策略撞车，仅透露思路（市值中性化+特定因子），年化70%+，叠加定风波后收益回撤比3.8+</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>核心工具与分析维度</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 关键分析工具</h4>
+                        <ul>
+                            <li>因子分析工具：官方提供，支持Rank IC、分组资金曲线、市值占比、风格暴露分析，验证因子有效性</li>
+                            <li>市值分类统计工具：好吃老板开发，用于统计策略大/中/小市值选股占比，验证市值偏好</li>
+                            <li>择时策略查看器：辅助验证策略信号有效性（如定风波叠加效果）</li>
+                        </ul>
+                        
+                        <h4>2. 核心分析维度</h4>
+                        <ul>
+                            <li>单调性：Rank IC曲线是否单调，判断因子选股逻辑一致性</li>
+                            <li>市值占比：分析因子收益是否依赖小市值，判断因子独立价值</li>
+                            <li>分组收益：分箱资金曲线是否呈现显著的"最优组领先"特征</li>
+                            <li>风格暴露：判断因子属于趋势/反转属性，适配不同行情</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：因子优化的"域构建+特性适配"</h3>
+                <p>量化策略优化的核心是"先定义有效域，再适配因子特性"：筹码盈利比例因子通过构建"低盈利比例域"过滤高抛压股票，提升小市值策略稳定性；成交额收敛因子通过"中性化处理"剥离无效依赖（小市值），挖掘真实收敛收益；自由现金流因子通过"中位数偏差"适配特殊分箱特性，激活中间组价值。本质是让因子在适配的场景中发挥最大效用。</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>原始因子存在缺陷（依赖小市值/分箱特殊/收益模糊）→ 针对性处理（中性化/中位数偏差/域筛选）→ 构建适配场景（大市值域/中间组/低抛压域）→ 叠加互补因子→ 提升策略收益与稳定性。核心链条：发现因子问题→ 设计处理方法→ 构建有效场景→ 组合优化，避免因子原始缺陷导致的实盘失效。</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「筛子隐喻」：因子处理如同筛子，先筛掉无效噪声（小市值依赖/极端值/无效分箱），再筛选优质标的。案例：成交额收敛因子未处理前如同"混杂小市值砂砾的矿石"，中性化处理后如同"提纯的矿石"，叠加筹码盈利比例如同"进一步筛选高纯度矿石"，最终得到大市值优质标的。</p>
+                
+                <h3>4. 策略设计底层逻辑</h3>
+                <p>主板策略设计需兼顾"安全性与收益性"：小市值策略通过域筛选降低波动（筹码盈利比例域），大市值策略通过中性化剥离依赖（成交额收敛），特殊因子通过特性适配激活价值（自由现金流中位数偏差）。同时遵循"简单有效"原则，所有策略仅用2-3个因子，无复杂逻辑，适配新手实盘与复现。</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：工具与文件准备</strong>
+                    <p>1.1 安装彩虹策略客户端，确保支持截面因子分析（咨询夏普确认功能）；1.2 下载策略文件与因子文件（26年用户从尾号78014帖子下载，25年用户查看原帖）；1.3 准备因子分析工具、Excel（辅助验证因子计算）。</p>
+                    <div class="note">卡關點：残差因子需通过策略文件计算（无法通过单一因子框架生成），需确保下载完整的策略文件</div>
+                </li>
+                <li>
+                    <strong>步骤2：策略一复现（筹码盈利比例域内小市值）</strong>
+                    <p>2.1 导入筹码盈利比例因子，设置参数N=3天，按从小到大排序；2.2 筛选因子值最小的10%股票作为域；2.3 在域内按小市值排序，每日选5股，设置持仓周期Week、Offset=04；2.4 回测2014-2026年数据，验证累计净值是否达111倍左右。</p>
+                </li>
+                <li>
+                    <strong>步骤3：策略二复现（成交额收敛中性化组合）</strong>
+                    <p>3.1 导入成交额收敛因子，选择高斯质中心化方法（config设置Gauss_change）；3.2 计算残差因子，筛选残差最小的5%股票作为域；3.3 导入筹码盈利比例因子，在域内选股；3.4 回测验证，确保大市值占比≥50%，累计净值≥24倍。</p>
+                    <div class="note">卡關點：中心化方法需在config中正确配置（直接中心化=No change，对数中心化=Log_change），避免参数错误</div>
+                </li>
+                <li>
+                    <strong>步骤4：策略三复现（自由现金流中位数偏差小市值）</strong>
+                    <p>4.1 导入自由现金流因子，按中位数偏差处理（因子值减中位数→取绝对值→从小到大排序）；4.2 叠加小市值因子，添加一级风险标签；4.3 回测验证，确保累计净值≥280倍，收益回撤比≥1.53。</p>
+                </li>
+                <li>
+                    <strong>步骤5：参数优化与实盘适配</strong>
+                    <p>5.1 优化参数：调整筹码盈利比例N值（3/10/15天）、成交额收敛中性化方法、中位数偏差的因子阈值，寻找最优组合；5.2 叠加择时：25年用户叠加定风波，26年用户待择时工具稳定后添加；5.3 实盘准备：小资金试跑（建议≤5万元），监控前1个月策略表现，验证选股市值占比与回测一致性。</p>
+                </li>
+                <li>
+                    <strong>步骤6：拓展应用与验证</strong>
+                    <p>6.1 将成交额收敛因子替换为换手率收敛因子，重复步骤3，验证大市值策略表现；6.2 尝试将中位数偏差方法应用于其他中间分箱收益最高的因子，记录适配效果；6.3 对比不同中心化方法的策略表现，总结适用场景。</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 策略二的高斯质中心化虽效果最优，但计算步骤较多，新手可先从直接中心化入手复现，熟悉逻辑后再尝试对数与高斯质中心化，降低入门难度。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 所有策略均为无择时版本，实盘时需注意风险控制，建议叠加定风波或灵岩阁择时工具，避免单一策略的极端回撤（如策略二原始最大回撤48%）。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 筹码盈利比例的N值可根据行情调整：震荡行情取3-5天（敏感捕捉反转），趋势行情取10-15天（过滤无效波动），提升策略适配性。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 大市值策略（策略二）选股数量建议≥10只，避免持仓集中导致的个股风险，小市值策略（策略一/三）选股数量控制在5-10只，平衡收益与流动性。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 可通过AI工具辅助优化因子参数，例如用AI遍历成交额收敛因子的均线组合（如替换6根均线为4根/8根），或优化中位数偏差的阈值，提升策略效率。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 实盘前需验证策略的行业分散度，避免过度集中于单一行业（如主板金融、能源行业），可在策略中添加行业中性化处理，进一步提升稳定性。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

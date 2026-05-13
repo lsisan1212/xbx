@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260324_26分享会策略直播6_夏普：副旗舰选股策略（2）</title>
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary-light: #3b82f6;
+            --secondary: #8b5cf6;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #e5e7eb;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background);
+            padding: 2rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            word-break: break-all;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        section h2::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+        .dashboard-card {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+        }
+        .dashboard-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .dashboard-card p, .dashboard-card ul {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        .dashboard-card ul {
+            padding-left: 1.2rem;
+        }
+        .dashboard-card ul li {
+            margin-bottom: 0.4rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-primary {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--primary-light);
+        }
+        .timeline-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-primary);
+        }
+        .timeline-content {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+        .timeline-content p {
+            margin-bottom: 0.8rem;
+        }
+        .checklist {
+            list-style-type: none;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .checklist li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .checklist li::before {
+            content: "✅";
+            display: inline-block;
+            min-width: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        .checklist li .param {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .checklist li .tools {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        .checklist li .pitfall {
+            color: var(--danger);
+            font-weight: 500;
+        }
+        details {
+            margin-top: 1rem;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        summary {
+            background-color: var(--background);
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details .details-content {
+            padding: 1rem;
+            background-color: white;
+        }
+        .ai-note {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background-color: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+            section h2 {
+                font-size: 1.3rem;
+            }
+            .timeline {
+                padding-left: 2rem;
+            }
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📁 20260324_26分享会策略直播6_夏普：副旗舰选股策略（2）</h1>
+        <p>副旗舰选股策略实盘落地指南：3大实盘方案+关键细节+拓展方向，解决小资金选股数量痛点</p>
+    </header>
+
+    <section id="summary">
+        <h2>執行儀表板</h2>
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <h3>🎯 核心定位</h3>
+                <p>针对副旗舰策略（ICIR加权复合因子）随机组合表现差异大、小资金实盘难问题，提供3大落地方案，详解策略关键细节与拓展方向，实现策略从回测到实盘的无缝衔接</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>26年分享会同学（熟悉上一期ICIR加权与因子筛选逻辑）</li>
+                    <li>有小资金实盘需求（受100股起买规则限制）</li>
+                    <li>掌握彩虹框架基础操作与Python代码简单修改能力</li>
+                    <li>了解分域、因子加权等量化基础概念</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>💡 關鍵收穫</h3>
+                <ul>
+                    <li>掌握3大实盘方案（分域、三星和中等生、多复合因子等权），解决小资金选股数量痛点</li>
+                    <li>明确策略关键细节：周期限制、EMA函数修改、异常股票剔除，避免实盘与回测不一致</li>
+                    <li>获取策略拓展方向（加权方式优化、风格替换/新增），提升策略灵活性与收益潜力</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>學習時間：1.5小時<br>實作時間：1-2天<br>預期回報：策略收益回撤比提升至0.57+，实盘适配性增强，避免过拟合，拓展策略衍生玩法</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>🏷️ 標籤</h3>
+                <span class="badge badge-primary">副旗舰策略</span>
+                <span class="badge badge-secondary">实盘落地</span>
+                <span class="badge badge-accent">ICIR加权</span>
+                <span class="badge badge-warning">小资金适配</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="key-points">
+        <h2>重點摘要與邏輯軸</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>核心問題：復合因子優秀但選股表現分化</h3>
+                <div class="timeline-content">
+                    <p>1. 矛盾现象：ICIR加权后的复合因子表现优异（IC提升1.8倍、ICIR提升1.85倍、胜率提升至67%），但随机100组组合选股表现分化大，部分组合净值接近归零（年化6%，最大回撤62%）</p>
+                    <p>2. 核心原因：全市场选股能力≠头部选股能力。ICIR衡量的是因子全市场多空区分能力，但A股选股策略考验多头头部选股能力，复合因子可能存在"全市场好但头部差"的情况（如分500组后头部收益反向）</p>
+                    <p>3. 直接缓解：扩大选股数量至50只，可消除归零组合，收益回撤比从0.415提升至0.434，但小资金受100股起买规则限制，无法实盘</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>實盤方案一：分域（先分域後選股）</h3>
+                <div class="timeline-content">
+                    <p>1. 核心逻辑：先通过复合因子筛选前10%的股票（分域），再在该区间内用其他因子/策略选股，兼顾复合因子优势与小资金实盘需求</p>
+                    <p>2. 操作步骤：
+                        <br>- 第一步：复合因子（ICIR加权）筛选全市场前10%股票
+                        <br>- 第二步：在分域内用目标因子（如小市值）或策略（如Cash Flow）选5只股票
+                    </p>
+                    <p>3. 关键优势：
+                        <br>- 低拥挤度：10组策略平均选股重复度仅24%，最大45%，无过度拥挤风险
+                        <br>- 收益提升显著：收益回撤比从0.415提升至0.494（小市值因子）、0.52（Cash Flow策略）
+                        <br>- 灵活性高：分域后可搭配任意因子/策略，探索空间大
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>實盤方案二：三星 and 中等生（歷史策略复用）</h3>
+                <div class="timeline-content">
+                    <p>1. 核心逻辑：复用历史分享会"三星和中等生"思路，解决小资金无法持有多只股票的问题，适配指数化选股需求</p>
+                    <p>2. 策略表现：无归零组合，策略表现集中，收益回撤比从0.415提升至0.448，稳定性强</p>
+                    <p>3. 适用人群：24/25年分享会同学（需了解历史策略原理），新同学暂无法使用</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>實盤方案三：多復合因子等權（官方推薦）</h3>
+                <div class="timeline-content">
+                    <p>1. 核心逻辑：随机5组复合因子，等权合并后选5只股票，既保证选股数量足够（发挥复合因子优势），又控制实际选股数量（满足小资金实盘）</p>
+                    <p>2. 操作步骤：
+                        <br>- 第一步：随机生成5组复合因子（每组来自6大风格各1个因子，ICIR加权）
+                        <br>- 第二步：5组复合因子等权合并，选排名前5的股票
+                    </p>
+                    <p>3. 核心优势：
+                        <br>- 收益最优：收益回撤比提升至0.574，远超方案一/二，部分组合表现优于纯小市值策略
+                        <br>- 无过拟合风险：组合数量达数亿级，分散化程度高，无需担心单因子失效
+                        <br>- 官方支持：后续精心随机、每日复盘均基于该方案，提供代码与复盘支持
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>精心隨機與每日復盤規劃</h3>
+                <div class="timeline-content">
+                    <p>1. 精心随机：
+                        <br>- 分配逻辑：每人下载代码将获得不同因子组合，无重复
+                        <br>- 推荐用法：下载后查看因子逻辑，认可则实盘，不认可可重新下载（无需抽卡式筛选）
+                        <br>- 禁忌：禁止下载多份代码筛选最优组合，避免过拟合
+                    </p>
+                    <p>2. 每日复盘：
+                        <br>- 分组逻辑：随机100次，筛选历史表现优秀的2-3组（副旗舰-历史优秀）与平庸的2-3组（副旗舰-历史平庸）
+                        <br>- 复盘目的：验证"王侯将相宁有种乎"，观察历史表现与未来表现的相关性
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略關鍵細節（避免實盤踩坑）</h3>
+                <div class="timeline-content">
+                    <p>1. 周期限制：仅支持固定周期（2D/3D/5D/10D），不支持W（周）/M（月）系列（天数不固定，存在未来函数），否则回测结果失真</p>
+                    <p>2. EMA函数修改：
+                        <br>- 问题：千因子中部分因子使用EMA函数（调用全历史数据），实盘仅用最近3年数据，导致回测与实盘不一致
+                        <br>- 修改方案：① EMA50→Rolling(50).mean()；② Rolling(50).apply(EMA)，推荐方案①
+                        <br>- 后续支持：将发布置顶帖子，详细说明修改步骤
+                    </p>
+                    <p>3. 异常股票剔除：
+                        <br>- 剔除范围：最近5天发生涨停、跌停、停牌的股票（避免选中成交额异常/长期停牌标的）
+                        <br>- 必要性：未剔除时易选中跌停（成交额因子）、长期停牌（波动因子）股票，影响策略表现
+                        <br>- 默认设置：直播涉及的所有回测均已默认剔除，实盘需保留该逻辑
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略拓展：風格調整與加權優化</h3>
+                <div class="timeline-content">
+                    <p>1. 风格调整：
+                        <br>- 可自定义风格组合：无需局限6大风格（波动/成长/长期反转/短期反转/估值/规模），可剔除表现差的风格（如短期反转）或新增风格
+                        <br>- 剔除短期反转案例：年化提升10%，收益回撤比提升至0.608（方案三），IC/ICIR/胜率均有改善
+                        <br>- 核心逻辑：每增加一个风格相当于"买一份保险"，未来风格有效则盈利，无效则付出少量"保费"，需权衡取舍
+                    </p>
+                    <p>2. 加权方式优化（拓展方向）：
+                        <br>- 可选方案：仅用ICIR最强的风格因子、剔除ICIR最弱的因子、用Top10收益率/IC胜率/分域ICIR加权
+                        <br>- 核心优势：无需局限于全市场ICIR加权，可针对性强化多头头部选股能力
+                        <br>- 已有成果：部分优化方案表现优异，后续将通过直播分享
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="logic">
+        <h2>底層邏輯與框架</h2>
+        <details>
+            <summary>點擊展開詳情</summary>
+            <div class="details-content">
+                <h3>1. 思維模型</h3>
+                <p>✅ 能力拆分模型：将因子能力拆分为"全市场区分能力"与"头部选股能力"，明确两者差异，针对性解决"全好但头差"的核心矛盾</p>
+                <p>✅ 實盤适配模型：小资金实盘受交易规则限制（100股起买），通过"分域收缩范围"或"多因子合并"，在不牺牲因子优势的前提下控制选股数量</p>
+                <p>✅ 分散化風險模型：多复合因子等权本质是通过分散化降低单因子失效风险，利用大数定律提升策略稳健性，避免过拟合</p>
+                <p>✅ 保險型風格模型：风格组合如同保险配置，多风格覆盖可应对未来风格轮动，单一风格则聚焦当前有效因子，需在"稳健"与"收益"间权衡</p>
+
+                <h3>2. 因果/遞進關係</h3>
+                <p>① 复合因子全市场能力强→随机组合选股表现分化→核心原因是全市场能力≠头部能力→扩大选股数量可缓解但小资金无法实盘→推出3大实盘方案（分域/历史复用/多因子合并）→解决实盘痛点</p>
+                <p>② 分域方案→先筛选高潜力股票池→再精准选股→降低选股范围→提升头部选股命中率→同时控制选股数量→适配小资金实盘→低拥挤度保障策略容量</p>
+                <p>③ 多因子等权→分散单因子失效风险→利用大数定律提升稳健性→合并后选股数量少→适配小资金→收益回撤比最优→成为官方推荐方案</p>
+
+                <h3>3. 關鍵隱喻與案例</h3>
+                <p>🎯 保險隱喻：风格组合如同买保险，每增加一个风格就是购买一份"风格轮动保险"，未来该风格有效则"理赔盈利"，无效则"支付保费"，需根据风险偏好决定投保数量</p>
+                <p>📊 分域案例：复合因子分域后搭配小市值因子，10组策略重复度仅24%，说明分域有效隔离了不同组合的选股逻辑，无过度拥挤，验证了方案的可行性</p>
+                <p>⚠️ 實盤坑點案例：EMA函数未修改时，回测用全历史数据，实盘用最近3年数据，导致结果不一致；未剔除跌停股票时，成交额因子易选中无成交的跌停股，影响实盘收益</p>
+            </div>
+        </details>
+    </section>
+
+    <section id="steps">
+        <h2>實作步驟 Checklist</h2>
+        <ul class="checklist">
+            <li>
+                <div>
+                    <span class="param">步驟1：策略代碼準備與修改</span>
+                    <p>① 代码获取：本周将发布基于方案三（多复合因子等权）的精心随机代码，下载后解压至彩虹框架对应目录；② EMA函数修改：检查代码中是否含EMA函数，若有则替换为Rolling(N).mean()；③ 异常股票剔除：确认代码中已包含"剔除最近5天涨停/跌停/停牌股票"的逻辑，无则补充</p>
+                    <p class="tools">工具：彩虹框架、Python编辑器、策略代码包</p>
+                    <p class="pitfall">卡關點：EMA函数修改需逐行检查，避免遗漏；异常股票剔除逻辑需确保覆盖所有异常场景，否则影响策略表现</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟2：選擇實盤方案並配置參數</span>
+                    <p>① 方案选择：新同学优先选方案一（分域）或方案三（官方推荐），24/25年同学可选方案二；② 参数配置：
+                        <br>- 方案一：复合因子分域比例设为10%，分域内选股因子设为目标因子（如小市值），选股数量5只
+                        <br>- 方案三：随机复合因子组数设为5组，等权合并后选股数量5只
+                    </p>
+                    <p class="tools">工具：彩虹框架Config配置文件、参数设置面板</p>
+                    <p class="pitfall">卡關點：方案一需确保分域比例与选股数量匹配（10%分域+5只选股），比例过高则失去分域意义，过低则选股重复度高</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟3：回測驗證與參數優化</span>
+                    <p>① 回测设置：回测周期2014-2025年，持仓周期设为3D/5D（仅支持固定周期），计算年化收益、最大回撤、收益回撤比；② 风格调整（可选）：若回测表现不佳，可剔除短期反转等历史表现差的风格，重新回测；③ 确认无未来函数：避免使用W/M系列周期，确保参数设置合规</p>
+                    <p class="tools">工具：彩虹回测框架、回测报告分析工具</p>
+                    <p class="pitfall">卡關點：回测时需勾选"交易成本"选项，模拟实盘环境；风格调整后需重新验证IC/ICIR等指标，确保因子有效性</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟4：實盤部署與動態監控</span>
+                    <p>① 实盘配置：将优化后的策略导入实盘框架，设置单只股票最大仓位（如≤20%），适配小资金体量；② 动态监控：每日查看选股结果（是否含异常股票）、策略净值波动、因子权重变化；③ 复盘调整：每周对比实盘与回测表现，若差异较大，检查EMA修改、异常剔除等逻辑是否生效</p>
+                    <p class="tools">工具：彩虹实盘框架、实盘监控面板、净值统计工具</p>
+                    <p class="pitfall">卡關點：实盘前需测试股票可交易性（避免选中停牌/流动性极差的股票）；若策略回撤超过30%，可暂停实盘，排查因子有效性或市场风格变化</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section id="ai-notes">
+        <h2>AI 補充建議</h2>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 分域因子優化：使用AI工具批量测试分域内适配因子（如小市值、动量、估值），快速找到与复合因子搭配最优的组合，提升收益效率；同时AI可计算不同分域比例（5%/10%/15%）的表现，确定最优分域阈值。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 提醒】</strong> 實盤資金管理：小资金实盘时，建议单只股票仓位不超过20%，避免过度集中风险；AI可根据资金量自动计算最优选股数量与仓位分配，适配100股起买规则。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 加權方式拓展：利用AI遍历不同加权方案（如Top10收益率加权、IC胜率加权），对比收益回撤比、胜率等指标，筛选出比ICIR加权更优的方案；同时AI可动态调整风格权重，适配市场风格轮动。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 提醒】</strong> 回測與實盤一致性驗證：用AI对比回测与实盘的因子权重、选股结果、收益曲线，自动识别差异点（如EMA函数未修改、异常股票未剔除），确保策略逻辑一致。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 風格預測與調整：训练AI模型预测未来市场风格（如规模/成长/估值哪个更有效），动态调整策略中的风格组合，关闭无效风格，开启有效风格，提升策略适应性。
+        </div>
+    </section>
+</body>
+</html>

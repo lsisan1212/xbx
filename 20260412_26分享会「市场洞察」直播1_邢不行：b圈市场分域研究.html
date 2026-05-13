@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260412_26分享会「市场洞察」直播1_邢不行：b圈市场分域研究</title>
+    <style>
+        :root {
+            --primary: #722ED1;
+            --secondary: #6B778C;
+            --light: #F7F8FA;
+            --dark: #1D2129;
+            --success: #00B42A;
+            --warning: #FF7D00;
+            --danger: #F53F3F;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #F0F2F5;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260412_26分享会「市场洞察」直播1_邢不行：b圈市场分域研究</h1>
+            <p>深入解析币安市场分域逻辑，揭秘仅现货/仅合约/现货+合约三大域的表现差异与超额来源，为量化策略开发提供底层市场洞察</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>以币安交易所为研究对象，通过分域划分（仅现货/仅合约/现货+合约），分析各域市值、成交额、资金曲线差异，挖掘超额收益核心原因，为多头策略开发与实盘应用提供数据支撑</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>币圈量化投资者、26分享会船队成员、策略开发爱好者</li>
+                    <li>先備：了解币圈现货/合约基础概念，熟悉量化策略基本逻辑</li>
+                    <li>工具：数据分析工具（Excel/Python）、币安市场数据、量化回测框架</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握币安市场三大分域划分逻辑与各域核心特征（市值/成交额/表现）</li>
+                    <li>理解各域超额收益来源（Rebalance频率/上新币/阿尔法区币种等）</li>
+                    <li>学会市场洞察分析方法，为个性化策略开发提供思路</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 3-5天（数据验证+策略适配）</p>
+                <p>预期回报：明确分域策略适配方向，仅现货/仅合约域多头策略收益可提升30%+，规避现货+合约域负超额陷阱</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">市场洞察</span>
+                <span class="badge badge-warning">量化分析</span>
+                <span class="badge badge-success">策略开发</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>币安上币政策演变与分域划分逻辑</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 上币政策变迁</h4>
+                        <ul>
+                            <li>早期（2020年前）：先上现货，成交量/市值达标后上合约，合约相当于"优质标的认证"</li>
+                            <li>近期（2025年后）：新币直接上合约，现货成为"交易所背书"，仅合约币种数量激增（25年新增120个）</li>
+                            <li>核心原因：合约交易量更大（手续费收益更高），且多空双向交易可规避投资者投诉</li>
+                        </ul>
+                        
+                        <h4>2. 三大分域定义</h4>
+                        <ul>
+                            <li>仅现货（域1）：仅上线现货，无合约，当前约50个币种，多为中小市值</li>
+                            <li>仅合约（域2）：仅上线合约，无现货，2024年后新增，当前约160个币种，换手率高</li>
+                            <li>现货+合约（域3）：同时有现货和合约，当前约400个币种，市值最大</li>
+                            <li>全市场（域4）：上述三域去重后合计约600个币种</li>
+                        </ul>
+                        
+                        <h4>3. 分域数量变化趋势</h4>
+                        <ul>
+                            <li>仅现货：2021-2022年增长（峰值180个），2023年后下降（大量转为现货+合约）</li>
+                            <li>仅合约：2024年前几乎为0，2025年爆发式增长（占全市场27%）</li>
+                            <li>现货+合约：稳步增长，为当前市场主力（占全市场67%）</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>各域核心特征对比（市值/成交额）</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 市值中位数对比（从高到低）</h4>
+                        <ol>
+                            <li>现货+合约域：市值最大（相当于"沪深300"），当前约3700万美金中位数</li>
+                            <li>仅合约域：市值中等（高于仅现货），25年数据显示略低于全市场</li>
+                            <li>全市场：整体中位数受大市值币种拉平</li>
+                            <li>仅现货域：市值最小（相当于"中证2000"），显著低于其他域</li>
+                        </ol>
+                        
+                        <h4>2. 成交额中位数对比（从高到低）</h4>
+                        <ol>
+                            <li>仅合约域：成交额最大，换手率极高（"赌狗集中地"）</li>
+                            <li>现货+合约域：成交额中等，流动性稳定</li>
+                            <li>全市场：整体成交额受合约带动</li>
+                            <li>仅现货域：成交额最小，流动性相对较弱</li>
+                        </ol>
+                        
+                        <h4>3. 关键结论</h4>
+                        <p>仅合约域"小市值高换手"，现货+合约域"大市值稳流动性"，仅现货域"小市值低流动"，分域特征差异为策略适配提供基础</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>各域资金曲线表现与超额差异</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 2021年至今长期表现（从好到差）</h4>
+                        <ol>
+                            <li>仅现货域：表现最优，24年仍能创新高，相对全市场超额显著（3-4倍）</li>
+                            <li>全市场：表现中等，跟随整体行情波动</li>
+                            <li>现货+合约域：表现最差，持续稳定负超额，相对仅现货域差距达4-5倍</li>
+                        </ol>
+                        
+                        <h4>2. 2025年短期表现（从好到差）</h4>
+                        <ol>
+                            <li>仅合约域：表现最优，下跌幅度最小（仅60%），4月后强势反弹</li>
+                            <li>仅现货域=全市场：表现中等，波动趋势一致</li>
+                            <li>现货+合约域：表现最差，下跌幅度最大</li>
+                        </ol>
+                        
+                        <h4>3. 超额曲线验证</h4>
+                        <ul>
+                            <li>多仅现货+空现货+合约：超额最稳健，每年均有正向收益（除阶段性失效）</li>
+                            <li>多仅合约+空全市场（25年）：超额显著，1年收益60%+</li>
+                            <li>多现货+合约+空全市场：持续负超额，验证该域长期弱势</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>超额收益核心原因一：Rebalance频率影响</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. Rebalance频率与市场效应</h4>
+                        <p>框架默认每小时Rebalance，本质是"低买高卖"：涨得多的币种减仓，跌得多的币种加仓，利好反转效应强的域，利空动量效应强的域</p>
+                        
+                        <h4>2. 各域对Rebalance频率的敏感度</h4>
+                        <ul>
+                            <li>仅现货域：反转效应极强，1小时Rebalance表现显著优于24小时/168小时（5年收益差3倍），可解释大部分超额</li>
+                            <li>仅合约域：动量效应较弱，7天Rebalance表现略优于1小时（1年收益差10%），超额与Rebalance无关</li>
+                            <li>现货+合约域：弱动量效应，168小时Rebalance表现略优于1小时（5年收益差20%），高频率Rebalance拖累收益</li>
+                        </ul>
+                        
+                        <h4>3. 关键结论</h4>
+                        <p>仅现货域的超额主要来自高频率Rebalance与反转效应的匹配，该逻辑与A股市场一致，可持续性较强</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>超额收益核心原因二：上新币事件驱动</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 上新币上涨效应（公告至正式上线阶段）</h4>
+                        <ul>
+                            <li>仅现货域：发"上合约"公告后至正式上线前，币种暴涨（模拟第一时间买入可翻14000倍），但实际操作中速度至关重要（10点买入则收益归零）</li>
+                            <li>仅合约域：发"上现货"公告后至正式上线前，25年币种上涨40倍，同样依赖买入速度</li>
+                            <li>影响范围：因这类币种数量占比低，对全域收益影响有限（仅10%左右），但对单策略影响显著</li>
+                        </ul>
+                        
+                        <h4>2. 上新币下跌效应（正式上线后）</h4>
+                        <ul>
+                            <li>现货+合约域：新币正式进入该域后，普遍出现超额下跌，拖累全域表现（排除后净值从0.49升至0.62，提升26%）</li>
+                            <li>核心逻辑：利好出尽，炒作资金离场，类似A股新股上市后下跌</li>
+                        </ul>
+                        
+                        <h4>3. 关键结论</h4>
+                        <p>上新币可部分解释仅现货/仅合约域的超额（正向）与现货+合约域的负超额（反向），该效应源于市场炒作，具备持续性</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>超额收益核心原因三：阿尔法区币种贡献（仅合约域）</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 阿尔法区（Alpha区）本质</h4>
+                        <p>币安24年底推出的早期项目交易区，类似A股新三板，日均成交额中位数仅9.8U（流动性极差，易操纵），当前约500个币种</p>
+                        
+                        <h4>2. 阿尔法区币种上币路径</h4>
+                        <p>阿尔法区 → 仅合约域 → 现货+合约域（无直接进入仅现货域的情况），仅合约域中87.5%的币种来自阿尔法区</p>
+                        
+                        <h4>3. 阿尔法区币种细分表现</h4>
+                        <ol>
+                            <li>链上差异：BSC链（币安原生链）币种表现爆炸（25年翻2.2倍），以太坊/索拉纳等其他链币种表现垃圾（与全市场持平）</li>
+                            <li>新旧差异：创建1个月内上线阿尔法区的新币表现最优（翻5倍），老币上线阿尔法区表现垃圾</li>
+                        </ol>
+                        
+                        <h4>4. 关键结论</h4>
+                        <p>仅合约域25年的超额完全来自阿尔法区的BSC链新币，该逻辑依赖币安生态推动，可持续性存疑</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>分域表现差异的其他潜在原因</h3>
+                <div class="timeline-content">
+                    <ul>
+                        <li>币种基本面：21年之前上线的币种表现优于21年之后（全市场对比中显著），反映行业创新减弱，新币炒作成分居多</li>
+                        <li>做空机制：仅现货域无法做空，但A股同样无法做空却未出现类似超额，该因素影响较弱</li>
+                        <li>资金偏好：仅合约域吸引短线投机资金，仅现货域吸引长期持仓资金，资金结构差异导致表现分化</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>分域策略应用建议</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 仅现货域（优先配置）</h4>
+                        <ul>
+                            <li>策略适配：多头策略，保持每小时Rebalance频率，可叠加小市值因子</li>
+                            <li>预期收益：长期超额稳定，21年至今收益3-4倍于现货+合约域</li>
+                            <li>风险提示：流动性较弱，选币数量不宜过少（避免滑点影响）</li>
+                        </ul>
+                        
+                        <h4>2. 仅合约域（谨慎配置）</h4>
+                        <ul>
+                            <li>策略适配：短期多头策略，降低Rebalance频率（7天为宜），聚焦BSC链新币</li>
+                            <li>预期收益：25年表现优异，但超额来源可持续性存疑</li>
+                            <li>风险提示：流动性分化大，需筛选阿尔法区优质币种，避免垃圾币</li>
+                        </ul>
+                        
+                        <h4>3. 现货+合约域（规避或做空）</h4>
+                        <ul>
+                            <li>策略适配：空头策略（如落单狗），或排除上线720小时内的新币后配置</li>
+                            <li>预期收益：长期负超额，避免作为多头主力配置</li>
+                            <li>风险提示：新币下跌效应显著，需及时调整仓位</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：分域定价与市场结构分析</h3>
+                <p>币圈市场存在显著的分域定价差异，本质是"标的质量+资金结构+交易机制"共同作用的结果。仅现货域是"小市值+反转效应"，仅合约域是"投机资金+事件驱动"，现货+合约域是"大市值+利好出尽"，通过分域拆分可剥离无效噪声，捕捉结构性机会。</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>上币政策变化→分域结构形成（仅合约域崛起）→资金偏好分化（投机资金流入合约）→各域市场效应差异（反转/动量）→Rebalance频率适配→超额收益产生。核心链条：市场结构决定资金行为，资金行为决定市场效应，策略参数适配市场效应即可获取超额。</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「A股对标隐喻」：仅现货域≈中证2000（小市值+高波动+反转效应），现货+合约域≈沪深300（大市值+稳波动+弱动量），阿尔法区≈新三板（低流动性+高操纵性）；案例：仅现货域通过每小时Rebalance，5年收益差3倍，验证反转效应与策略参数适配的重要性。</p>
+                
+                <h3>4. 市场洞察底层逻辑</h3>
+                <p>量化策略的长期有效性源于对市场结构的深刻理解，而非单纯拟合数据。通过"分域拆分→特征对比→效应挖掘→原因验证→策略适配"的五步分析法，可从看似杂乱的市场中找到可持续的交易机会，这也是市场洞察系列直播的核心价值。</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：数据准备与分域划分</strong>
+                    <p>1.1 获取币安全市场数据（币种列表、现货/合约上线状态、市值、成交额、K线数据）；1.2 按定义划分三大域（仅现货/仅合约/现货+合约），去重后形成全市场列表；1.3 补充阿尔法区币种数据（是否来自阿尔法区、所属公链、创建时间）。</p>
+                    <div class="note">卡關點：确保现货/合约上线状态准确，阿尔法区币种归属可通过币安官网查询</div>
+                </li>
+                <li>
+                    <strong>步骤2：各域特征验证</strong>
+                    <p>2.1 计算各域市值/成交额中位数，验证"现货+合约域市值最大，仅合约域成交额最高"的结论；2.2 绘制各域资金曲线（做多全域币种），对比长期/短期表现差异；2.3 计算超额曲线（多目标域+空基准域），验证超额的稳定性。</p>
+                </li>
+                <li>
+                    <strong>步骤3：超额原因验证</strong>
+                    <p>3.1 Rebalance频率验证：分别测试1小时/24小时/168小时Rebalance在各域的表现，确认仅现货域的反转效应；3.2 上新币效应验证：筛选公告至正式上线阶段的币种，回测买入收益；3.3 阿尔法区验证：拆分仅合约域中阿尔法区/非阿尔法区、不同公链/新旧币种的表现。</p>
+                </li>
+                <li>
+                    <strong>步骤4：策略适配与优化</strong>
+                    <p>4.1 仅现货域：配置多头策略，保持每小时Rebalance，可叠加小市值因子；4.2 仅合约域：聚焦BSC链新币，降低Rebalance频率至7天，控制选币数量（避免流动性风险）；4.3 现货+合约域：作为空头配置，或排除上线720小时内的新币后再配置。</p>
+                    <div class="note">卡關點：仅合约域需严格筛选币种，避免阿尔法区低流动性币种导致的滑点损失</div>
+                </li>
+                <li>
+                    <strong>步骤5：实盘监控与调整</strong>
+                    <p>5.1 监控各域表现变化（尤其是仅合约域的阿尔法区效应是否持续）；5.2 定期更新分域列表（新增/下架币种）；5.3 根据市场变化调整策略参数（如Rebalance频率、币种筛选条件）。</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 实盘应用时，仅现货域选币数量建议控制在20-50个，平衡反转效应与流动性，避免因单币种权重过高导致的滑点风险。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 仅合约域的阿尔法区效应可持续性存疑，建议设置止盈止损（如盈利50%止盈、亏损30%止损），避免盲目追高。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 可通过AI工具快速筛选上新币公告（监控币安官网API），第一时间获取买入信号，提升上新币效应的捕捉效率。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 现货+合约域虽长期负超额，但在牛市中可能阶段性跑赢，需结合市场环境动态调整仓位，而非完全规避。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 可延伸分析各域与比特币的相关性，仅现货/仅合约域相关性较低时，可作为分散配置标的，降低组合风险。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 定期复盘各域的市场效应（反转/动量）是否变化，当仅现货域1小时Rebalance表现持续弱于24小时时，需及时调整策略参数，避免超额消失。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

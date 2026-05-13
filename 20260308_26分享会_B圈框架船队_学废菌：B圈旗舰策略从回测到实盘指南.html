@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260308_26分享会_B圈框架船队_学废菌：B圈旗舰策略从回测到实盘指南</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #7c3aed;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background);
+            padding: 2rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            word-break: break-all;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        section h2::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+        .dashboard-card {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+        }
+        .dashboard-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .dashboard-card p, .dashboard-card ul {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        .dashboard-card ul {
+            padding-left: 1.2rem;
+        }
+        .dashboard-card ul li {
+            margin-bottom: 0.4rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-primary {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--primary-light);
+        }
+        .timeline-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-primary);
+        }
+        .timeline-time {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+        .timeline-content p {
+            margin-bottom: 0.8rem;
+        }
+        .checklist {
+            list-style-type: none;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .checklist li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .checklist li::before {
+            content: "✅";
+            display: inline-block;
+            min-width: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        .checklist li .param {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .checklist li .tools {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        .checklist li .pitfall {
+            color: var(--danger);
+            font-weight: 500;
+        }
+        details {
+            margin-top: 1rem: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        summary {
+            background-color: var(--background);
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details .details-content {
+            padding: 1rem;
+            background-color: white;
+        }
+        .ai-note {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background-color: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+            section h2 {
+                font-size: 1.3rem;
+            }
+            .timeline {
+                padding-left: 2rem;
+            }
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📁 20260308_26分享会_B圈框架船队_学废菌：B圈旗舰策略从回测到实盘指南</h1>
+        <p>B圈动态仓位旗舰策略实操：回测/实盘框架（网页版+代码版）配置、参数设置与落地指南</p>
+    </header>
+
+    <section id="summary">
+        <h2>執行儀表板</h2>
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <h3>🎯 核心定位</h3>
+                <p>详解B圈旗舰动态仓位策略（多空敞口+杠杆控制），覆盖网页版/代码版从回测到实盘的完整配置与落地流程</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>26年B圈分享会策略学习者/实践者</li>
+                    <li>掌握四龙狗/落单狗策略基础逻辑</li>
+                    <li>了解Rebalance机制与币圈交易规则</li>
+                    <li>具备基础框架（网页版/代码版）使用经验</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>💡 關鍵收穫</h3>
+                <ul>
+                    <li>掌握旗舰策略核心规则（多空敞口+杠杆控制+二次约束）</li>
+                    <li>学会网页版策略导入、回测、实盘导出全流程操作</li>
+                    <li>精通代码版分钟偏移配置、初始仓位设置与实盘部署技巧</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>學習時間：2小時<br>實作時間：1-2天<br>預期回報：策略收益优化，实盘贴合度提升，风险可控（杠杆≤1.8）</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>🏷️ 標籤</h3>
+                <span class="badge badge-primary">B圈策略</span>
+                <span class="badge badge-secondary">动态仓位</span>
+                <span class="badge badge-accent">回测实盘</span>
+                <span class="badge badge-warning">框架配置</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="key-points">
+        <h2>重點摘要與邏輯軸</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>旗舰策略核心規則回顧</h3>
+                <div class="timeline-content">
+                    <p>1. 多空敞口控制：空头净暴露≤0.1（10%），多头净暴露≤0.3（30%），净暴露=（多头仓位-空头仓位）/账户净值</p>
+                    <p>2. 杠杆控制：总杠杆锁定在1-1.8之间，限制真实杠杆（非参数杠杆），牛市仓位膨胀时自动调控</p>
+                    <p>3. 二次约束：杠杆＜1时（市场低迷期），强制重置为1:1多空平衡，规避极端风险</p>
+                    <p>4. Rebalance机制：多空之间不做Rebalance，仅多头内部/空头内部按原模式Rebalance（如每小时）</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>框架與策略下載準備</h3>
+                <div class="timeline-content">
+                    <p>1. 框架版本：回测框架1.4.2、实盘框架1.4.2、网页版（待升级至0.1.4，下周一发布）</p>
+                    <p>2. 策略包：落单狗精心随机V2（含旗舰策略配置），需下载并导入框架</p>
+                    <p>3. 数据准备：
+                        <br>- 常规数据：四龙（BTC/ETH/BNB/SOL）现货+合约数据
+                        <br>- 分钟偏移数据（可选）：5-55分钟偏移预处理数据（仅含最近一年，每周更新）
+                        <br>- 第三方数据：BTC现货数据（用于落单狗相关系数计算）
+                    </p>
+                    <p>4. 环境要求：统一账户（推荐）、USDT保证金（需充足，适配多头现货仓位膨胀）</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>網頁版操作全流程</h3>
+                <div class="timeline-content">
+                    <p>1. 框架部署：将网页版0.1.4放入1.4.2框架，配置数据路径、葫芦ID、API Key</p>
+                    <p>2. 策略导入：下载落单狗V2包→策略管理→导入，自动加载Config、因子、信号文件（含"旗舰策略2000U"配置）</p>
+                    <p>3. 策略配置：
+                        <br>- 核心参数：设置净暴露上下限（空≤0.1、多≤0.3）、杠杆范围（1-1.8）、初始时间（与回测时间一致）
+                        <br>- 子策略标记：必须标注子策略为"纯多"或"纯空"，禁止添加中性策略
+                        <br>- 特殊开关：开启"导出自动配置最新仓位"（默认开启，回测后自动抓取最新仓位比例）
+                    </p>
+                    <p>4. 回测与导出：执行回测（生成敞口图+资金曲线）→ 导出实盘包（含自动配置的最新仓位比例）</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>實盤網頁版部署</h3>
+                <div class="timeline-content">
+                    <p>1. 框架升级：实盘框架必须升级至1.4.2，数据中心可升级至1.1.10（非必需）</p>
+                    <p>2. 账户配置：创建统一账户→设置USDT保证金（建议全额）→ 导入网页版导出的实盘包（含Config、因子文件）</p>
+                    <p>3. 测试验证：
+                        <br>- 实盘测试：运行日志验证选币是否正常（四龙+落单狗币）
+                        <br>- 模拟交易：初始时间建议设为近1个月前（如2月9日），避免仅显示最新1小时仓位
+                        <br>- 实盘交易：确认分钟偏移一致性（回测0分钟→实盘0分钟），启动后查看多头/空头敞口数据
+                    </p>
+                    <p>4. 关键注意：无需手动平仓旧策略，新策略启动后自动平掉非目标币，下单新币</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>代碼版高級配置（含分鐘偏移）</h3>
+                <div class="timeline-content">
+                    <p>1. 分钟偏移配置：
+                        <br>- 数据路径：指向分钟偏移预处理数据（如55分钟）和BTC现货数据
+                        <br>- 回测时间：仅支持最近一年，格式示例"2025-03-01 00:55"
+                        <br>- 参数设置：在Config中指定minute_offset（如55），关联对应数据路径
+                    </p>
+                    <p>2. 策略核心配置：
+                        <br>- 仓位比例：回测后手动复制最新时间点的多头/空头比例（如0.68、0.499）
+                        <br>- 子策略标记：long/short列表与子策略顺序一一对应（纯多=1，纯空=0）
+                        <br>- 杠杆与敞口：设置net_exposure_limit（空≤0.1、多≤0.3）、leverage_limit（1-1.8）
+                        <br>- 参数顺序：严格按"仓位比例→敞口限制→杠杆限制"排序，不可调整
+                    </p>
+                    <p>3. 多策略混合：支持多个纯多/纯空策略组合，CapRatio按权重分配（如0.5、0.25、0.25），数量需与子策略一致</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>代碼版實盤部署與優化</h3>
+                <div class="timeline-content">
+                    <p>1. Config复制：从回测框架复制StrategyConfig与StrategyBoot至实盘框架，修改初始时间为最新（如"2026-03-05"）</p>
+                    <p>2. 新参数设置（框架Config）：
+                        <br>- save_selection_result：设置保存3天内选币结果（用于回测vs实盘对比）
+                        <br>- increment_lookback_hour：设置重算小时数（推荐3-5小时，修正数据误差）
+                    </p>
+                    <p>3. 部署流程：配置统一账户→上传因子/仓管文件→设置实盘模式（Debug/模拟/交易）→ 启动startup.py测试选币→正式交易</p>
+                    <p>4. 服务器要求：推荐2核4G以上，支持同时运行网页版（实盘）与代码版（回测），共享数据中心</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>關鍵細節與避坑指南</h3>
+                <div class="timeline-content">
+                    <p>1. 初始仓位设置：实盘需使用回测最新仓位比例（非50:50），初始时间需在实盘K线数量范围内（如近40天=1000根K线）</p>
+                    <p>2. 分钟偏移一致性：回测与实盘的分钟偏移需一致（如回测55分钟→实盘55分钟），否则仓位计算错误</p>
+                    <p>3. 子策略限制：禁止添加中性策略，单币仓位不可单独限制，可通过CapRatio控制子策略权重</p>
+                    <p>4. 杠杆计算：真实杠杆=CapRatio总和×参数杠杆，策略限制的是真实杠杆（≤1.8），牛市仓位膨胀时自动调控</p>
+                    <p>5. 网页版vs代码版：网页版适合快速落地，代码版支持分钟偏移等高级功能，核心逻辑一致（网页版为代码版可视化壳）</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>常見問題與答疑總結</h3>
+                <div class="timeline-content">
+                    <p>1. 策略替换：无需手动平仓旧策略，新策略启动后自动替换</p>
+                    <p>2. 保证金要求：USDT需充足，牛市多头仓位可能达80%以上，推荐全额USDT作为保证金</p>
+                    <p>3. 断网处理：服务器部署时断网不影响，框架后台继续运行</p>
+                    <p>4. 参数遍历：旗舰策略核心参数（敞口/杠杆限制）为防风险设计，无需遍历优化</p>
+                    <p>5. Rebalance mode：仅作用于多头/空头内部，多空之间不Rebalance，三种模式（每小时/单币比例等）需参考25年直播</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="logic">
+        <h2>底層邏輯與框架</h2>
+        <details>
+            <summary>點擊展開詳情</summary>
+            <div class="details-content">
+                <h3>1. 思維模型</h3>
+                <p>✅ 動態平衡模型：多空仓位随市场自然膨胀/缩减，不主动Rebalance，仅通过敞口和杠杆阈值控制风险，适配牛熊行情</p>
+                <p>✅ 風險邊界模型：设置三重风险阈值（空头敞口≤10%、多头敞口≤30%、真实杠杆≤1.8），避免单一方向过度暴露</p>
+                <p>✅ 分層Rebalance模型：多空之间不Rebalance（保留趋势收益），内部币种Rebalance（维持组合均衡），兼顾收益与稳定性</p>
+                <p>✅ 實盤貼合模型：通过初始仓位继承、分钟偏移、数据重算等功能，缩小回测与实盘差距，提升策略落地可靠性</p>
+
+                <h3>2. 因果/遞進關係</h3>
+                <p>① 市场行情（牛/熊）→ 多空仓位自然涨跌→ 敞口/杠杆变化→ 触发阈值→ 自动调控（或维持）→ 实现收益/风险平衡</p>
+                <p>② 策略配置（纯多/纯空标记）→ 回测计算（敞口+杠杆数据）→ 导出实盘配置（最新仓位）→ 实盘导入→ 测试验证→ 正式交易</p>
+                <p>③ 基础框架（1.4.2）→ 策略包（落单狗V2）→ 数据准备（常规/分钟偏移）→ 网页版/代码版配置→ 回测→ 实盘部署→ 持续监控</p>
+                <p>④ 简单需求（快速落地）→ 网页版操作；高级需求（分钟偏移/多策略混合）→ 代码版配置，满足不同用户场景</p>
+
+                <h3>3. 關鍵隱喻與案例</h3>
+                <p>🌊 船舶航行隱喻：策略如同船舶，市场是海洋，敞口和杠杆阈值是船舵与锚，多空内部Rebalance是船舱整理，既顺应趋势（不主动Rebalance），又控制风险（阈值调控）</p>
+                <p>📊 牛市案例：2021年牛市中，多头仓位持续膨胀，敞口达30%，杠杆升至1.8，策略自动锁定收益，未因过度暴露导致大幅回撤</p>
+                <p>⚠️ 避坑案例：分钟偏移回测55分钟→实盘设置0分钟，导致仓位计算错误，出现"咔嚓"式数据断层，需严格保持一致性</p>
+                <p>🔧 工具選擇案例：新手/快速落地用网页版，1小时内完成配置；进阶用户需分钟偏移功能，用代码版实现，兼顾效率与灵活性</p>
+            </div>
+        </details>
+    </section>
+
+    <section id="steps">
+        <h2>實作步驟 Checklist</h2>
+        <ul class="checklist">
+            <li>
+                <div>
+                    <span class="param">步驟1：環境與資源準備</span>
+                    <p>下載回测框架1.4.2、实盘框架1.4.2、落单狗精心随机V2策略包；准备四龙现货/合约数据、BTC现货数据，分钟偏移数据（可选）</p>
+                    <p class="tools">工具：框架安装包、策略包、数据下载工具、统一账户（推荐）</p>
+                    <p class="pitfall">卡關點：分钟偏移数据仅含最近一年，回测时间不可早于一年前；USDT保证金需充足，避免多头仓位无法扩容</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟2：網頁版回測配置（推薦新手）</span>
+                    <p>① 部署网页版0.1.4至1.4.2框架，配置数据路径与API信息；② 导入落单狗V2策略包，自动加载Config与因子；③ 编辑策略：设置净暴露（空≤0.1、多≤0.3）、杠杆（1-1.8）、初始时间，标记子策略为纯多/纯空；④ 执行回测，查看敞口图与资金曲线</p>
+                    <p class="tools">工具：网页版框架、策略包、浏览器</p>
+                    <p class="pitfall">卡關點：禁止添加中性策略；确保"导出自动配置最新仓位"开启，否则需手动复制仓位比例</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟3：網頁版實盤導出與部署</span>
+                    <p>① 回测完成后导出实盘包（含自动配置的最新仓位）；② 升级实盘框架至1.4.2，创建统一账户并设置USDT保证金；③ 导入实盘包（Config+因子）；④ 执行实盘测试，验证选币正常后启动模拟/实盘交易</p>
+                    <p class="tools">工具：实盘框架、实盘网页版、统一账户</p>
+                    <p class="pitfall">卡關點：实盘初始时间需与回测最新时间一致，避免K线数量不足导致计算失败</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟4：代碼版高級配置（分鐘偏移）</span>
+                    <p>① 下载分钟偏移数据，配置路径至回测Config；② 设置minute_offset（如55）、回测时间（近一年）、第三方BTC现货数据路径；③ 编辑策略：手动设置CapRatio、long/short标记、敞口/杠杆限制；④ 执行回测，复制最新仓位比例至实盘Config</p>
+                    <p class="tools">工具：代码编辑器（PyCharm）、Mini-Conda环境、分钟偏移数据</p>
+                    <p class="pitfall">卡關點：参数顺序不可调整；分钟偏移回测与实盘需一致，否则仓位计算错误</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟5：代碼版實盤部署與優化</span>
+                    <p>① 将回测Config中的StrategyConfig/StrategyBoot复制至实盘框架；② 配置框架Config：save_selection_result=3、increment_lookback_hour=3；③ 上传因子/仓管文件，设置实盘模式（Debug→模拟→交易）；④ 启动startup.py测试选币，无异常后正式运行</p>
+                    <p class="tools">工具：实盘框架、服务器（2核4G以上）、数据中心</p>
+                    <p class="pitfall">卡關點：初始时间格式需正确（如"2026-03-05"），不可用斜杠；统一账户需开通合约权限</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟6：實盤監控與調整</span>
+                    <p>① 监控实盘日志：选币是否正常、敞口是否在阈值内、杠杆是否② 定期对比回测与实盘数据，修正分钟偏移等参数；③ 市场极端行情时（如插针），检查数据重算功能是否生效；④ 按策略表现迭代优化子策略权重（CapRatio）</p>
+                    <p class="tools">工具：实盘监控面板、日志查看工具、数据对比表格</p>
+                    <p class="pitfall">卡關點：不可随意调整敞口/杠杆阈值（防风险设计）；单币仓位不可单独限制，需通过子策略权重控制</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section id="ai-notes">
+        <h2>AI 補充建議</h2>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 保證金規劃：按回测中多头最大仓位占比的1.2倍准备USDT保证金，例如回测中多头最大占比80%，则准备账户总资金80%×1.2=96%的USDT，避免牛市中因保证金不足无法扩容多头仓位。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 分鐘偏移選擇：新手建议从0分钟偏移开始，熟悉策略后再尝试5/15/30分钟偏移；回测时需确保数据完整性，避免因数据缺失导致回测结果失真。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 提醒】</strong> 服務器穩定性：实盘部署推荐使用云服务器（如腾讯云2核4G），开启自动重启功能，定期备份数据（每日一次），避免因服务器宕机导致策略中断。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 提醒】</strong> 策略兼容性：旧策略（如四龙狗）替换为旗舰策略时，无需手动平仓，新策略会自动处理，但需确保实盘框架版本一致（1.4.2），否则可能出现平仓异常。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 多策略混合優化：多个纯多/纯空策略组合时，建议纯多策略权重总和≤0.8，纯空策略权重总和≤0.5，预留部分资金应对市场波动，提升策略稳健性。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 提醒】</strong> 參數設置誤區：杠杆限制（1.8）是真实杠杆，而非参数杠杆，需避免同时设置CapRatio总和＞1+参数杠杆＞1，否则真实杠杆可能突破阈值，引发风险。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 實盤驗證順序：严格按"实盘测试→模拟交易（1-2周）→ 小资金实盘（10%-20%资金）→ 满仓实盘"的顺序验证，逐步熟悉策略表现，降低实盘风险。
+        </div>
+    </section>
+</body>
+</html>

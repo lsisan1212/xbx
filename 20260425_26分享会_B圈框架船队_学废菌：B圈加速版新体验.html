@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260425_26分享会_B圈框架船队_学废菌：B圈加速版新体验</title>
+    <style>
+        :root {
+            --primary: #165DFF;
+            --secondary: #6E7891;
+            --light: #F5F7FA;
+            --dark: #1D2129;
+            --success: #00B42A;
+            --warning: #FF7D00;
+            --danger: #F53F3F;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #F0F2F5;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260425_26分享会_B圈框架船队_学废菌：B圈加速版新体验</h1>
+            <p>详解币圈量化框架加速版（回测+实盘）的升级亮点、部署流程、使用技巧与问题排查，基于Polars库与Pocket数据格式实现性能飞跃，适配网页版新功能</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>面向币圈量化投资者与框架使用者，提供加速版框架全流程指南，涵盖回测/实盘框架升级、性能优化原理、网页版新功能应用，解决内存溢出、部署兼容等核心问题，实现策略运行效率与存储优化双重提升</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>币圈量化交易者、彩虹框架老用户、26分享会成员、B圈框架船队成员</li>
+                    <li>先備：熟悉普通版框架使用逻辑，具备基础服务器操作能力，了解Python虚拟环境与三方库安装</li>
+                    <li>工具：彩虹B圈加速版框架（回测2.1.1+实盘2.1.0）、网页版0.5.3、服务器（推荐12核+64G内存）、Docker环境</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握加速版核心优化逻辑（Polars库替代Pandas+Pocket数据格式），回测效率提升5-20倍，存储占用减少67%</li>
+                    <li>学会回测/实盘加速版部署与参数调优（并发数、因子列数调整），规避内存溢出问题</li>
+                    <li>熟练运用网页版新功能（策略重命名/目录管理/自研模板/一键晒单），提升策略管理与实盘效率</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 2-3小时（框架升级+部署测试）</p>
+                <p>预期回报：复杂策略回测时间缩短40%+，存储成本降低67%，实盘策略切换效率提升80%，网页版可视化管理减少80%手动操作</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">框架升级</span>
+                <span class="badge badge-warning">性能优化</span>
+                <span class="badge badge-success">实盘适配</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>加速版框架核心升级：原理与性能对比</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心优化机制</h4>
+                        <ul>
+                            <li>计算引擎升级：用Polars库替代传统Pandas库，优化多核并行计算，减少无效数据传输，复杂计算速度提升5-20倍</li>
+                            <li>数据格式升级：从PKL格式进化为Pocket格式，大数据查询性能提升数倍，存储占用减少67%（同策略缓存从20G降至6.54G）</li>
+                            <li>兼容性优化：Pocket格式兼容多计算平台，打破"速度-存储-兼容性"不可兼得的三角形</li>
+                        </ul>
+                        
+                        <h4>2. 版本对应关系</h4>
+                        <ul>
+                            <li>回测框架：普通版1.4.3 → 加速版2.1.1（含回测实盘对比脚本，网页版适配0.2.2）</li>
+                            <li>实盘框架：普通版1.4.4 → 加速版2.1.0（公测版，需搭配网页版0.5.3）</li>
+                            <li>核心特性：功能与普通版完全一致，仅优化计算与存储，老策略/因子无需修改可直接运行</li>
+                        </ul>
+                        
+                        <h4>3. 性能实测数据（以沧浪亭1官方策略为例）</h4>
+                        <ul>
+                            <li>回测耗时：普通版1200秒 → 加速版800秒，省时40%+</li>
+                            <li>因子计算：省时1/3，截面因子计算加速效果显著</li>
+                            <li>策略选币：复杂策略省时超50%，多因子/多参数场景优势更明显</li>
+                            <li>硬件要求：推荐12核24线程+64G内存，核心内存配比1:4~1:6（1核对应4-6G内存）</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>回测加速版：部署、调优与避坑</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 部署关键步骤</h4>
+                        <ol>
+                            <li>下载框架：回测框架2.1.1+网页版0.2.2，解压组合至服务器</li>
+                            <li>环境配置：激活虚拟环境（如311_Basic），重新安装三方库（执行"pip install -r requirements.txt"，自动补全Polars库）</li>
+                            <li>数据适配：无需手动转换数据，框架自动兼容原有数据，缓存自动生成Pocket格式</li>
+                        </ol>
+                        
+                        <h4>2. 核心参数调优（避免内存溢出）</h4>
+                        <ul>
+                            <li>并发数（job_number）：根据内存调整，64G内存建议设为12（CPU核心数的一半），避免满核运行导致爆内存</li>
+                            <li>因子列数：内存≤32G设为32，≤64G设为64，256G内存可开满，截面因子场景需进一步调低</li>
+                            <li>内存保护：不建议开启"prevent_memory_overflow"参数（功能不稳定），优先通过前两项参数调优</li>
+                        </ul>
+                        
+                        <h4>3. 关键使用技巧</h4>
+                        <ul>
+                            <li>拉黑传统金融币：在config中启用"拉黑传统金融币"开关，定期运行"update_tradition_financial_info.py"脚本更新黑名单（需配置魔法代理）</li>
+                            <li>策略管理：利用网页版0.2.2的重命名、目录分类功能，管理多版本策略，避免同名冲突</li>
+                            <li>25年用户注意：截面因子需下载新版本，老版本截面因子不兼容加速版</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>网页版0.5.3新功能：全场景应用</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 策略管理升级</h4>
+                        <ul>
+                            <li>重命名功能：支持自定义策略名称（如"魔改沧浪亭"），解决默认名称冗长问题</li>
+                            <li>目录管理：创建文件夹分类存储策略（如"多头策略""空头策略"），支持拖拽移动，优化多策略管理</li>
+                            <li>自研模板：将魔改策略保存为模板（如"落单狗魔改"），后续可直接从模板创建新策略，无需重复配置</li>
+                        </ul>
+                        
+                        <h4>2. 实盘辅助功能</h4>
+                        <ul>
+                            <li>回测实盘对比：内置"选币回测实盘对比.py"脚本，自动分析资金曲线、选币差异、因子差异，助力作业完成</li>
+                            <li>一键晒单：支持选择最近7天/30天/全部时间，生成收益长图，直接复制分享，无需手动截图</li>
+                            <li>导入导出备份：导出账户包（含因子、策略、config、资金曲线），支持跨框架/跨服务器迁移，导入后可直接运行</li>
+                        </ul>
+                        
+                        <h4>3. 自研框架导入</h4>
+                        <p>支持导入官方框架魔改版本（需保持文件结构一致、核心函数完整），压缩为ZIP包后通过"增加框架→导入自研"功能上传，快速部署个性化框架</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>实盘加速版：部署、切换与测试</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 部署前置条件</h4>
+                        <ul>
+                            <li>网页版升级：必须升级至0.5.3（旧版本不兼容实盘加速版2.1.0）</li>
+                            <li>服务器要求：推荐12核+64G内存，已安装Docker环境，开放端口8369（防火墙配置）</li>
+                            <li>数据中心：升级至1.1.11，自动拉黑传统金融币，确保回测实盘数据一致</li>
+                        </ul>
+                        
+                        <h4>2. 部署步骤</h4>
+                        <ol>
+                            <li>下载脚本：获取"Deploy_Chronos.sh"部署脚本，上传至服务器根目录</li>
+                            <li>授权执行：运行"chmod +x Deploy_Chronos.sh"授权，再执行"./Deploy_Chronos.sh"，自动拉取Docker镜像（约3G）</li>
+                            <li>配置验证：安装完成后，通过"服务器IP:8369"访问网页版，输入声明码、绑定验证码，完成激活</li>
+                            <li>策略迁移：从普通版导出账户包，导入实盘加速版2.1.0，启动框架进行测试</li>
+                        </ol>
+                        
+                        <h4>3. 切换与测试建议</h4>
+                        <ul>
+                            <li>平滑切换：先用小资金账户测试加速版，运行1-2周稳定后，再迁移大资金账户</li>
+                            <li>版本共存：可同时安装普通版1.4.4与加速版2.1.0，通过导入导出包快速切换，故障时可回滚</li>
+                            <li>多账户管理：不同框架建议设置不同分钟偏移（如0、50分钟），避免同时选币占用过多资源</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>常见问题与排查方案</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 部署类问题</h4>
+                        <ul>
+                            <li>三方库缺失报错：重新安装requirements.txt，自动补全Polars等依赖库，无需手动安装</li>
+                            <li>网页版无法访问：检查服务器防火墙是否开放8369端口，Docker容器是否正常运行</li>
+                            <li>镜像下载缓慢：更换国内Docker镜像源，或耐心等待（镜像约3G）</li>
+                        </ul>
+                        
+                        <h4>2. 运行类问题</h4>
+                        <ul>
+                            <li>内存溢出：调低并发数（job_number）和因子列数，关闭多余后台进程，检查内存占用（避免超过95%）</li>
+                            <li>策略导入后不显示：导入后需在网页版"策略管理"中启用该策略，才能在根目录显示</li>
+                            <li>回测实盘数据不一致：确保数据中心升级至1.1.11，回测框架已拉黑传统金融币，实盘数据中心自动拉黑无需额外设置</li>
+                        </ul>
+                        
+                        <h4>3. 功能类问题</h4>
+                        <ul>
+                            <li>自研模板无官方策略：从官方策略库导入后，保存为自研模板，再进行魔改（如删除四龙因子，保留大学生因子）</li>
+                            <li>导入同名策略失败：先删除原有同名策略（或重命名），再重新导入，避免冲突</li>
+                            <li>config注释丢失：注释仅在回测框架中保留，实盘框架为保证运行效率会自动优化格式，建议在回测框架中备份带注释的config</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>框架选型与未来规划</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 框架选型建议</h4>
+                        <ul>
+                            <li>回测场景：优先使用加速版2.1.1，复杂策略、多因子场景优势显著，普通简单策略差异不大</li>
+                            <li>实盘场景：新手先用普通版1.4.4跑稳，再迁移至加速版2.1.0；老用户可直接测试加速版，稳定性已验证</li>
+                            <li>个性化需求：需魔改核心函数（如data_bridge、statistics）时，使用代码版；常规管理用网页版效率更高</li>
+                        </ul>
+                        
+                        <h4>2. 未来功能规划</h4>
+                        <ul>
+                            <li>多服务器管理：暂未支持，后续将开发；当前可通过AI工具自行开发，有机会获义父奖</li>
+                            <li>OKX交易所适配：预计2个月后上线，支持跨交易所套利</li>
+                            <li>高频回测框架：正在开发，适配更高频率的策略回测需求</li>
+                        </ul>
+                        
+                        <h4>3. 反馈与支持渠道</h4>
+                        <ul>
+                            <li>bug反馈：直接联系林奇，或在学废菌攻略帖评论区留言</li>
+                            <li>技术支持：群内咨询学废菌、顿顿船长，或参考最新攻略帖（含详细操作截图）</li>
+                            <li>资源获取：框架安装包、脚本、黑名单文件可在分享会论坛下载，或联系林奇获取</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：技术迭代驱动效率提升</h3>
+                <p>加速版框架的核心逻辑是"技术替换+格式优化"双轮驱动：用更高效的Polars库替代传统Pandas，解决多核并行计算短板；用更紧凑的Pocket格式替代PKL，解决存储与查询效率问题。本质是通过底层技术升级，不改变上层使用逻辑，实现"无痛升级+性能飞跃"，符合量化交易中"稳定优先、效率优化"的核心需求。</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>量化策略复杂度提升→传统框架计算慢、存储占用高→底层技术升级（Polars+Pocket）→计算效率与存储优化→网页版可视化管理升级→降低手动操作成本→实盘部署与切换效率提升。核心链条：需求痛点→技术解决方案→功能优化→用户体验提升，每一步均围绕"降本增效"，不改变用户已习惯的操作逻辑。</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「吕布骑兔子隐喻」：高性能CPU搭配小内存，如同吕布骑兔子，无法发挥优势，甚至导致内存溢出；案例：12核CPU+64G内存，满核运行加速版会爆内存，调至12线程（半核）后稳定运行，印证"硬件配置与软件参数需匹配"。</p>
+                
+                <h3>4. 框架设计底层逻辑</h3>
+                <p>加速版设计遵循"兼容性优先、性能优化、用户无感知"三大原则：不改变原有策略代码与配置逻辑，确保老用户无痛升级；聚焦计算与存储两大核心痛点，不做冗余功能；网页版升级聚焦"管理效率"，将重复手动操作（如策略分类、备份、晒单）自动化，让用户聚焦策略本身而非工具使用。</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：回测加速版部署与测试</strong>
+                    <p>1.1 下载回测框架2.1.1与网页版0.2.2，解压至服务器指定目录；1.2 激活虚拟环境，执行"pip install -r requirements.txt"重新安装三方库；1.3 配置config参数：job_number设为CPU核心数的一半，因子列数按内存调整（64G设为64）；1.4 启用"拉黑传统金融币"开关，运行"update_tradition_financial_info.py"更新黑名单；1.5 导入原有策略，运行回测，观察内存占用（控制在95%以下）与耗时，验证加速效果。</p>
+                    <div class="note">卡關點：内存溢出时优先调低并发数，而非启用prevent_memory_overflow参数（功能不稳定）</div>
+                </li>
+                <li>
+                    <strong>步骤2：网页版0.5.3升级与新功能体验</strong>
+                    <p>2.1 下载"Deploy_Chronos.sh"脚本，上传至服务器根目录；2.2 执行"chmod +x Deploy_Chronos.sh"与"./Deploy_Chronos.sh"，自动部署网页版0.5.3；2.3 开放8369端口，通过"IP:8369"访问，完成声明码与验证码绑定；2.4 体验新功能：创建目录分类策略、重命名策略、保存自研模板、生成晒单海报。</p>
+                </li>
+                <li>
+                    <strong>步骤3：实盘加速版部署与策略迁移</strong>
+                    <p>3.1 升级数据中心至1.1.11，确保自动拉黑传统金融币；3.2 在网页版下载实盘加速版2.1.0；3.3 从普通版1.4.4导出账户包（含因子、策略、config）；3.4 导入实盘加速版2.1.0，设置分钟偏移（与普通版不同）；3.5 启动框架，测试选币与交易日志，观察1-2天，确认稳定后迁移正式资金。</p>
+                    <div class="note">卡關點：实盘迁移前务必用小资金测试，避免直接切换大资金账户，保留回滚至普通版的通道</div>
+                </li>
+                <li>
+                    <strong>步骤4：参数优化与问题排查</strong>
+                    <p>4.1 监控回测/实盘的内存占用与耗时，根据硬件调整并发数与因子列数；4.2 对比回测实盘数据，确保无传统金融币干扰；4.3 遇到报错时，优先检查三方库是否齐全、端口是否开放、内存是否超限；4.4 定期备份账户包，避免策略配置丢失。</p>
+                </li>
+                <li>
+                    <strong>步骤5：个性化需求实现（可选）</strong>
+                    <p>5.1 魔改官方框架（如修改data_bridge获取三方数据），压缩为ZIP包；5.2 通过网页版"增加框架→导入自研"功能上传，命名后启用；5.3 多服务器管理：暂不支持，可通过手动导出导入账户包实现跨服务器迁移。</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 服务器配置优先升级内存而非CPU，量化回测/实盘的瓶颈多在内存（数据加载与缓存），64G内存是加速版稳定运行的最低门槛，256G内存可满配参数，发挥最大性能。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 实盘加速版为公测版，暂不建议用于超大规模资金（＞50万USDT），小资金测试稳定后再逐步扩容，避免潜在兼容性问题导致损失。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 定期清理Pocket缓存文件（保留最近3个月），进一步释放存储空间；同时备份核心缓存，避免重新生成耗时过长。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 网页版与代码版可并行使用：网页版用于日常管理与部署，代码版用于个性化魔改与分钟偏移数据处理，发挥各自优势。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 利用AI工具（如ChatGPT）辅助排查报错：将报错日志输入AI，快速定位问题（如三方库缺失、参数配置错误），提升排查效率。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 传统金融币黑名单需每月更新一次，避免币安新增股票类合约导致回测实盘数据不一致，无魔法代理可联系林奇获取最新黑名单文件。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

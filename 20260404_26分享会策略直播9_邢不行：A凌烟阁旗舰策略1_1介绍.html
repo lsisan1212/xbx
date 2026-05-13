@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260404_26分享会策略直播9_邢不行：A凌烟阁旗舰策略1_1介绍</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f1f5f9;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260404_26分享会策略直播9_邢不行：A凌烟阁旗舰策略1_1介绍</h1>
+            <p>凌烟阁旗舰策略1.1升级详解，聚焦反转类择时策略（RSV/KDJ/CCI），补充趋势类策略短板，实现多风格覆盖</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>在凌烟阁1.0趋势类择时基础上，新增反转类择时策略，通过低位抄底、高位逃顶的偏左侧交易，与趋势策略形成风格互补，提升整体策略稳定性</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>已学习凌烟阁1.0趋势类策略的分享会同学</li>
+                    <li>先備：了解日线选股+小时级择时逻辑、基础技术指标概念</li>
+                    <li>工具：彩虹策略客户端（支持凌烟阁策略）、小市值/现金流选股策略</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握3种反转类择时指标（RSV/KDJ/CCI）的核心逻辑与参数选择</li>
+                    <li>理解反转策略与趋势策略的风格差异（左侧vs右侧交易）</li>
+                    <li>明确反转策略在不同行情下的表现特征与混合使用逻辑</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 1-2天（参数测试+实盘适配）</p>
+                <p>预期回报：反转策略年化收益30%-38%，与趋势策略混合后最大回撤降低至20%-30%</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">择时策略</span>
+                <span class="badge badge-warning">反转交易</span>
+                <span class="badge badge-success">策略升级</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>趋势类策略回顾与核心补充</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <ul>
+                            <li>核心逻辑：买在右侧（趋势明确后跟进），抓一波行情完整涨幅，缺点是横盘震荡时反复打脸</li>
+                            <li>参数特性：小参数（如12小时均线）跟进快、离场快，适合震荡行情；大参数（如100小时均线）滞后性强，适合趋势行情，两者需混合覆盖</li>
+                            <li>历年表现：小参数与大参数轮流领先，无明确预测规律，需通过参数覆盖获取系统性收益（如小参数+大参数同时运行）</li>
+                            <li>补充必要性：趋势策略在上涨行情中常跑输原始策略，需反转策略补充不同风格，降低整体波动</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>反转类策略核心逻辑（偏左侧交易）</h3>
+                <div class="timeline-content">
+                    <p>与趋势策略相反，反转策略通过识别价格高低位，主动在低位抄底、高位逃顶，属于偏左侧交易风格，核心目标是：① 上涨行情中提前止盈避免回调；② 下跌行情中低位布局捕捉反弹；③ 震荡行情中高抛低吸</p>
+                    <p>关键区别：趋势策略"不主动犯错"（趋势不明不交易），反转策略"多做多错但对时收益显著"（主动预判高低位）</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>3种核心反转类择时指标详解</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. RSV指标（基础反转指标）</h4>
+                        <ul>
+                            <li>计算公式：(当前收盘价 - 过去N小时最低价) / (过去N小时最高价 - 过去N小时最低价)，结果介于0-1之间</li>
+                            <li>交易逻辑：RSV＜10%（低位）买入，RSV＞90%（高位）卖出</li>
+                            <li>回测表现：小市值策略年化31%，最大回撤40%（24年暴跌行情导致），回撤恢复速度快</li>
+                            <li>最优参数：回看周期N=380小时（约100个交易日/半年），远超同花顺默认小参数</li>
+                        </ul>
+                        
+                        <h4>2. KDJ指标（RSV平滑优化）</h4>
+                        <ul>
+                            <li>计算逻辑：在RSV基础上做两次均线平滑（RSV→K值→D值），降低信号波动</li>
+                            <li>交易逻辑：RSV＜10%且K＞D（金叉）买入；RSV＞90%且K＜D（死叉）卖出</li>
+                            <li>回测表现：小市值策略年化38%，最大回撤27%，相比RSV指标稳定性显著提升</li>
+                            <li>关键提醒：同花顺默认参数（回看9小时）效果差，最优参数为回看260小时（约2个月）</li>
+                        </ul>
+                        
+                        <h4>3. CCI指标（加速度辅助反转）</h4>
+                        <ul>
+                            <li>核心逻辑：衡量价格涨跌加速度，与RSV结合使用（RSV＜10%+CCI＜10%买入；RSV＞90%+CCI加速上涨卖出）</li>
+                            <li>回测表现：年化收益30%+，最大回撤40%+，风格与KDJ差异显著，适合混合配置</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>反转策略与趋势策略核心差异</h3>
+                <div class="timeline-content">
+                    <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+                        <tr style="background-color: var(--light);">
+                            <<th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--secondary);">对比维度</</th>
+                            <<th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--secondary);">反转类策略</</th>
+                            <<th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--secondary);">趋势类策略</</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.5rem; border-bottom: 1px solid var(--light);">交易风格</td>
+                            <td>左侧交易（提前抄底/逃顶）</td>
+                            <td>右侧交易（趋势明确后跟进）</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.5rem; border-bottom: 1px solid var(--light);">行情适配</td>
+                            <td>震荡行情、急跌反弹、特朗普行情</td>
+                            <td>单边上涨/下跌行情</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.5rem; border-bottom: 1px solid var(--light);">交易频率</td>
+                            <td>较低（持仓周期长，高位主动止盈）</td>
+                            <td>较高（趋势反复时频繁买卖）</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.5rem;">风险特征</td>
+                            <td>抄底失败风险（急跌后继续下跌）</td>
+                            <td>踏空风险（趋势启动后未跟进）</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>反转策略在不同行情下的表现</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 上涨行情</h4>
+                        <p>表现无明确规律：部分行情（21年小市值行情）跑赢原始策略与趋势策略，部分行情（单边暴涨）跑输，核心差异在于是否存在急跌反弹机会</p>
+                        <h4>2. 下跌行情</h4>
+                        <p>整体优于原始策略：24年暴跌行情中与趋势策略收益相当，急跌后能快速抄底捕捉反弹，但2017-2018年下跌行情中表现与原始策略持平</p>
+                        <h4>3. 震荡行情</h4>
+                        <p>优势显著：多数震荡行情中回撤小于趋势策略与原始策略，通过高抛低吸实现超额收益</p>
+                        <h4>4. 特朗普行情（先跌后涨）</h4>
+                        <p>表现分化：25年特朗普行情中赢麻（暴跌后抄底+暴涨后逃顶），26年特朗普行情中表现最差（前期未开仓错失上涨）</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>反转策略的混合使用与参数选择原则</h3>
+                <div class="timeline-content">
+                    <ul>
+                        <li>单一反转指标：优先选择KDJ（稳定性最优），其次RSV（基础易用），CCI可作为补充</li>
+                        <li>多指标混合：RSV+KDJ+CCI混合后年化37%，最大回撤38%，风格更均衡，避免单一指标失效</li>
+                        <li>与趋势策略混合：核心逻辑是"风格互补"，无固定比例，建议趋势策略占比60%-70%，反转策略占比30%-40%</li>
+                        <li>参数选择核心：回看周期需足够大（200小时以上），避免同花顺默认小参数导致的信号频繁波动</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>凌烟阁策略后续升级规划</h3>
+                <div class="timeline-content">
+                    <ul>
+                        <li>近期：夏普直播详解择时指标细节（面向新人）、适度理解二（反转策略深度解析）</li>
+                        <li>中期：趋势与反转策略混合使用专题直播、凌烟阁1.2升级（新角度策略优化）</li>
+                        <li>长期：6月份目标升级至2.0版本，同步开发择时买卖点分析工具（可视化指标与交易信号）</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：风格覆盖与风险分散</h3>
+                <p>市场行情具有随机性（上涨/震荡/下跌交替），单一风格策略（趋势/反转）无法适配所有行情，通过"趋势+反转"双风格覆盖，实现"涨时能跟、跌时能抗、震荡能赚"的系统性收益，本质是通过风格分散降低策略回撤</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>趋势策略在震荡/上涨行情中存在短板→引入反转策略补充左侧交易能力→通过多指标混合降低反转策略抄底失败风险→最终与趋势策略结合，形成全行情适配的择时体系</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「员工隐喻」：趋势策略是"被动型员工"（趋势明确才行动，不主动犯错），反转策略是"主动型员工"（主动预判机会，多做多错但对时收益显著），两者搭配实现"稳健+进取"的平衡</p>
+                <p>实证案例：24年小市值暴跌行情中，反转策略（RSV指标）快速抄底，趋势策略（小参数）主动止损，混合后最大回撤较单一策略降低10%+</p>
+                
+                <h3>4. 参数选择逻辑</h3>
+                <p>反转策略参数核心是"长周期回看"：短期回看（如9小时）易受噪声影响，信号频繁且失真；长期回看（200小时以上）能捕捉真实高低位，信号更稳定，这与同花顺默认小参数的逻辑完全相反，也是策略生效的关键</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：环境准备与指标理解</strong>
+                    <p>1.1 确认彩虹客户端已升级至支持凌烟阁1.1版本，导入小市值/现金流选股策略；1.2 理解RSV/KDJ/CCI指标的计算逻辑与交易规则（重点掌握KDJ的金叉/死叉条件）；1.3 明确反转策略与趋势策略的信号优先级（无固定优先级，建议同时运行取交集）。</p>
+                    <div class="note">卡關點：避免使用同花顺默认小参数，需按回测最优值设置（回看周期≥200小时）</div>
+                </li>
+                <li>
+                    <strong>步骤2：单一反转指标测试</strong>
+                    <p>2.1 优先测试KDJ指标：设置回看周期260小时，买入条件（RSV＜10%+K＞D），卖出条件（RSV＞90%+K＜D）；2.2 回测小市值策略，记录年化收益、最大回撤、历年表现；2.3 依次测试RSV（回看380小时）、CCI指标，对比三者稳定性与行情适配性。</p>
+                </li>
+                <li>
+                    <strong>步骤3：多指标混合配置</strong>
+                    <p>3.1 混合RSV+KDJ+CCI，采用"多数原则"（至少两个指标发出信号才执行交易）；3.2 回测混合效果，重点观察震荡行情与下跌行情的回撤控制能力；3.3 若回撤过大，可剔除CCI指标，仅保留RSV+KDJ混合。</p>
+                </li>
+                <li>
+                    <strong>步骤4：与趋势策略混合运行</strong>
+                    <p>4.1 保留原趋势策略（小参数+大参数混合），新增反转混合策略，设置仓位比例（趋势60%-70%：反转30%-40%）；4.2 回测混合组合，对比单一策略的年化收益/回撤比；4.3 优化比例，确保上涨行情不跑输、下跌行情能抗跌。</p>
+                </li>
+                <li>
+                    <strong>步骤5：实盘适配与监控</strong>
+                    <p>5.1 小资金实盘测试（建议100股/不足一手），监控信号触发频率与交易执行情况；5.2 重点观察急跌反弹、高位止盈场景的信号有效性；5.3 记录不同行情下的策略表现，动态调整仓位比例。</p>
+                    <div class="note">卡關點：实盘需注意选股周期与择时的衔接（选股5天内未触发信号则自动放弃该股票）</div>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 测试反转指标时，建议重点关注24年暴跌、21年震荡等典型行情的表现，优先选择"回撤恢复快"的指标组合，避免因抄底失败导致长期套牢。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 反转策略的"高位逃顶"功能在单边暴涨行情中可能导致踏空，建议在全市场连续新高时，适当提高RSV卖出阈值（如从90%调整至95%），平衡止盈与踏空风险。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 与趋势策略混合时，可设置"行情自适应逻辑"：震荡行情提高反转策略仓位（50%），单边行情提高趋势策略仓位（80%），通过行情识别实现动态优化。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 避免过度优化反转指标参数，建议固定回看周期（200-300小时），仅调整买卖阈值（如RSV 5%-15%/85%-95%），降低过拟合风险。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 现金流选股策略适配反转策略时，可适当降低回看周期（150-200小时），因现金流策略本身波动较小，短周期回看能提高信号灵敏度。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 实盘前务必测试"选股+择时"的衔接逻辑：若选股后5天内未触发反转买入信号，需确认客户端是否自动放弃该股票，避免因逻辑漏洞导致持仓异常。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

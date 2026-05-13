@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260309_26分享会「软知识」直播4_邢不行：寂寞的时候你会想起谁</title>
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary-light: #3b82f6;
+            --secondary: #8b5cf6;
+            --background: #f9fafb;
+            --card-bg: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #e5e7eb;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background);
+            padding: 2rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            word-break: break-all;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        section h2::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+        .dashboard-card {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+        }
+        .dashboard-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .dashboard-card p, .dashboard-card ul {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        .dashboard-card ul {
+            padding-left: 1.2rem;
+        }
+        .dashboard-card ul li {
+            margin-bottom: 0.4rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-primary {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--primary-light);
+        }
+        .timeline-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-primary);
+        }
+        .timeline-content {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+        .timeline-content p {
+            margin-bottom: 0.8rem;
+        }
+        .checklist {
+            list-style-type: none;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .checklist li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .checklist li::before {
+            content: "✅";
+            display: inline-block;
+            min-width: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        .checklist li .param {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .checklist li .tools {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        .checklist li .pitfall {
+            color: var(--danger);
+            font-weight: 500;
+        }
+        details {
+            margin-top: 1rem;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        summary {
+            background-color: var(--background);
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details .details-content {
+            padding: 1rem;
+            background-color: white;
+        }
+        .ai-note {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background-color: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+            section h2 {
+                font-size: 1.3rem;
+            }
+            .timeline {
+                padding-left: 2rem;
+            }
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📁 20260309_26分享会「软知识」直播4_邢不行：寂寞的时候你会想起谁</h1>
+        <p>投资中的寂寞应对指南：接受策略/资产长期横盘常态，建立正确心态与行动准则</p>
+    </header>
+
+    <section id="summary">
+        <h2>執行儀表板</h2>
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <h3>🎯 核心定位</h3>
+                <p>解析投资中"长期横盘"这一常态寂寞场景，提供心态建设、禁忌行为与正确行动方案，帮助投资者穿越横盘周期</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>股票/币圈量化策略投资者（新老皆可）</li>
+                    <li>经历过策略横盘/资产震荡的投资者</li>
+                    <li>了解基础量化策略（如定风波、风火轮）</li>
+                    <li>具备基本投资风险认知</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>💡 關鍵收穫</h3>
+                <ul>
+                    <li>认清"长期横盘是投资常态"，打破"策略必快速赚钱"的认知误区</li>
+                    <li>掌握横盘期三大禁忌行为，避免因寂寞乱操作导致亏损</li>
+                    <li>学会横盘期正确行动：策略监控、深度研究、专注本职工作</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>學習時間：1小時<br>實踐時間：持續落地<br>預期回報：降低横盘期操作失误率，提升策略持有耐力，提高长期盈利概率</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>🏷️ 標籤</h3>
+                <span class="badge badge-primary">投资心态</span>
+                <span class="badge badge-secondary">横盘应对</span>
+                <span class="badge badge-accent">软知识</span>
+                <span class="badge badge-warning">量化投资</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="key-points">
+        <h2>重點摘要與邏輯軸</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>軟知識系列核心定位</h3>
+                <div class="timeline-content">
+                    <p>1. 核心差异：硬知识（量化策略、回测方法）可速成，软知识（心态、行为管理）需时间沉淀，无法替代</p>
+                    <p>2. 解决痛点：同样策略有人赚有人亏，根源在于贪婪、恐惧等非理性情绪，以及对横盘、回撤的错误应对</p>
+                    <p>3. 核心价值：在AI快速发展的背景下，软知识是人类投资者的核心优势，是量化投资的"取胜之道"</p>
+                    <p>4. 系列背景：25年3期基础上延续，26年至少新增2-3期，本期聚焦"投资中的寂寞与应对"</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>投資中的"寂寞"場景定義</h3>
+                <div class="timeline-content">
+                    <p>1. 市场层面：自身关注的市场（如A股）横盘震荡，同期其他市场（如韩国股市、黄金）暴涨，形成心理落差</p>
+                    <p>2. 资产层面：持仓资产（如比特币）高位回撤，跑输同类资产（如黄金），产生自我怀疑</p>
+                    <p>3. 策略层面：策略上线后长期横盘（如浪淘沙轮动横盘2个月、风火轮横盘半年），无明显收益甚至小幅回撤</p>
+                    <p>4. 本质：寂寞源于"长期无收益+外部对比"，是投资中最常见的心理挑战之一</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略橫盤是絕對常態（回測視角）</h3>
+                <div class="timeline-content">
+                    <p>1. 股票策略：风火轮（横盘1年起步）、定风波（频繁半年-1年横盘）、凌烟阁（最长接近3年横盘）</p>
+                    <p>2. 币圈策略：大黄中性（频繁2-3个月横盘）、浪淘沙轮动（3-6个月横盘常态）、四龙戏狗（早期横盘超1年）</p>
+                    <p>3. 核心结论：无论股票还是币圈策略，回测中均存在大量长周期横盘，短则数月，长则数年，是策略固有的特征</p>
+                    <p>4. 关键提醒：回测表现优于实盘，回测中已有的横盘，实盘中会更漫长、更煎熬</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>實盤中的橫盤更為煎熬</h3>
+                <div class="timeline-content">
+                    <p>1. 股票策略实盘：风火轮2（24年5月直播后横盘半年）、定风波2（25年5月直播后1年涨20%，跑输中证1000）、定风波3（25年9月直播后与指数持平）</p>
+                    <p>2. 币圈策略实盘：大黄中性（23年10月直播后横盘2个月→上涨→再横盘7个月）、浪淘沙1（25年4-5月直播后横盘4-5个月）</p>
+                    <p>3. 共性特征：实盘横盘时间往往超预期，且伴随小幅回撤，同时可能面临其他策略/资产暴涨的外部刺激</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>優質資產同樣逃不過橫盤</h3>
+                <div class="timeline-content">
+                    <p>1. 个股：贵州茅台（横盘4-5年）、腾讯控股（多次2-3年横盘，700跌至170后横盘）</p>
+                    <p>2. 大类资产：比特币（横盘以2-3年为单位）、黄金（1980-2008年横盘25年）、道琼斯指数（1999年后横盘十余年）</p>
+                    <p>3. 核心规律：任何长期上涨的资产，上涨时间远小于横盘时间，投机性越强的资产（如A股、比特币）横盘占比越高</p>
+                    <p>4. 关键认知：横盘是资产/策略积累能量的过程，无长期横盘则无后续暴涨</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>橫盤期三大禁忌行為</h3>
+                <div class="timeline-content">
+                    <p>1. 禁忌一：关注当时最好的品种/策略。任何时刻都有表现最优的资产/策略，媒体会放大这类信息，扰乱心态，导致盲目换仓</p>
+                    <p>2. 禁忌二：过度关注日内行情。量化策略的盈利与日内行情无关，频繁查看行情只会加剧焦虑（如上班看同花顺、半夜看币价）</p>
+                    <p>3. 禁忌三：盲目魔改/停掉策略。因横盘而随意修改策略参数、切换策略，或直接停止策略，会错过后续上涨周期</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>橫盤期正確行動準則</h3>
+                <div class="timeline-content">
+                    <p>1. 基础动作：按方法论一监控策略运行，确保策略无故障，与回测逻辑一致（两周检查一次即可）</p>
+                    <p>2. 核心动作：持续深度研究，多学少动。如同巴菲特研究公司（十年磨一剑），对策略/资产建立深度认知，而非浅尝辄止</p>
+                    <p>3. 关键动作：专注本职工作。投资无法暴富，稳定的现金流、社会价值感、良好人际关系带来的幸福感，远高于盯盘带来的焦虑</p>
+                    <p>4. 实用技巧：限制行情APP打开频率（设复杂密码），避免无效盯盘；新人可适度关注行情建立市场认知，老鸟无需实时关注</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略選擇的長遠視角</h3>
+                <div class="timeline-content">
+                    <p>1. 套利类策略VS波动类策略：短期套利策略（年化20%+、低回撤）看似诱人，但脆弱易失效；波动类策略（如币圈中性策略）虽有横盘/回撤，但长期收益更高、更可持续</p>
+                    <p>2. 核心逻辑：理解策略本质后，波动与横盘不再是风险，而是利润之源。如同段永平持有茅台/腾讯，高波动在其眼中是"直线"</p>
+                    <p>3. 配置建议：策略混合配置（如定风波+风火轮），降低单一策略横盘带来的寂寞感，但高阶投资者可坚守单一策略，体现深度认知</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>核心心態建設</h3>
+                <div class="timeline-content">
+                    <p>1. 接受常态：横盘是投资的必然阶段，无横盘不上涨，习惯寂寞是投资者的必修课</p>
+                    <p>2. 放弃幻想：投资无法短期暴富，单边赌方向可能短期盈利，但长期必亏；套利可短期积累资本，但无法持久</p>
+                    <p>3. 长期视角：投资成功需要时间沉淀，巴菲特60岁后才成名，耐心是投资者的核心品质</p>
+                    <p>4. 理性认知：媒体报道的利好/利空始终存在，只是价格上涨时放大利好，下跌时放大利空，需保持独立判断</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="logic">
+        <h2>底層邏輯與框架</h2>
+        <details>
+            <summary>點擊展開詳情</summary>
+            <div class="details-content">
+                <h3>1. 思維模型</h3>
+                <p>✅ 周期沉澱模型：投资收益=短期波动+长期趋势，横盘是趋势形成前的能量沉淀，无沉淀则无趋势，寂寞是沉淀的必然伴随</p>
+                <p>✅ 認知穿透模型：对策略/资产的认知深度决定了横盘期的心态，认知越浅越焦虑，认知越深越从容（如段永平无视腾讯波动）</p>
+                <p>✅ 行為約束模型：投资盈利的核心是"少犯错"，横盘期的禁忌行为（盲目换仓、频繁盯盘）是亏损的主要来源，需通过规则约束行为</p>
+                <p>✅ 機會成本模型：横盘期专注本职工作/深度研究，其机会成本远低于盲目盯盘/换仓，长期能带来更高回报</p>
+
+                <h3>2. 因果/遞進關係</h3>
+                <p>① 市场规律（资产/策略必有横盘）→ 投资者面临寂寞→ 缺乏认知/约束→ 盲目操作（换仓/停策略）→ 错过上涨→ 亏损</p>
+                <p>② 市场规律（资产/策略必有横盘）→ 投资者面临寂寞→ 建立深度认知→ 坚守正确行动（监控+研究+工作）→ 穿越横盘→ 盈利</p>
+                <p>③ 短期诱惑（套利策略/热门资产）→ 忽视长期可持续性→ 策略失效→ 亏损；长期视角（波动类策略）→ 接受横盘→ 长期盈利</p>
+                <p>④ 信息过载（媒体放大涨跌）→ 情绪波动→ 错误判断→ 寂寞加剧；信息筛选（少看行情/新闻）→ 情绪稳定→ 理性决策</p>
+
+                <h3>3. 關鍵隱喻與案例</h3>
+                <p>🌱 種樹隱喻：策略/资产如同种树，横盘期是扎根阶段，看似无生长，实则在积累养分，扎根越深，后续长得越高（如黄金横盘25年后暴涨）</p>
+                <p>🏃 馬拉松隱喻：投资是马拉松而非百米冲刺，横盘期是中途的匀速阶段，急于冲刺（盲目操作）只会提前耗尽体力，无法到达终点</p>
+                <p>📚 巴菲特案例：巴菲特研究公司往往持续十年，小仓位试探后长期持有，无视短期波动，最终获得超额收益，核心是认知深度+耐心</p>
+                <p>💎 茅台案例：茅台虽有多年横盘，但作为中国最好的公司之一，持续创造价值，长期必然创新高，横盘只是价值积累的过程</p>
+                <p>⚠️ 反面案例：腾讯700元高位买入者因横盘+下跌而割肉，忽视公司核心价值，最终错过反弹，根源是缺乏长期认知和耐心</p>
+            </div>
+        </details>
+    </section>
+
+    <section id="steps">
+        <h2>實作步驟 Checklist</h2>
+        <ul class="checklist">
+            <li>
+                <div>
+                    <span class="param">步驟1：建立"橫盤常態"認知</span>
+                    <p>回顾自身持仓策略/资产的历史表现，标记横盘周期；收集优质资产（如茅台、比特币）的长期走势图，直观感受横盘占比，打破"策略必快速赚钱"的误区</p>
+                    <p class="tools">工具：行情软件（同花顺、币安）、策略回测报告</p>
+                    <p class="pitfall">卡關點：避免只关注上涨阶段，刻意忽视横盘周期，需客观看待历史数据</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟2：制定橫盤期禁忌清單</span>
+                    <p>① 不关注同期暴涨的其他品种/策略；② 不频繁查看日内行情（设APP复杂密码，限制每日打开≤1次）；③ 不盲目魔改策略参数或停止策略；④ 不重仓追高热门资产</p>
+                    <p class="tools">工具：手机设置（APP密码）、便签（禁忌清单贴桌面）</p>
+                    <p class="pitfall">卡關點：情绪上来时容易突破禁忌，需通过物理约束（如密码）而非单纯意志力</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟3：建立策略監控機制</span>
+                    <p>按方法论一设置策略监控清单：① 策略是否正常运行（无报错）；② 选币/调仓逻辑与回测一致；③ 回撤是否在历史合理范围；④ 每两周检查一次，无需实时监控</p>
+                    <p class="tools">工具：实盘框架监控面板、Excel监控表格</p>
+                    <p>

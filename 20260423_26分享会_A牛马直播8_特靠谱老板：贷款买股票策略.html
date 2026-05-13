@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260423_26分享会_A牛马直播8_特靠谱老板：贷款买股票策略</title>
+    <style>
+        :root {
+            --primary: #0F172A;
+            --secondary: #64748B;
+            --light: #F8FAFC;
+            --accent: #2563EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background-color: #F1F5F9;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--accent);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260423_26分享会_A牛马直播8_特靠谱老板：贷款买股票策略</h1>
+            <p>深度解析上市公司贷款回购增持事件的量化策略，涵盖事件研究框架、回测优化、实盘经验与风险提示，适配A股政策驱动型投资场景</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>聚焦2024年10月证监会贷款回购政策，通过事件研究法挖掘上市公司贷款回购公告的超额收益，构建中长期持仓策略，分享从回测到实盘的完整落地经验与避坑指南</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>A股量化投资者、事件驱动策略爱好者、26分享会成员</li>
+                    <li>先備：了解基础量化概念，具备Python基础（爬虫/回测），熟悉彩虹框架基本操作</li>
+                    <li>工具：Python、万德/聚潮公告数据、彩虹策略框架、实盘交易账户</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握事件研究法核心框架（异常收益率AR/累计异常收益率CAR计算），可复用至其他事件分析</li>
+                    <li>获取贷款回购策略最优参数（2W持仓+Offset 0/1+CAR3因子筛选），回测年化收益200%+</li>
+                    <li>吸取实盘教训（心态管理、选股数量衰减、行情适配），规避策略落地常见风险</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 3-5天（数据爬取+策略复现+实盘适配）</p>
+                <p>预期回报：策略回测卡玛值达20，实盘年化收益40%-200%（依赖市场环境），事件驱动策略补充现有量化组合</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">事件驱动</span>
+                <span class="badge badge-warning">政策红利</span>
+                <span class="badge badge-success">实盘落地</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>政策背景与事件定义</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心政策</h4>
+                        <p>2024年10月17日，央行、金融监管总局、证监会联合发布《关于设立股票回购增持再贷款有关事宜的通知》，支持金融机构为上市公司及主要股东提供贷款，专项用于股票回购与增持，推动市值管理。</p>
+                        
+                        <h4>2. 政策核心特点</h4>
+                        <ul>
+                            <li>基本面要求：需符合股份回购规则</li>
+                            <li>专款专用：封闭运行，仅用于回购/增持</li>
+                            <li>低利率：原则上不超过2.25%</li>
+                            <li>政策豁免：豁免信贷资金流入股市的限制</li>
+                        </ul>
+                        
+                        <h4>3. 事件定义与影响</h4>
+                        <p>事件：上市公司发布"贷款回购/增持"相关公告；核心影响：回购减少流通股数→EPS提升，低利率降低成本→股东收益增厚，市场对政策红利反应积极。</p>
+                        
+                        <h4>4. 公告关键信息</h4>
+                        <p>核心要素：贷款金额、回购价格上限、回购数量/比例，其中回购价格上限对股价影响显著（如盛和资源公告回购价≤30元，股价接近后暴跌8%）。</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>数据特征与可行性分析</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 数据范围与统计</h4>
+                        <ul>
+                            <li>时间范围：2024年10月-2026年4月（545天）</li>
+                            <li>事件总量：616个，日均11.13个</li>
+                            <li>事件峰值：2025年4月30日（事件最多）</li>
+                        </ul>
+                        
+                        <h4>2. 事件趋势变化</h4>
+                        <ul>
+                            <li>周频趋势：2024年10月-2025年7月事件较多，2025年8月后每周仅2-3个事件</li>
+                            <li>月频趋势：2025年7月前每月约220个事件，8月后每月仅10个左右，整体呈衰减趋势</li>
+                            <li>衰减原因：市场上涨后公司回购意愿降低、政策红利边际递减</li>
+                        </ul>
+                        
+                        <h4>3. 数据获取途径</h4>
+                        <ul>
+                            <li>核心数据：股票代码、公告日期（仅需这两项即可构建基础策略）</li>
+                            <li>扩展数据：贷款期限、股息、总市值、行业（用于优化筛选）</li>
+                            <li>获取渠道：万德（数据最全）、聚潮资讯（可爬虫抓取）、东方财富网</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>事件研究法核心框架</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心概念定义</h4>
+                        <ul>
+                            <li>异常收益率（AR）：个股实际收益率 - 预期收益率（预期收益率通过市场模型估算）</li>
+                            <li>平均异常收益率（AAR）：多个标的AR的平均值</li>
+                            <li>累计异常收益率（CAR）：特定时间段内每日AR的累加值，衡量事件长期影响</li>
+                        </ul>
+                        
+                        <h4>2. 预期收益率估算（市场模型法）</h4>
+                        <ol>
+                            <li>估算窗口：事件日前250个交易日至前30个交易日</li>
+                            <li>市场基准：沪深300指数收益率（R_M）</li>
+                            <li>线性回归：通过个股收益率（R_I）与R_M回归，得到阿尔法（超额收益）和贝塔（市场敏感度），公式：R_I = α + β×R_M + ε（ε为扰动项）</li>
+                            <li>预期收益计算：基于回归得到的α和β，结合实时R_M计算E(R_I)</li>
+                        </ol>
+                        
+                        <h4>3. 事件窗口分析</h4>
+                        <ul>
+                            <li>短期窗口（T-10至T+10）：T-1至T+1有显著正超额（可能存在信息泄露），T+2出现负向回调（短期获利了结），中长期仍有正超额</li>
+                            <li>长期窗口（1月/2月/3月）：持有时间越长，累计异常收益越高，胜率、盈亏比、预期收益均随持有期提升</li>
+                            <li>核心结论：事件适合中长期策略，放弃短期信息泄露红利（普通投资者无法把握）</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略构建与优化过程</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 基础策略（机械策略）</h4>
+                        <ul>
+                            <li>规则：月持仓，检测前一个月所有贷款回购公告，等额买入对应个股</li>
+                            <li>表现：年化收益40%，2025年3月后开始跑赢中证1000/沪深300</li>
+                        </ul>
+                        
+                        <h4>2. 持仓周期优化</h4>
+                        <p>测试不同持仓周期后，确定最优参数：2W（两周持仓）+ Offset 0/1，卡玛值达3.9，年化收益47.51%，显著优于月持仓。</p>
+                        
+                        <h4>3. CAR3因子筛选优化</h4>
+                        <ul>
+                            <li>因子定义：CAR3 = T-1至T+1期间的累计异常收益率（衡量市场对事件的短期反应强度）</li>
+                            <li>筛选规则：按CAR3分桶，仅买入头部分桶（市场反应最强）的个股</li>
+                            <li>优化效果：年化收益飙升至200%+，卡玛值达20，无未来函数，策略表现炸裂</li>
+                        </ul>
+                        
+                        <h4>4. 策略核心逻辑</h4>
+                        <p>强者恒强：短期市场反应强烈的贷款回购个股，中长期超额收益更显著；通过CAR3因子筛选，剥离市场反应弱的标的，提升策略有效性。</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>实盘经验与心态管理</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 实盘时间线与表现</h4>
+                        <ul>
+                            <li>启动阶段（2025年10-11月）：初期有小幅盈利，随后进入漫长回撤</li>
+                            <li>回撤阶段（2025年11月-2026年1月）：持续横盘/下跌，同期大盘表现差，策略无选股（公告减少）</li>
+                            <li>反弹阶段（2026年2-4月）：策略触发买入信号（如金开新能、眼眶能源、新朋股份），但因心态问题未执行，错失收益</li>
+                        </ul>
+                        
+                        <h4>2. 核心实盘教训</h4>
+                        <ol>
+                            <li>策略信仰缺失：纯程序员背景，对财务/市场逻辑理解不足，回撤期怀疑策略有效性</li>
+                            <li>心态管理失效：长期回撤导致信心崩溃，错过反弹阶段的买入信号</li>
+                            <li>执行一致性不足：边旅游边实盘，网络不稳定，策略运行断断续续</li>
+                            <li>选股数量衰减：2026年后公告极少，策略无足够标的可买，影响实盘落地</li>
+                        </ol>
+                        
+                        <h4>3. 实盘执行建议</h4>
+                        <ul>
+                            <li>操作频率：每周抽固定时间运行策略，手工买入（事件频率低，无需自动交易）</li>
+                            <li>资金分配：选股数量少，采用等额分配仓位</li>
+                            <li>心态建设：理解策略底层逻辑，回撤期坚定持有，避免因情绪放弃信号</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>策略风险与限制</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心风险提示</h4>
+                        <ul>
+                            <li>回测时间短：策略基于2024年10月后数据，未穿越完整牛熊周期，行情适配性存疑</li>
+                            <li>公告数量衰减：2025年8月后事件急剧减少，策略容量小，资金量大的投资者无法参与</li>
+                            <li>政策风险：贷款回购政策可能取消或调整，导致事件消失</li>
+                            <li>个股风险：部分标的可能存在回购不及预期、业绩暴雷等问题，影响组合表现</li>
+                        </ul>
+                        
+                        <h4>2. 失败案例参考</h4>
+                        <p>对预增、定增等公告的事件研究效果极差，仅贷款回购公告具备显著超额收益，说明事件驱动策略需精准选择事件类型。</p>
+                        
+                        <h4>3. 策略适用场景</h4>
+                        <p>适合小资金参与（单策略资金量建议≤50万），作为量化组合的补充策略，而非核心策略；市场低位时公告数量较多，策略效果更优。</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：政策红利+事件驱动+强者恒强</h3>
+                <p>贷款回购策略的本质是捕捉政策红利带来的市场情绪溢价与基本面改善：政策支持降低上市公司回购成本（低利率），回购行为直接提升EPS（减少流通股），形成双重利好；叠加"强者恒强"逻辑（短期市场反应强烈的标的中长期表现更优），通过CAR3因子筛选强化信号，提升策略胜率与收益。</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>政策出台→上市公司发布贷款回购公告→市场情绪反应（短期上涨）→基本面改善（长期EPS提升）→超额收益产生；策略层面：事件筛选（贷款回购）→预期收益估算（市场模型）→异常收益计算（AR/CAR）→因子筛选（CAR3）→持仓优化（2W周期）→实盘落地，每一步均为前一步的强化，最终实现收益放大。</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「政策红包隐喻」：贷款回购政策如同监管发放的"投资红包"，上市公司通过低息贷款回购股票，股东间接受益；案例：新朋股份公告后策略触发买入信号，若坚定执行可获得显著收益，而因心态问题错失机会，印证了"策略落地比回测更重要"。</p>
+                
+                <h3>4. 事件研究法底层逻辑</h3>
+                <p>事件研究法的核心是剥离市场整体波动的影响，精准衡量特定事件对个股的独立冲击。通过构建估算窗口（分离正常收益）与事件窗口（捕捉异常收益），利用统计学方法（线性回归）量化事件影响，该框架可复用至业绩预告、并购重组、政策出台等各类事件分析，具备极强的通用性。</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：数据获取与预处理</strong>
+                    <p>1.1 选择数据来源：万德（付费，数据全）或聚潮资讯（免费，需爬虫）；1.2 编写爬虫代码：爬取"贷款回购/增持"相关公告，提取股票代码、公告日期（核心字段），可选行业、回购价格等扩展字段；1.3 数据清洗：剔除重复公告、无效公告（如未明确贷款用途的公告），按公告日期排序。</p>
+                    <div class="note">卡關點：聚潮资讯爬虫需模拟浏览器请求，避免被封IP；彩虹框架公告数据覆盖不全，不建议直接使用</div>
+                </li>
+                <li>
+                    <strong>步骤2：事件研究法实现（Python）</strong>
+                    <p>2.1 计算预期收益率：选择沪深300作为基准，构建市场模型，通过线性回归得到个股α和β；2.2 计算异常收益率（AR）：AR = 个股实际收益率 - 预期收益率；2.3 计算累计异常收益率（CAR）：按事件日对齐（T0为公告日），计算T-1至T+1的CAR3；2.4 分桶分析：按CAR3分桶，验证头部分桶的超额收益显著性。</p>
+                </li>
+                <li>
+                    <strong>步骤3：策略参数优化</strong>
+                    <p>3.1 持仓周期测试：测试1W、2W、月持仓等周期，确定最优周期为2W；3.2 Offset优化：测试Offset 0-3，确定最优为0和1；3.3 筛选条件设置：仅保留CAR3头部分桶个股（如前20%）；3.4 回测验证：回测2024年10月至今数据，验证年化收益、最大回撤、卡玛值等指标。</p>
+                </li>
+                <li>
+                    <strong>步骤4：彩虹框架适配</strong>
+                    <p>4.1 因子编写：将CAR3因子、公告日期筛选逻辑写入彩虹框架；4.2 策略配置：设置持仓周期2W、Offset 0/1、选股数量（填20，因实际数量少）、资金等额分配；4.3 回测对比：对比彩虹数据与自建数据的回测效果，若差异较大，优先使用自建数据。</p>
+                    <div class="note">卡關點：彩虹数据公告覆盖不全，需手动补充关键公告，避免策略失效</div>
+                </li>
+                <li>
+                    <strong>步骤5：实盘部署与监控</strong>
+                    <p>5.1 资金准备：单策略资金建议≤50万，避免选股数量少导致的集中度风险；5.2 执行频率：每周固定时间运行策略，手工买入筛选后的个股；5.3 持仓管理：按2W周期持有，到期自动卖出，无需额外止盈止损；5.4 动态监控：跟踪公告数量变化，若连续多周无事件，暂停策略。</p>
+                </li>
+                <li>
+                    <strong>步骤6：风险控制与优化</strong>
+                    <p>6.1 分散持仓：若选股数量≥2，等额分配资金，降低个股风险；6.2 行情适配：市场高位时减少资金投入，低位时加大配置；6.3 策略迭代：若公告数量持续衰减，可尝试加入行业筛选、回购比例筛选等优化条件。</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 爬虫代码可利用Cloud Code快速生成，核心需模拟用户浏览行为（设置User-Agent、控制请求频率），聚潮资讯的公告列表页结构简单，爬虫开发难度低，可直接复用至其他公告类型爬取。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 实盘前务必验证策略无未来函数，重点检查CAR3因子计算是否使用了事件后的信息；回测时需加入手续费（建议万5）和滑点（建议0.5%），避免高估策略表现。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 可通过AI工具优化因子筛选逻辑，例如加入回购价格与当前股价的比值（低于1.1倍更优）、公司市值（中小市值超额更显著）等条件，进一步提升策略有效性。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 策略依赖政策持续性，建议关注证监会官网的政策动态，若出现政策调整（如取消贷款支持），需立即停止策略，避免重大损失。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 心态管理是实盘关键，可设置策略执行日志，强制按信号操作，避免情绪干扰；回撤期可降低单策略资金占比，通过组合其他策略分散风险。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 若公告数量过少，可扩展事件范围至"自筹资金回购"公告，通过同样的事件研究框架验证收益，丰富策略标的池。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

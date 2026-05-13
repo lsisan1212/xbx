@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260409_26分享会策略直播10_–_夏普：凌烟阁择时指标超详细介绍（新手向</title>
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --secondary: #64748B;
+            --light: #F8FAFC;
+            --dark: #1E293B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #F1F5F9;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260409_26分享会策略直播10_–_夏普：凌烟阁择时指标超详细介绍（新手向</h1>
+            <p>面向新手的凌烟阁择时指标全解析，涵盖7个核心指标（3趋势+3反转+1论坛优质指标），含计算逻辑、使用方法与实操工具，轻松入门量化择时</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>以新手易懂的方式拆解凌烟阁7大择时指标，从定义、计算、使用到特点全面覆盖，搭配Excel演示与可视化工具，降低量化择时入门门槛</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>量化新手、对凌烟阁择时指标感兴趣的分享会同学</li>
+                    <li>先備：基础Excel操作能力，了解K线、收盘价等基础概念</li>
+                    <li>工具：Excel、Python环境（可选）、量化回测框架（彩虹客户端）</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握7大择时指标（MA/海龟/布林带/RSV/KDJ/CCIQ/回撤指标）的核心逻辑与计算方法</li>
+                    <li>学会指标实操使用（开仓/平仓条件）与可视化工具运用</li>
+                    <li>明确不同指标特点与适用场景，为组合择时奠定基础</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 1-2天（Excel实操+工具使用）</p>
+                <p>预期回报：独立运用择时指标优化策略，趋势类指标混合夏普比率可达1.9+，反转类KDJ表现最优</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">择时指标</span>
+                <span class="badge badge-warning">新手入门</span>
+                <span class="badge badge-success">量化实操</span>
+                <span class="badge badge-secondary">低难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>趋势类指标（3个）：MA（均线）</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 定义</h4>
+                        <p>过去N个周期收盘价的平均值连成的线，被誉为"技术指标之王"，衍生出SMA、EMA、WMA等多种算法，课程聚焦最简单的MA（等权平均）</p>
+                        
+                        <h4>2. 计算方法</h4>
+                        <p>MA(N) = 最近N个周期收盘价之和 / N（需使用复权价格）</p>
+                        <p>示例：MA12 = 过去12小时收盘价平均值，Excel公式：=AVERAGE(E2:E13)</p>
+                        
+                        <h4>3. 使用规则</h4>
+                        <ul>
+                            <li>开仓：收盘价 > MA（认为价格上涨）</li>
+                            <li>平仓：收盘价 < MA（认为价格下跌）</li>
+                            <li>信号输出：1=开仓，0=空仓</li>
+                        </ul>
+                        
+                        <h4>4. 特点</h4>
+                        <ul>
+                            <li>小参数（如MA5）：紧跟行情，但易受异常值影响</li>
+                            <li>大参数（如MA20）：抗干扰能力强，但行情反应滞后</li>
+                            <li>长趋势行情中持仓稳定性好，震荡行情易频繁切换信号</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>趋势类指标（3个）：海龟择时</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 定义</h4>
+                        <p>基于价格突破的趋势追踪策略，源自《海龟交易法则》，核心是追踪最近N个周期的最高价与最低价，判断价格突破方向</p>
+                        
+                        <h4>2. 计算方法</h4>
+                        <ul>
+                            <li>最高价线：截止到上一根K线的最近N个周期最高价（如24小时）</li>
+                            <li>最低价线：截止到上一根K线的最近M个周期最低价（如48小时）</li>
+                            <li>参数N、M可自定义，无固定标准</li>
+                        </ul>
+                        
+                        <h4>3. 使用规则</h4>
+                        <ul>
+                            <li>开仓：当前价格 > 上一根K线的N周期最高价（突破新高，预期上涨）</li>
+                            <li>平仓：当前价格 < 上一根K线的M周期最低价（突破新低，预期下跌）</li>
+                        </ul>
+                        
+                        <h4>4. 特点</h4>
+                        <ul>
+                            <li>自带波动管理：波动小时（两条线距离近）交易频繁，波动大时（两条线距离远）交易稀少</li>
+                            <li>参数影响交易频率：小参数交易频繁，大参数交易稀疏</li>
+                            <li>趋势类指标中表现最优，混合参数夏普比率优于MA和布林带</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>趋势类指标（3个）：布林带</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 定义</h4>
+                        <p>基础通道类择时策略，由均线和上下轨构成价格通道，上轨=均线+M倍标准差，下轨=均线-M倍标准差</p>
+                        
+                        <h4>2. 计算方法</h4>
+                        <ul>
+                            <li>第一步：计算MA（如MA40，最近40周期收盘价平均值）</li>
+                            <li>第二步：计算最近40周期收盘价的标准差（STD）</li>
+                            <li>第三步：上轨=MA40 + M×STD，下轨=MA40 - M×STD（推荐M=0.5-1.3）</li>
+                        </ul>
+                        
+                        <h4>3. 使用规则</h4>
+                        <ul>
+                            <li>开仓：价格 > 上轨（突破上轨，预期上涨）</li>
+                            <li>平仓：价格 < 下轨（突破下轨，预期下跌）</li>
+                            <li>空值处理：延续之前的信号（1延续为1，0延续为0）</li>
+                        </ul>
+                        
+                        <h4>4. 特点</h4>
+                        <ul>
+                            <li>自带波动适应：波动大时通道变宽，波动小时通道变窄</li>
+                            <li>M值决定通道宽度：M越小交易越频繁，M越大交易越稀少</li>
+                            <li>基于正态分布：M=1时，68.2%的价格在通道内；M=2时，95.4%的价格在通道内</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>反转类指标（3个）：RSV</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 定义</h4>
+                        <p>衡量当前价格相对于历史价格的水平，取值范围0-100，越接近0价格越低，越接近100价格越高</p>
+                        
+                        <h4>2. 计算方法</h4>
+                        <p>RSV = （当前收盘价 - 最近N周期最低价） / （最近N周期最高价 - 最近N周期最低价）× 100</p>
+                        <p>注：最高价与最低价均截止到当前K线，且参数N一致（区别于海龟择时）</p>
+                        
+                        <h4>3. 使用规则</h4>
+                        <ul>
+                            <li>开仓：RSV < 10（价格处于低位，预期反弹）</li>
+                            <li>平仓：RSV > 90（价格处于高位，预期下跌）</li>
+                        </ul>
+                        
+                        <h4>4. 特点</h4>
+                        <ul>
+                            <li>适合大参数：小参数表现差，参数≥600后表现稳定，1000以上参数平面基本无变化</li>
+                            <li>纯反转逻辑：仅基于价格高低位判断，无趋势过滤</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>反转类指标（3个）：KDJ</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 定义</h4>
+                        <p>RSV的进阶版本，通过对RSV和K值分别计算均线，加入趋势过滤，形成"反转+趋势"的复合逻辑</p>
+                        
+                        <h4>2. 计算方法</h4>
+                        <ul>
+                            <li>第一步：按RSV公式计算RSV值（0-100）</li>
+                            <li>第二步：K值 = 最近N周期RSV的平均值（如12周期）</li>
+                            <li>第三步：D值 = 最近N周期K值的平均值（如12周期）</li>
+                        </ul>
+                        
+                        <h4>3. 使用规则</h4>
+                        <ul>
+                            <li>开仓：RSV < 10（价格低位）且K上穿D（上涨趋势）</li>
+                            <li>平仓：RSV > 90（价格高位）且K下穿D（下跌趋势）</li>
+                        </ul>
+                        
+                        <h4>4. 特点</h4>
+                        <ul>
+                            <li>反转+趋势复合：既捕捉低位反转机会，又通过K/D交叉过滤虚假信号</li>
+                            <li>反转类指标中表现最优：小市值和凯师傅策略中均有出色表现</li>
+                            <li>信号更稳健：相比RSV，减少盲目抄底/逃顶的失误</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>反转类指标（3个）：CCIQ</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 定义</h4>
+                        <p>衡量当前价格偏离度在历史上的分位水平，取值0-1，越接近0偏离度越小，越接近1偏离度越大</p>
+                        
+                        <h4>2. 计算方法（多步骤）</h4>
+                        <ul>
+                            <li>第一步：计算典型价格TP = （最高价+最低价+收盘价）/ 3</li>
+                            <li>第二步：计算最近M周期TP的平均值（TM）</li>
+                            <li>第三步：计算最近M周期TP与TM的绝对偏离值，再求平均值（TTPMD）</li>
+                            <li>第四步：CCI = （当前TP - TM） / TTPMD × 0.015（0.015为缩放系数，可省略）</li>
+                            <li>第五步：CCIQ = CCI在最近180/250周期的分位值（rank）</li>
+                        </ul>
+                        
+                        <h4>3. 使用规则（配合RSV）</h4>
+                        <ul>
+                            <li>开仓：RSV < 10（价格低位）且CCIQ < 0.1（严重低估）</li>
+                            <li>平仓：RSV > 90（价格高位）且CCIQ > 0.9（严重高估）</li>
+                        </ul>
+                        
+                        <h4>4. 特点</h4>
+                        <ul>
+                            <li>逻辑复杂：需多步骤计算，核心是"价格低位+严重低估"双重确认</li>
+                            <li>反转+趋势复合：通过偏离度过滤，避免在低位震荡中盲目开仓</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>论坛优质指标：回撤择时指标</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 定义</h4>
+                        <p>基于价格回撤幅度的择时策略，核心是规避快速暴跌风险，对阴跌不敏感，源自团队作业帖（强力苏打水老板）</p>
+                        
+                        <h4>2. 计算方法</h4>
+                        <p>回撤幅度 = （最近N周期最高价 - 当前收盘价） / 最近N周期最高价 × 100%</p>
+                        <p>示例：N=4时，最近4小时最高价9.99，当前收盘价9.46，回撤幅度=（9.99-9.46）/9.99≈5.3%</p>
+                        
+                        <h4>3. 使用规则</h4>
+                        <ul>
+                            <li>开仓：回撤幅度 < 2%（情绪恢复，风险可控）</li>
+                            <li>平仓：回撤幅度 > 4%（快速暴跌，规避风险）</li>
+                        </ul>
+                        
+                        <h4>4. 特点</h4>
+                        <ul>
+                            <li>聚焦暴跌规避：历史数据证明，快速下跌往往引发更大幅度回调，阴跌影响有限</li>
+                            <li>大部分时间持仓：仅在快速暴跌时平仓，不影响正常趋势中的持仓收益</li>
+                            <li>逻辑支撑：底层数据显示，标普500历史上的剧烈下跌多由快速下跌引发</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>可视化工具与指标对比</h3>
+                <div class="timeline-content">
+                    <h4>1. 可视化工具（AI编写纯前端代码）</h4>
+                    <ul>
+                        <li>功能：展示K线、多指标曲线（MA/海龟/布林带等）、开仓/平仓信号（红点=开仓，绿点=平仓）</li>
+                        <li>使用方法：配置小时数据路径、股票代码、时间范围，定义指标计算逻辑和信号规则，自动生成带背景色（红=持仓，绿=空仓）的可视化图表</li>
+                        <li>优势：支持放大缩小，信号清晰直观，降低指标验证门槛</li>
+                    </ul>
+                    
+                    <h4>2. 指标表现对比</h4>
+                    <ul>
+                        <li>趋势类：海龟 > 布林带 > MA（小市值混合参数夏普比率：海龟最优，MA可达1.9）</li>
+                        <li>反转类：KDJ > CCIQ > RSV（KDJ在小市值和凯师傅策略中表现均最优）</li>
+                        <li>核心结论：多指标混合覆盖更稳定，趋势类需区分大小参数，反转类优先选择KDJ</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>后续计划与团队任务</h3>
+                <div class="timeline-content">
+                    <h4>1. 精心随机包</h4>
+                    <ul>
+                        <li>小市值随机包：6个小市值策略+灵岩阁择时（大参数趋势+小参数趋势+反转），单包资金2万</li>
+                        <li>灵岩阁1.1随机包：6个策略+3个择时指标（大小参数趋势+反转），单包资金23万</li>
+                        <li>中市值随机包：凯师傅+付旗舰+灵岩阁择时，单包资金46万（付旗舰一周内上线）</li>
+                    </ul>
+                    
+                    <h4>2. 团队任务</h4>
+                    <ul>
+                        <li>凌烟阁旗舰船队（适合所有层级）：任务1（回测与实盘对比）、任务2（指标实现）、任务3（指标魔改），完成任意1个退保证金，多完成多分红</li>
+                        <li>选股团队（适合进阶用户）：任务1（魔改凯师傅）、任务2（魔改付旗舰），完成任意1个退保证金+分红，双任务完成分红更高</li>
+                        <li>报名方式：选股团队报名链接次日由林奇发群内，船队帖子可通过群公告查看（帖子ID：76971）</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：趋势追踪与反转捕捉</h3>
+                <p>择时指标本质分为两类：趋势类（追踪已形成的趋势，买在右侧）和反转类（捕捉价格极值后的反转，偏左侧）。趋势类通过均线、价格突破等确认趋势方向，反转类通过价格分位、偏离度等判断极值，两者结合可覆盖不同行情场景。</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>新手入门需简单易懂的指标→选择MA、海龟、RSV等基础指标→复杂指标（KDJ/CCIQ）在基础指标上增加过滤条件→工具可视化降低实操门槛→多指标混合覆盖降低单一指标风险→团队任务强化实操与魔改能力，形成"入门-进阶-实战"的完整路径。</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「海龟交易隐喻」：普通人通过固定规则可成为优秀交易者，如同海龟可被批量培养，证明量化规则的有效性；案例：海龟指标在趋势行情中仅需1-2次交易即可捕捉大部分涨幅，波动大时自动减少交易，避免盲目操作。</p>
+                
+                <h3>4. 指标选择底层逻辑</h3>
+                <p>指标选择需匹配行情特征：趋势明确时用MA/海龟/布林带，震荡行情中反转类指标更优；参数选择需平衡灵敏度与稳定性：小参数适合震荡，大参数适合趋势；核心原则是"简单有效"，复杂指标不一定优于基础指标（如MA虽简单，但仍是核心基础）。</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：基础工具准备与数据获取</strong>
+                    <p>1.1 安装Excel（计算验证）、Python环境（可选，运行可视化工具）、彩虹客户端（回测）；1.2 获取股票/币圈小时级数据（含时间、开盘价、收盘价、最高价、最低价），确保数据已复权；1.3 下载直播配套Excel表格和可视化工具代码（直播后发放）。</p>
+                    <div class="note">卡關點：数据需复权，否则计算结果会失真；可视化工具需配置数据路径，纯前端代码无需额外画图库</div>
+                </li>
+                <li>
+                    <strong>步骤2：单个指标计算与验证（Excel实操）</strong>
+                    <p>2.1 趋势类指标：按公式计算MA（如MA12）、海龟最高价/最低价、布林带上下轨，对比Excel自带函数结果；2.2 反转类指标：计算RSV、KDJ（K/D值）、CCIQ（多步骤），验证取值范围（0-100或0-1）；2.3 回撤指标：计算最近N周期最高价与回撤幅度，确认平仓/开仓条件触发逻辑。</p>
+                </li>
+                <li>
+                    <strong>步骤3：指标信号生成与可视化</strong>
+                    <p>3.1 在Excel中编写信号公式（如MA：=IF(收盘价>MA12,1,0)），生成0/1信号列；3.2 配置可视化工具：输入数据路径、股票代码、时间范围，定义指标计算逻辑和信号规则；3.3 运行工具，查看K线、指标曲线与信号点（红点/绿点），验证信号与行情的匹配度。</p>
+                </li>
+                <li>
+                    <strong>步骤4：多指标混合与回测</strong>
+                    <p>4.1 趋势类混合：选择MA（小参数）+ 海龟（中参数）+ 布林带（大参数），按等权或优化权重组合；4.2 反转类混合：选择KDJ + CCIQ，叠加RSV过滤条件；4.3 在彩虹客户端导入混合策略，回测小市值/凯师傅等选股策略，对比单一指标与混合指标的夏普比率、最大回撤。</p>
+                    <div class="note">卡關點：混合时需注意指标风格互补，避免同类指标过度叠加（如MA与布林带均属趋势类，权重需合理分配）</div>
+                </li>
+                <li>
+                    <strong>步骤5：团队任务参与与指标魔改</strong>
+                    <p>5.1 选择凌烟阁旗舰船队或选股团队，查看对应任务要求；5.2 完成基础任务（如回测与实盘对比、指定指标实现），发布帖子获取保证金退还资格；5.3 进阶任务：参考回撤指标思路，魔改现有指标（如给KDJ增加回撤过滤），提升策略稳定性。</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 新手入门优先掌握MA、海龟、RSV三个基础指标，这三个指标覆盖趋势与反转核心逻辑，计算简单且实操性强，后续再学习KDJ、CCIQ等复杂指标。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 指标参数并非固定值，需根据标的特性调整：A股小市值策略适合MA12/36/100混合，币圈波动大适合海龟大参数（如最高价48小时、最低价72小时），避免直接套用默认参数。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 可视化工具是验证指标的关键，建议优先用工具查看信号与行情的匹配度，再进行回测，可快速排除逻辑错误（如信号触发时机错误、参数设置不合理）。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 反转类指标需搭配风控，如RSV<10开仓后，可设置止损线（如跌破开仓价5%强制平仓），避免抄底失败导致大幅亏损；KDJ的K/D交叉信号需与RSV极值条件同时满足，减少虚假信号。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 团队任务是提升实操能力的核心，建议优先完成指标实现任务，通过手动计算和代码编写，深化对指标逻辑的理解，为后续魔改和组合策略奠定基础。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 多指标混合时，可通过夏普比率加权分配权重，表现最优的指标（如海龟、KDJ）可分配更高权重（如40%），其他指标分配20%-30%，平衡收益与稳定性。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260411_26分享会_B圈框架船队_学废菌：B圈回测实盘对比工具指南</title>
+    <style>
+        :root {
+            --primary: #165DFF;
+            --secondary: #6E7891;
+            --light: #F5F7FA;
+            --dark: #1D2129;
+            --success: #00B42A;
+            --warning: #FF7D00;
+            --danger: #F53F3F;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #F0F2F5;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260411_26分享会_B圈框架船队_学废菌：B圈回测实盘对比工具指南</h1>
+            <p>B圈新一代回测实盘对比工具全攻略，含环境准备、数据对齐、工具操作与差异分析，助力完成船队作业与策略验证</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>针对B圈量化用户，提供「网页版+代码版」双端回测实盘对比工具使用指南，解决选币/因子值/资金曲线差异问题，适配沧浪亭等策略，支持船队作业落地</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>B圈量化投资者、B圈框架船队成员（需完成作业一）</li>
+                    <li>先備：熟悉B圈量化框架使用，了解实盘/回测基础逻辑，会基础文件操作</li>
+                    <li>工具：最新版回测框架（1.4.3+）、实盘框架（1.4.4+）、数据中心（1.1.11+）、Termius/FTP工具</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握工具使用全流程（环境升级→数据准备→对比操作→差异分析）</li>
+                    <li>理解回测与实盘差异核心原因（数据时差/Delist拉黑/参数配置等）</li>
+                    <li>学会用工具验证策略有效性，高效完成船队作业一</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 2-3天（环境升级+实盘跑数+对比分析）</p>
+                <p>预期回报：快速定位回测实盘差异，对比准确率达90%+，高效完成船队作业并优化策略</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">量化工具</span>
+                <span class="badge badge-warning">实盘验证</span>
+                <span class="badge badge-success">船队作业</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>工具核心升级与环境准备要求</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 工具升级亮点</h4>
+                        <ul>
+                            <li>对比维度：覆盖资金曲线、币种池、选币结果、因子值、仓位比例5大维度</li>
+                            <li>操作体验：网页版可视化操作，支持时间轴缩放、子策略单独对比，无需手动配置路径</li>
+                            <li>数据处理：实盘数据自动打包为ZIP包（每小时更新，保留3天），回测自动生成选币结果CSV</li>
+                        </ul>
+                        
+                        <h4>2. 必须升级的核心组件</h4>
+                        <ul>
+                            <li>回测框架：≥1.4.3（支持生成选币结果CSV）</li>
+                            <li>实盘框架：≥1.4.4（支持自动打包实盘数据）</li>
+                            <li>数据中心：≥1.1.11（避免币种对不上问题）</li>
+                            <li>网页版：回测网页版≥0.1.7/0.2.0，实盘网页版≥0.5.2（含新参数设置）</li>
+                        </ul>
+                        
+                        <h4>3. 策略包准备</h4>
+                        <ul>
+                            <li>官方策略：下载沧浪亭26年V2版精心随机策略包</li>
+                            <li>自定义策略：从实盘account目录复制Config文件到回测框架，确保配置一致</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>数据准备关键细节（时差+偏移处理）</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 数据时差核心规则</h4>
+                        <ul>
+                            <li>回测数据：网页版下载数据截止时间为每日UTC 23点（北京时间次日7点），比实盘晚6-8小时</li>
+                            <li>实盘数据：ZIP包为北京时间每日更新，保存过去7天数据，需手动下载到回测框架data/选币对比目录</li>
+                            <li>分钟偏移数据：需手动下载（支持365天数据，每日更新），每7天下载一次，适配分钟偏移策略对比</li>
+                        </ul>
+                        
+                        <h4>2. 数据对齐要求</h4>
+                        <p>实盘需提前跑1.5-3天，确保回测数据与实盘数据时间覆盖一致（因24小时Offset持仓策略需提前1天数据计算）</p>
+                        
+                        <h4>3. 特殊数据处理</h4>
+                        <ul>
+                            <li>传统金融币：回测需开启「拉黑传统金融币」开关（block_traditional_finance=True），实盘默认拉黑</li>
+                            <li>Delist下架币：实盘自动拉黑，回测需手动将data/delist.json中的币种添加到黑名单</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>回测与实盘数据生成步骤</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 回测数据生成</h4>
+                        <ul>
+                            <li>参数设置：开启「拉黑传统金融币」+ 设置回看天数（建议7天，Lookback_Days=7），保存选币结果CSV</li>
+                            <li>分钟偏移配置：代码版设置Hour_Offset参数，更新预处理数据与第三方数据路径</li>
+                            <li>运行回测：导入策略后运行main.py，选币结果CSV保存在子策略回测结果目录下</li>
+                        </ul>
+                        
+                        <h4>2. 实盘数据生成</h4>
+                        <ul>
+                            <li>参数设置：实盘网页版设置回看天数（7天），代码版在框架Config中配置Lookback参数</li>
+                            <li>数据打包：最新实盘框架每小时生成ZIP包，存储在data/Real_time_data目录，仅实盘交易有效（模拟盘不可用）</li>
+                            <li>数据下载：用Termius/FTP工具下载ZIP包，保存到回测框架data/选币对比目录</li>
+                        </ul>
+                        
+                        <h4>3. 关键注意事项</h4>
+                        <p>实盘数据ZIP包仅占14-几十兆，对比完成后可手动删除旧数据；避免长期开启回看功能，占用存储</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>网页版工具对比操作全流程</h3>
+                <div class="timeline-content">
+                    <ol>
+                        <li>工具部署：下载对比脚本，放入回测框架tools目录</li>
+                        <li>参数配置：启动回测网页版，进入「对比分析」模块，选择要对比的回测策略与实盘ZIP包</li>
+                        <li>生成结果：点击「生成对比数据」，自动解压ZIP包并完成5大维度对比</li>
+                        <li>结果查看：
+                            <ul>
+                                <li>总览：查看对比评分（90+分为优）、雷达图与资金曲线差异</li>
+                                <li>细节：币种池对比（排查传统币/Delist币差异）、选币对比（定位差异时间点）、因子值对比（筛选差异因子）</li>
+                                <li>子策略：单独查看多头/空头组合的仓位比例与资金曲线</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>代码版工具使用（备选方案）</h3>
+                <div class="timeline-content">
+                    <ul>
+                        <li>前置准备：实盘跑数≥3天，下载ZIP包并解压到data/选币对比/[策略名]目录（策略名需与回测一致）</li>
+                        <li>参数配置：在对比脚本中设置backtest_name（与回测Config中名称一致）</li>
+                        <li>运行脚本：执行对比脚本，生成HTML结果文件（存储在对比目录下）</li>
+                        <li>特点：功能与网页版一致，界面简化，适合习惯代码操作的用户，可自主魔改功能</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>回测与实盘差异核心原因分析</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 数据层面差异</h4>
+                        <ul>
+                            <li>时间差：回测数据比实盘晚6-8小时，24小时Offset策略需提前1天数据，导致回测最后1天空仓</li>
+                            <li>数据源：回测用网页版下载数据，实盘用实时数据，分钟偏移数据需手动同步</li>
+                        </ul>
+                        
+                        <h4>2. 配置层面差异</h4>
+                        <ul>
+                            <li>拉黑规则：实盘自动拉黑传统金融币/Delist下架币，回测需手动开启开关/添加黑名单</li>
+                            <li>参数不一致：Mini K线设置、K线获取数量、分钟偏移、仓位比例等Config参数不统一</li>
+                            <li>因子代码：因子名称一致但代码内容不同，导致因子值计算差异</li>
+                        </ul>
+                        
+                        <h4>3. 交易层面差异</h4>
+                        <ul>
+                            <li>滑点影响：实盘非整点下单（延迟2-3分钟），选币数量越少滑点影响越大</li>
+                            <li>手续费：实盘账户手续费设置与回测默认值不同</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>船队作业一完成要点</h3>
+                <div class="timeline-content">
+                    <ul>
+                        <li>作业要求：用对比工具分析实盘与回测差异，截图关键对比结果，推测差异原因</li>
+                        <li>关键步骤：
+                            1. 实盘跑策略≥3天，下载ZIP包；
+                            2. 回测配置与实盘一致（拉黑规则/参数/因子）；
+                            3. 生成对比结果，重点截图资金曲线与选币差异；
+                            4. 结合工具分析，指出差异核心原因（如Delist拉黑/数据时差）</li>
+                        <li>加分项：提出差异解决方案（如手动同步Delist黑名单、统一参数配置）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>工具使用常见问题与解决方案</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <ul>
+                            <li>问题1：对比无结果→解决方案：检查回测与实盘策略名称一致，实盘数据ZIP包路径正确，实盘跑数≥1.5天</li>
+                            <li>问题2：币种池差异大→解决方案：回测开启传统金融币拉黑开关，手动添加Delist币到黑名单</li>
+                            <li>问题3：资金曲线差异大→解决方案：核对分钟偏移参数，检查K线获取数量是否满足因子计算需求，排查滑点影响</li>
+                            <li>问题4：子策略无法单独对比→解决方案：将Dictator按子策略拆分（如多头大学生/四龙分开），仓位比例对应配置</li>
+                            <li>问题5：代码版生成失败→解决方案：确保对比目录结构正确（data/选币对比/[策略名]/实盘数据）</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：闭环验证与差异定位</h3>
+                <p>量化策略有效性需通过「回测→实盘→对比→优化」闭环验证，工具的核心价值是将抽象的差异（选币/因子/资金曲线）可视化、可量化，快速定位问题根源，避免盲目优化策略</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>环境未升级→数据无法生成→对比工具不可用；数据未对齐→差异误判→策略优化方向错误；配置不一致→回测实盘结果偏差→策略有效性存疑。核心解决路径：先统一环境与配置，再确保数据对齐，最后通过工具定位差异</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「黑名单同步隐喻」：实盘如同实时风控的交易员，自动拉黑下架币/传统金融币，回测如同静态模拟，需手动同步风控规则才能保持一致；案例：某策略回测评分83分，手动添加Delist黑名单并开启传统币拉黑后，评分提升至92分，差异大幅缩小</p>
+                
+                <h3>4. 工具设计底层逻辑</h3>
+                <p>以「用户作业需求」为核心，简化操作流程（网页版可视化），覆盖全维度差异（5大对比维度），同时兼容代码版魔改需求，既满足新手快速完成作业，也支持进阶用户自主拓展功能，平衡易用性与灵活性</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：环境升级与工具部署</strong>
+                    <p>1.1 升级核心组件：回测框架（≥1.4.3）、实盘框架（≥1.4.4）、数据中心（≥1.1.11）、网页版（回测≥0.1.7，实盘≥0.5.2）；1.2 下载对比脚本，放入回测框架tools目录；1.3 在回测框架data目录下创建「选币对比」文件夹，用于存放实盘ZIP包。</p>
+                    <div class="note">卡關點：确保所有组件版本达标，否则无法生成选币CSV或实盘ZIP包</div>
+                </li>
+                <li>
+                    <strong>步骤2：实盘数据生成与下载</strong>
+                    <p>2.1 实盘配置：网页版设置回看天数=7，代码版在Config中配置Lookback=7；2.2 运行实盘≥3天（确保数据覆盖）；2.3 用Termius/FTP工具下载实盘ZIP包（路径：data/Real_time_data），保存到回测框架data/选币对比目录。</p>
+                    <div class="note">卡關點：仅实盘交易有效，模拟盘无法生成数据；ZIP包保留3天，需及时下载</div>
+                </li>
+                <li>
+                    <strong>步骤3：回测数据生成</strong>
+                    <p>3.1 导入策略：官方策略下载沧浪亭26年V2版，自定义策略从实盘account复制Config；3.2 回测配置：开启「拉黑传统金融币」（block_traditional_finance=True），设置Lookback_Days=7，分钟偏移策略需配置Hour_Offset与数据路径；3.3 运行回测，生成选币结果CSV（子策略回测结果目录下）。</p>
+                </li>
+                <li>
+                    <strong>步骤4：网页版对比操作</strong>
+                    <p>4.1 启动回测网页版，进入「对比分析」模块；4.2 选择对比策略（已运行的回测策略）与实盘ZIP包（data/选币对比目录下）；4.3 点击「生成对比数据」，等待结果生成；4.4 分析结果：查看总评分、资金曲线、币种池、选币结果、因子值差异，定位问题。</p>
+                </li>
+                <li>
+                    <strong>步骤5：差异处理与作业完成</strong>
+                    <p>5.1 差异处理：针对Delist币差异，手动添加到回测黑名单；针对参数差异，统一回测与实盘Config配置；5.2 重新生成对比，验证差异是否缩小；5.3 截图关键对比结果（资金曲线、币种池、选币差异），撰写作业报告，推测差异原因与解决方案。</p>
+                </li>
+                <li>
+                    <strong>步骤6：代码版备选操作（可选）</strong>
+                    <p>6.1 解压实盘ZIP包到data/选币对比/[策略名]目录（策略名与回测一致）；6.2 在对比脚本中设置backtest_name参数；6.3 运行脚本，生成HTML结果文件；6.4 打开HTML文件查看对比结果，流程与网页版一致。</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 首次使用建议选择简单策略（如大龙黄狗）测试工具流程，避免复杂策略（多因子+分钟偏移）导致多重差异，难以定位核心问题。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 实盘与回测的Config参数需逐行核对，重点关注：拉黑规则、K线获取数量、分钟偏移、仓位比例、因子代码，这些是最易导致差异的配置项。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 对比时优先查看资金曲线，若趋势一致则无需深入分析；若差异较大，先排查币种池（传统币/Delist币），再检查选币结果，最后分析因子值，按从粗到细的顺序提高效率。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 分钟偏移策略对比需确保回测与实盘的偏移参数一致，且手动下载对应的分钟偏移数据，否则会因数据维度不同导致对比失效。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 船队作业中可使用AI辅助分析差异原因，将对比结果截图上传给AI，结合工具提示（如某币种因子值差异大），快速生成可能的解决方案（如数据同步不及时、因子参数设置错误）。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 定期清理实盘ZIP包与回测结果文件，避免占用过多存储；建议对比完成后保留关键截图与HTML结果，便于后续策略优化追溯。
+            </div>
+        </section>
+    </div>
+</body>
+</html>

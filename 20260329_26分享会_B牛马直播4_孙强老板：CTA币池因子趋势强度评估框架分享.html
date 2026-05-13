@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260329_26分享会_B牛马直播4_孙强老板：CTA币池因子趋势强度评估框架分享</title>
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --secondary: #7c3aed;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent: #f43f5e;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background);
+            padding: 2rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            word-break: break-all;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        section h2::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+        .dashboard-card {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+        }
+        .dashboard-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .dashboard-card p, .dashboard-card ul {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+        .dashboard-card ul {
+            padding-left: 1.2rem;
+        }
+        .dashboard-card ul li {
+            margin-bottom: 0.4rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-primary {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary-light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -2rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--primary-light);
+        }
+        .timeline-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-primary);
+        }
+        .timeline-content {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--border);
+        }
+        .timeline-content p {
+            margin-bottom: 0.8rem;
+        }
+        .checklist {
+            list-style-type: none;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .checklist li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .checklist li::before {
+            content: "✅";
+            display: inline-block;
+            min-width: 1.2rem;
+            margin-top: 0.2rem;
+        }
+        .checklist li .param {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .checklist li .tools {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        .checklist li .pitfall {
+            color: var(--danger);
+            font-weight: 500;
+        }
+        details {
+            margin-top: 1rem;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        summary {
+            background-color: var(--background);
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details .details-content {
+            padding: 1rem;
+            background-color: white;
+        }
+        .ai-note {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background-color: rgba(20, 184, 166, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+            section h2 {
+                font-size: 1.3rem;
+            }
+            .timeline {
+                padding-left: 2rem;
+            }
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📁 20260329_26分享会_B牛马直播4_孙强老板：CTA币池因子趋势强度评估框架分享</h1>
+        <p>CTA选币池核心框架：Trend Quality Score（TQS）趋势强度评估体系，教你筛选流畅/低回撤/高波动币池，适配彩虹选币框架直接实盘</p>
+    </header>
+
+    <section id="summary">
+        <h2>執行儀表板</h2>
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <h3>🎯 核心定位</h3>
+                <p>详解CTA选币池趋势强度评估框架，核心是构建Trend Quality Score（TQS）指标，从流畅度、稳定性、波动规模等维度筛选优质币池，兼容彩虹选币框架，实现"选币+CTA"策略增效，授人以渔拆解指标构建逻辑与实盘配置方法</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>CTA策略实盘者（熟悉趋势追踪逻辑）</li>
+                    <li>掌握彩虹选币框架基础操作（Config配置、因子开发）</li>
+                    <li>了解币圈/A股CTA策略核心逻辑（趋势流畅度、波动捕捉）</li>
+                    <li>具备基础Python代码阅读能力（可修改参数/配置文件）</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>💡 關鍵收穫</h3>
+                <ul>
+                    <li>掌握TQS指标构建逻辑：5个核心维度（流畅度/稳定性/波动规模/回撤/锯齿状惩罚）+ 数学优化技巧（平滑变换/对数压缩）</li>
+                    <li>获取可直接复用框架：兼容彩虹选币体系，支持单策略/多参数遍历/可视化验证，无需重构代码</li>
+                    <li>明确实盘适配方法：按持仓周期配置K线周期/预测窗口，区分长/短参数场景，规避假突破等常见坑</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>學習時間：1.5小時<br>實作時間：1-2天<br>預期回報：CTA策略收益回撤比提升30%+，币池筛选准确率提升，无效交易减少，实盘持仓体验优化（避免频繁震荡洗盘）</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>🏷️ 標籤</h3>
+                <span class="badge badge-primary">CTA策略</span>
+                <span class="badge badge-secondary">趋势强度评估</span>
+                <span class="badge badge-accent">选币池筛选</span>
+                <span class="badge badge-warning">彩虹框架适配</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="key-points">
+        <h2>重點摘要與邏輯軸</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>研究背景：為什麼需要CTA選幣池</h3>
+                <div class="timeline-content">
+                    <p>1. 核心痛点：纯CTA策略受市场环境影响大，全市场跑CTA易陷入震荡行情，资金效率低；币圈热点轮动明显，需精准卡准热点币池</p>
+                    <p>2. 研究意义：选币对CTA业绩提升显著——相同CTA策略，选币后收益更高、回撤更小（蓝色原策略vs黄色选币后策略，表现差异明显）</p>
+                    <p>3. 研究基础：基于郑老板（帖子59972）等前人选币思路（基本面/市值/期限价差等），结合彩虹官方选币框架，实现"中性选币+CTA策略"融合</p>
+                    <p>4. 核心诉求：筛选"趋势流畅、波动充足、回撤小"的优质币池，而非单纯波动大的品种（避免锯齿状行情导致策略被洗盘）</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>TQS指標核心：趨勢強度評估體系</h3>
+                <div class="timeline-content">
+                    <p>1. 指标定义：Trend Quality Score（TQS），译为趋势质量评分，通过"奖励项×惩罚项倒数"计算，综合评估币池适配CTA策略的程度</p>
+                    <p>2. 核心公式：TQS =（流畅度×稳定性×（波动规模+幅度补偿））÷（回撤惩罚+锯齿状惩罚），各维度含可调节系数（适配不同CTA策略风格）</p>
+                    <p>3. 核心逻辑：奖励"趋势流畅、稳定上涨、波动充足"的品种，惩罚"回撤大、震荡剧烈"的品种，最终得分越高，币池越优质</p>
+                    <p>4. 关键特点：自由度高，支持自定义各维度权重，可根据自身CTA策略属性（如偏波段/偏趋势）调整参数</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>獎勵項：3個核心評估維度</h3>
+                <div class="timeline-content">
+                    <p>1. 流畅度（Efficiency Ratio，ER）：
+                        <br>- 定义：衡量K线走势"直度"，计算方式=净涨幅÷路径长度（每根K线涨跌幅绝对值之和）
+                        <br>- 优化技巧：通过S型曲线平滑变换（smooth step），让优质品种得分更高、劣质品种得分更低，放大区分度（避免RANK时不稳定）
+                        <br>- 案例：直线上涨10%的品种ER=1.0，先涨10%再跌5%再涨5%的品种ER=0.5，后者得分显著更低
+                    </p>
+                    <p>2. 稳定性（R²）：
+                        <br>- 定义：通过线性回归拟合价格走势，R²越接近1，说明上涨节奏越均匀（匀速上升）
+                        <br>- 核心作用：排除"瞬间爆拉"的品种（此类品种难以建仓，且易触发止损），筛选"可持仓、易盈利"的趋势
+                    </p>
+                    <p>3. 波动规模+幅度补偿：
+                        <br>- 波动规模：计算方式=净涨幅÷ATR（平均真实波幅），衡量当前涨跌幅相对于历史波动的强度
+                        <br>- 优化技巧：（波动规模+1）取对数，避免妖币高分拉偏模型（边际效应递减，50倍波动得分≈3.9，5倍波动得分≈1.8）
+                        <br>- 幅度补偿：用最高价与最低价价差÷PCT/ATR，额外奖励波动幅度充足的品种
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>懲罰項：2個風險過濾維度</h3>
+                <div class="timeline-content">
+                    <p>1. 回撤惩罚：
+                        <br>- 定义：持仓周期内最大回撤÷ATR，衡量回撤相对于历史波动的强度
+                        <br>- 核心逻辑：回撤越大，惩罚越重（分母越大，TQS得分越低），排除"涨得多但回撤剧烈"的品种
+                        <br>- 特殊处理：不区分多空方向，仅关注回撤绝对值（选币池阶段剥离CTA策略开仓信号）
+                    </p>
+                    <p>2. 锯齿状惩罚（ZigZag）：
+                        <br>- 定义：用ER的倒数衡量，ER越小（震荡越剧烈），惩罚越重
+                        <br>- 核心作用：排除"来回画门、频繁插针"的行情（此类行情易触发止损，难以盈利）
+                        <br>- 案例：涨10%但中间震荡累计涨跌幅100%的品种，ER极低，锯齿状惩罚重，TQS得分趋近于0
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>框架架構：兼容彩虹選幣體系</h3>
+                <div class="timeline-content">
+                    <p>1. 核心目录：基于彩虹官方选币框架，新增CTA_core模块（核心计算逻辑）、evaluate_config（参数配置）、可视化工具（结果验证）</p>
+                    <p>2. 关键配置文件（evaluate_config）：
+                        <br>- 系数配置：乘法系数、锯齿惩罚系数、幅度补偿权重（默认1:1）
+                        <br>- 周期配置：K线周期（支持1M/5M/1H/1D等）、预测窗口（如72小时=3天，与策略持仓周期匹配）
+                        <br>- 数据配置：ATR模式（PCT/ATR）、选币时间范围（same day/next day）
+                    </p>
+                    <p>3. 核心功能：
+                        <br>- 单策略运行：配置单个选币因子（如布林带宽度），直接输出优质币池
+                        <br>- 多参数遍历：批量跑多个因子/参数，生成CSV结果，筛选最优组合
+                        <br>- 可视化验证：自动生成HTML/CSV报告，展示Top/Bottom品种行情，验证因子有效性
+                    </p>
+                    <p>4. 复用优势：保留彩虹框架前置过滤、后置过滤等功能，可直接复用中性策略的因子开发逻辑，无需从零构建</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>實盤場景：2個核心應用模式</h3>
+                <div class="timeline-content">
+                    <p>1. 单策略选币池（Config大师模式）：
+                        <br>- 配置逻辑：类似中性选币，指定选币因子（如布林带宽度）、选币数量（多头20个/空头20个）、持仓周期（如24小时）
+                        <br>- 实盘适配：按CTA策略持仓周期配置预测窗口（日内策略→24小时，波段策略→72小时）
+                        <br>- 输出结果：选币结果存于Data目录，包含每个品种的TQS得分，可直接对接CTA策略
+                    </p>
+                    <p>2. 多参数遍历（策略优化模式）：
+                        <br>- 配置逻辑：指定因子列表、参数范围、回测时间，批量运行后生成CSV报告
+                        <br>- 核心作用：筛选最优参数组合（如不同ATR模式、惩罚系数对结果的影响）
+                        <br>- 注意事项：建议分开跑long/short方向（因子排序升序/降序与CTA多空信号不完全一致）
+                    </p>
+                    <p>3. 可视化验证：
+                        <br>- 核心功能：展示年度/月度TQS均值、Top10/Bottom10品种行情截图、因子值分布
+                        <br>- 关键作用：验证因子是否有效区分优质/劣质币池（如Top品种是否多为流畅趋势，Bottom品种是否多为震荡）
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>關鍵注意事項與常見問題</h3>
+                <div class="timeline-content">
+                    <p>1. 实盘配置要点：
+                        <br>- 周期匹配：K线周期+预测窗口需与CTA策略持仓周期一致（如5分钟策略→5M K线+240根=20小时窗口）
+                        <br>- 数据准备：需导入K线数据（支持1M数据自动resample到目标周期），放置于指定目录
+                        <br>- 参数调节：根据策略风格调整系数（偏激进→提高波动规模权重，偏稳健→提高回撤惩罚权重）
+                    </p>
+                    <p>2. 常见问题解答：
+                        <br>- Q：TQS是否会出现假趋势？A：TQS仅筛选币池，假突破由CTA策略信号判断（如突破确认机制），二者分工不同
+                        <br>- Q：能否用于A股/商品？A：思路可复用，代码需适配数据格式（如A股板块选币、商品品种特性）
+                        <br>- Q：实盘如何更新币池？A：程序化定时运行框架（如每4小时），输出最新Top品种，对接CTA策略
+                        <br>- Q：古法动量能否用？A：可直接将古法动量作为选币因子，导入框架计算TQS得分
+                    </p>
+                    <p>3. 效果预期：选币后CTA策略表现"天壤之别"，无效交易减少，持仓体验优化，收益回撤比显著提升</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="logic">
+        <h2>底層邏輯與框架</h2>
+        <details>
+            <summary>點擊展開詳情</summary>
+            <div class="details-content">
+                <h3>1. 思維模型</h3>
+                <p>✅ 多維評估模型：从"流畅度、稳定性、波动、回撤、震荡"5个维度立体评估，避免单一维度偏差（如仅看波动忽略震荡）</p>
+                <p>✅ 獎懲平衡模型：通过"奖励项×惩罚项倒数"的结构，既强化优质品种的优势，又放大劣质品种的劣势，提升筛选区分度</p>
+                <p>✅ 參數優化模型：通过数学变换（平滑变换、对数压缩）解决数据分布不均问题，让模型更稳健，避免极端值干扰</p>
+                <p>✅ 框架復用模型：基于成熟的彩虹选币框架，新增核心计算模块，降低开发成本，同时保留原有生态的扩展性（如前置/后置过滤）</p>
+
+                <h3>2. 因果/遞進關係</h3>
+                <p>① CTA策略痛点（震荡行情易亏损、全市场跑效率低）→ 需求（筛选优质币池）→ 核心问题（如何定义优质币池）→ 解决方案（TQS指标体系）→ 技术实现（彩虹框架+CTA_core模块）→ 实盘应用（单策略/多参数遍历）→ 效果验证（可视化工具）</p>
+                <p>② TQS指标构建：单个维度（流畅度/稳定性等）→ 数学优化（平滑/对数变换）→ 维度组合（奖励项×惩罚项倒数）→ 参数调节（系数配置）→ 结果验证（可视化）→ 实盘迭代（根据表现调整权重）</p>
+                <p>③ 实盘适配：CTA策略属性（日内/波段/趋势）→ 配置匹配（K线周期/预测窗口）→ 因子选择（如布林带宽度/古法动量）→ 币池生成→ 对接CTA策略→ 定时更新（按周期重新选币）</p>
+
+                <h3>3. 關鍵隱喻與案例</h3>
+                <p>🎯 路徑比喻：流畅度如同"两点之间直线最短"，趋势越直（路径长度短），策略盈利效率越高，避免"绕路"导致的手续费损耗与回撤</p>
+                <p>📊 優劣對比案例：优质品种（TQS=3.02）→ 平稳上升，回撤小；中等品种（TQS=0.2）→ 有明显回撤；劣质品种（TQS≈0）→ 锯齿状震荡，无有效趋势</p>
+                <p>⚠️ 參數優化案例：未做对数压缩时，50倍波动品种得分远高于5倍波动品种，导致模型偏向妖币；压缩后二者得分差距缩小（3.9vs1.8），既保留优质属性，又避免模型失真</p>
+            </div>
+        </details>
+    </section>
+
+    <section id="steps">
+        <h2>實作步驟 Checklist</h2>
+        <ul class="checklist">
+            <li>
+                <div>
+                    <span class="param">步驟1：框架下載與環境配置</span>
+                    <p>① 下载框架：从分享会帖子获取完整框架（含CTA_core模块）；② 环境准备：确保Python环境兼容彩虹框架，安装必要依赖（pandas、numpy、matplotlib等）；③ 数据导入：将K线数据（支持1M/5M/1H等）放入指定目录，配置Data路径</p>
+                    <p class="tools">工具：Python3.8+、彩虹选币框架基础环境、K线数据（币圈/A股/商品均可）</p>
+                    <p class="pitfall">卡關點：数据格式需与框架要求一致（如时间戳格式、涨跌幅计算方式）；依赖包版本冲突需按框架说明调整</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟2：TQS參數自定義配置</span>
+                    <p>① 打开evaluate_config文件：配置核心参数（乘法系数=1、锯齿惩罚系数=1、幅度补偿权重=1，默认1:1）；② 周期配置：按CTA策略持仓周期设置（如日内策略→K线周期=1H、预测窗口=24小时）；③ 数据模式：选择ATR模式（PCT/ATR），选币时间范围（默认next day，避免未来函数）</p>
+                    <p class="tools">工具：文本编辑器（Notepad++/VS Code）、CTA策略持仓周期说明文档</p>
+                    <p class="pitfall">卡關點：预测窗口需与K线周期匹配（如1H K线×72=3天）；参数调整后需回测验证，避免盲目设置</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟3：單策略選幣池運行</span>
+                    <p>① 配置Config文件：指定选币因子（如布林带宽度）、选币数量（多头20个/空头20个）、回测时间范围；② 启用前置/后置过滤（可选，如筛选市值大于5亿的品种）；③ 运行单策略脚本（Python 01_single_strategy.py），生成选币结果</p>
+                    <p class="tools">工具：Config配置文件、选币因子代码（如BBW布林带宽度因子）</p>
+                    <p class="pitfall">卡關點：因子代码需放入factor目录，命名符合框架规范；选币数量需与资金规模匹配（避免单品种仓位过高）</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟4：可視化驗證與參數優化</span>
+                    <p>① 启用可视化功能：在evaluate_config中设置do_visualize=True，重新运行脚本；② 查看报告：打开生成的HTML报告，验证Top品种是否为流畅趋势、Bottom品种是否为震荡行情；③ 多参数遍历：配置02_param_scan.py，批量跑不同因子/参数，筛选最优组合（如不同ATR模式对结果的影响）</p>
+                    <p class="tools">工具：浏览器（查看HTML报告）、Excel（分析CSV参数结果）</p>
+                    <p class="pitfall">卡關點：可视化时K线数据缺失会导致行情截图失败；多参数遍历需控制回测时间范围，避免运行过久</p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="param">步驟5：實盤對接與定時更新</span>
+                    <p>① 对接CTA策略：将选币结果（Data目录下的选币列表）导入CTA策略，作为交易标的池；② 定时更新：设置定时任务（如每4小时）自动运行框架，更新币池（避免币池过时）；③ 动态监控：实盘过程中跟踪TQS得分变化，若优质品种趋势转弱，及时调整币池</p>
+                    <p class="tools">工具：定时任务工具（Windows任务计划程序/Linux crontab）、实盘监控面板</p>
+                    <p class="pitfall">卡關點：定时任务需确保框架运行环境稳定；币池更新频率需与CTA策略交易频率匹配（避免过度换仓）</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section id="ai-notes">
+        <h2>AI 補充建議</h2>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 參數自動優化：使用AI工具遍历TQS各维度系数（如流畅度权重0.8-1.2、回撤惩罚权重1-1.5），结合不同CTA策略回测结果，筛选最优参数组合，避免手动调整的主观性。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 提醒】</strong> 趨勢類型識別：加入AI趋势分类模型（如LSTM/决策树），自动识别趋势类型（上升/下降/震荡），仅对上升趋势品种计算TQS得分，进一步提升币池质量，减少无效交易。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 實時風險控制：用AI实时监控币池TQS得分变化，若单品种TQS得分骤降（如从3.0降至0.5），自动触发减仓/平仓信号，避免趋势反转导致的大额亏损。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 提醒】</strong> 跨市場適配：训练AI适配模型，自动调整TQS参数（如币圈波动大→提高波动规模权重，A股波动小→提高流畅度权重），实现跨市场（币圈/A股/商品）无缝切换。
+        </div>
+        <div class="ai-note">
+            <strong>【AI 建議】</strong> 因子融合優化：利用AI算法（如因子分析FA/主成分分析PCA）融合多个选币因子（如TQS+布林带宽度+古法动量），生成综合得分，避免单一因子的局限性，提升选币稳定性。
+        </div>
+    </section>
+</body>
+</html>

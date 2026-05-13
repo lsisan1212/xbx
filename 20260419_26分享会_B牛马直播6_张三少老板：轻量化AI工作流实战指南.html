@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>20260419_26分享会_B牛马直播6_张三少老板：轻量化AI工作流实战指南</title>
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --secondary: #64748B;
+            --light: #F8FAFC;
+            --dark: #1E293B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #F3F4F6;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* 执行仪表板样式 */
+        #summary {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            #summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .summary-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        .summary-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .summary-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-card ul li {
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.3rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: var(--card-shadow);
+        }
+        .timeline-item h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+        }
+        /* 步骤清单样式 */
+        #steps ol {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        #steps li {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+        }
+        #steps li strong {
+            color: var(--primary);
+        }
+        /* 折叠面板样式 */
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--light);
+        }
+        summary {
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light);
+            border-bottom: 1px solid white;
+        }
+        details[open] summary {
+            border-bottom: 1px solid var(--light);
+        }
+        details > div {
+            padding: 1rem;
+        }
+        /* AI建议样式 */
+        #ai-notes .ai-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260419_26分享会_B牛马直播6_张三少老板：轻量化AI工作流实战指南</h1>
+            <p>基于Cloud Code的Skill与多Agent团队搭建指南，详解币圈量化AI工作流（自动策略复现/因子研究/知识沉淀），适配国产模型，降低使用门槛</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-card">
+                <h3>🎯 核心定位</h3>
+                <p>面向币圈量化投资者与AI工具使用者，提供轻量化AI工作流搭建方案，通过Skill封装重复操作、Hooks实现自动化、多Agent团队协同，解放重复劳动，聚焦策略逻辑研究，支持国产模型适配与跨场景复用</p>
+            </div>
+            <div class="summary-card">
+                <h3>👥 目標受眾與先備條件</h3>
+                <ul>
+                    <li>币圈量化研究者、Cloud Code用户、AI工作流搭建爱好者、牛马团队成员</li>
+                    <li>先備：熟悉基础量化逻辑，了解Cloud Code基本操作，具备简单文件复制/配置能力</li>
+                    <li>工具：Cloud Code（VS Code插件/桌面端）、币圈量化框架、国产模型（Kimi/Minimax/Timi）</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>💡 3項關鍵收穫</h3>
+                <ul>
+                    <li>掌握8大币圈量化Skill搭建逻辑（仓管主控/选币配置/因子研究等），实现开箱即用，降低AI幻觉</li>
+                    <li>学会Hooks机制应用（强制记忆/反思/知识沉淀），搭建自动化知识引擎，让AI越用越聪明</li>
+                    <li>理解多Agent团队搭建方法（角色分工/工作流闭环），适配2套实战场景（策略迭代/因子组合），支持国产模型替换</li>
+                </ul>
+            </div>
+            <div class="summary-card">
+                <h3>⏱️ 時間投資與預期回報</h3>
+                <p>学习时间：1小时（直播）+ 1-2天（Skill部署+Agent配置）</p>
+                <p>预期回报：重复操作AI代偿率80%+，策略复现效率提升5倍，因子研究周期从天级缩短至小时级，多Agent团队可实现7×24小时无人值守迭代</p>
+            </div>
+            <div class="summary-card">
+                <h3>🏷️ 難度/類型標籤</h3>
+                <span class="badge badge-primary">AI工作流</span>
+                <span class="badge badge-warning">量化工具</span>
+                <span class="badge badge-success">Cloud Code</span>
+                <span class="badge badge-secondary">中等难度</span>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重點摘要與邏輯軸</h2>
+            
+            <div class="timeline-item">
+                <h3>核心概念：Skill的定义与价值</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. Skill本质</h4>
+                        <p>Skill是Markdown文件规范的可复用专业技能/工作流程，相当于给AI装插件，明确工具权限、模型选择、知识内置与工作流编排，降低AI幻觉与越权风险</p>
+                        
+                        <h4>2. Skill核心价值</h4>
+                        <ul>
+                            <li>权限控制：定义AI可使用的工具，避免无法挽回的操作</li>
+                            <li>模型适配：复杂任务用GPT-4，简单任务用低级别模型，降低Token消耗</li>
+                            <li>知识沉淀：内置专业信息，无需重复输入需求，提升产出质量</li>
+                            <li>自动化编排：支持Skill间相互调用，实现多步骤任务闭环</li>
+                        </ul>
+                        
+                        <h4>3. Skill与直接对话的区别</h4>
+                        <ul>
+                            <li>直接对话：需重复描述需求，无统一标准，迭代困难</li>
+                            <li>Skill：一次编写多次复用，可不断迭代优化，支持自动/手动/内部调用三种触发方式</li>
+                        </ul>
+                        
+                        <h4>4. Skill创建方法</h4>
+                        <p>告知AI需求逻辑→AI生成Markdown草稿→人工审核优化，核心是明确触发条件、工具权限、执行流程与输出标准</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>币圈量化8大核心Skill详解</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. Skill体系架构</h4>
+                        <ul>
+                            <li>第一层（核心）：仓管主控 - 识别用户意图，分发任务至对应Skill，支持自动串联多步骤</li>
+                            <li>第二层（功能）：8大功能Skill，覆盖量化全流程</li>
+                            <li>第三层（沉淀）：知识引擎 - 存储经验、坑点与反思，强制AI查阅与更新</li>
+                        </ul>
+                        
+                        <h4>2. 8大Skill核心功能</h4>
+                        <ol>
+                            <li>仓管主控：需求识别、任务分发、流程串联（如论坛帖子复现→爬取→配置→回测→汇报）</li>
+                            <li>选币策略配置：因子创建/复用（如浪淘沙添加7日动量因子），提供选项供用户选择，避免模糊需求</li>
+                            <li>仓位管理配置：资金分配、策略权重、择时信号、杠杆、回测参数调整</li>
+                            <li>因子研究：大白话生成因子/因子代码解释，内置30+因子百科，支持代码转大白话</li>
+                            <li>论坛爬取：模拟浏览器操作（低请求速度，无损害），下载帖子附件与复现内容（政策模糊区间，需沟通确认）</li>
+                            <li>数据更新：通过API增量更新数据，避免全量更新，提升效率</li>
+                            <li>回测分析：自动运行回测代码，输出汇报结果，无需手动操作</li>
+                            <li>版本管理：通过Git或Config复制备份策略版本，支持快速回溯</li>
+                        </ol>
+                        
+                        <h4>3. Skill使用优势</h4>
+                        <p>无需记忆指标名称，支持模糊需求识别（AI主动提供选项），选股更分散，近年曲线更稳定，使用门槛低（仅需复制文件夹）</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>知识引擎与Hooks强制机制</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 知识引擎架构</h4>
+                        <ul>
+                            <li>存储目录：策略模式、反思记录、框架技巧、论坛内容、数据经验、因子知识+目录索引（降低上下文占用）</li>
+                            <li>核心逻辑：通过目录告知AI过往操作，需详细信息时再读取对应文件，避免上下文撑爆</li>
+                        </ul>
+                        
+                        <h4>2. Hooks强制协议（3大强制）</h4>
+                        <ul>
+                            <li>强制查阅知识库：任务开始前，AI必须匹配类似经验，避免重复踩坑</li>
+                            <li>强制记忆：任务完成后，自动将经验写入对应目录，无需人工输入</li>
+                            <li>强制反思：总结过程中的问题与优化方向，形成反思记录</li>
+                        </ul>
+                        
+                        <h4>3. Hooks实现原理</h4>
+                        <p>通过Cloud Code的Hooks功能，识别Agent任务完成标识（如"停止"输出），自动触发新提示词，要求AI更新知识库与反思记录，本质是将沉淀任务转化为AI的新任务，无需人工干预</p>
+                        
+                        <h4>4. Hooks配置要点</h4>
+                        <ul>
+                            <li>触发条件：Agent完成任务后（识别特定标识）</li>
+                            <li>生效工具：指定目标Agent或Skill</li>
+                            <li>执行方式：输出提示词，强制AI执行更新操作</li>
+                        </ul>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>多Agent团队搭建：角色、流程与实战</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 核心概念</h4>
+                        <ul>
+                            <li>Hooks：特定事件触发后自动执行检查/动作（如Agent完成后强制沉淀），解决AI遗忘/幻觉问题</li>
+                            <li>多Agent团队：通过Cloud Code的蜂窝网络功能，定义不同角色Agent，协同完成复杂任务</li>
+                        </ul>
+                        
+                        <h4>2. Hooks支持的执行方式</h4>
+                        <ol>
+                            <li>执行命令：定制化操作（如指定24点前不停止，需完成5次需求核对），上限高</li>
+                            <li>输出提示词：依靠AI自觉性，效果次之</li>
+                            <li>HTTP请求：完成后推送通知（微信/飞书），提升效率</li>
+                        </ol>
+                        
+                        <h4>3. 多Agent团队搭建要点</h4>
+                        <ul>
+                            <li>角色分工：越清晰越好（如产品经理+挑战者+架构师+开发者+测试员），形成闭环</li>
+                            <li>配置原则：3-7个Agent均可，核心是有管理者、执行者、检查者</li>
+                            <li>启动方式：逐个拉取Agent执行对应任务，完成后踢除，避免空闲Agent浪费Token</li>
+                            <li>模型适配：非GPT类模型需明确量化标准（如收益回撤比＞2），避免模糊描述</li>
+                        </ul>
+                        
+                        <h4>4. 2套实战工作流</h4>
+                        <ol>
+                            <li>策略迭代工作流（5人团队）：产品经理提需求→挑战者审查→架构师出方案→开发者干活→测试员验证反馈→循环迭代（完成14轮迭代，连续性强）</li>
+                            <li>轻因子迭代工作流（6人团队）：因子组合→框架配置→回测运行→分析评估→反思优化，目标年化收益回撤比＞2，跑7-8小时可实现收益回撤比从0.1升至1+</li>
+                        </ol>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>国产模型适配与避坑指南</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 国产模型适配方法</h4>
+                        <ul>
+                            <li>提供启动脚本（.sh文件），自动更换Cloud Code中的模型，无需手动修改配置</li>
+                            <li>支持模型：Kimi/Minimax/Timi 2.5，后续将补充智谱等模型</li>
+                            <li>核心优势：降低封号风险，适配国内网络环境，Token成本更低（如Kimi 199元会员可满足日常需求）</li>
+                        </ul>
+                        
+                        <h4>2. 核心避坑要点</h4>
+                        <ol>
+                            <li>避免一次性拉取所有Agent：Token消耗剧烈，建议逐个启动执行</li>
+                            <li>禁用空闲Agent的Hooks：防止死循环（Agent完成后被强制继续工作），浪费Token</li>
+                            <li>文件路径模糊定义：避免明确写死文件名（如"读取配置文件"而非"读取config_0419.json"），提升迭代适配性</li>
+                            <li>设置量化标准：避免模糊描述（如"收益回撤比＞2"而非"收益较好"），确保Agent明确目标</li>
+                            <li>目录权限配置：将Skill/Agent/Hooks放在普通目录，避免Cloud Code敏感目录触发权限确认，导致卡死</li>
+                            <li>死循环处理：超过10分钟无产出直接重启Agent，避免浪费时间</li>
+                        </ol>
+                        
+                        <h4>3. 封号规避建议</h4>
+                        <p>使用美国信用卡+美国手机号注册，部署在小型服务器中转，降低封号概率（封号存在随机性，需备用账号）</p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <h3>部署与迭代：开箱即用与持续优化</h3>
+                <div class="timeline-content">
+                    <details>
+                        <summary>点击展开詳情</summary>
+                        <h4>1. 快速部署步骤</h4>
+                        <ul>
+                            <li>下载压缩包，复制对应Skill文件夹到Cloud Code目录，无需复杂配置</li>
+                            <li>单个Skill可独立复制使用，无需整体部署，降低使用门槛</li>
+                            <li>Agent团队搭建：通过Skill"多Agent团队搭建"自动生成配置，人工审核后即可使用</li>
+                        </ul>
+                        
+                        <h4>2. 迭代计划</h4>
+                        <ul>
+                            <li>版本命名：按"年-周"格式（如2026-W16），避免版本混淆</li>
+                            <li>更新方式：用户反馈需求纳入下周迭代，定期发布更新包，支持选择性保留新增功能</li>
+                            <li>扩展方向：深入策略研究（如浪淘沙深度优化）、A股研报复现、更多国产模型适配</li>
+                        </ul>
+                        
+                        <h4>3. 跨场景复用</h4>
+                        <p>Skill支持币圈/A股双修，Agent团队可适配工作流重复任务（如量化策略开发、文档整理、数据处理），核心是替换底层数据与工具配置</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开詳情</summary>
+                <h3>1. 核心思维模型：AI代偿重复劳动，人类聚焦创造性工作</h3>
+                <p>量化研究中大量重复操作（配置修改、回测运行、知识整理）可通过Skill标准化、Hooks自动化、Agent协同化实现AI代偿，人类仅需负责策略逻辑设计、目标设定与结果审核，将精力投入高价值创造性工作，实现"AI干活，人类思考"的分工模式。</p>
+                
+                <h3>2. 因果递進关系</h3>
+                <p>重复操作繁琐→Skill标准化流程→降低AI幻觉与使用门槛；AI易遗忘→Hooks强制沉淀→知识引擎积累；单一AI能力有限→多Agent角色分工→复杂任务闭环；海外模型封号风险→国产模型适配→提升稳定性与降低成本。核心链条：识别痛点→设计工具（Skill/Hooks/Agent）→解决痛点→持续迭代优化。</p>
+                
+                <h3>3. 关键隐喻与案例</h3>
+                <p>「AI艺人公司隐喻」：多Agent团队如同艺人公司，产品经理是经纪人（提需求）、挑战者是吐槽者（挑问题）、架构师是策划（出方案）、开发者是执行（干农活）、测试员是质检（做验证），各司其职形成闭环，比单一AI更高效可靠；案例：轻因子迭代工作流，6个Agent协同7-8小时，收益回撤比从0.1提升至1+，证明团队协同的价值。</p>
+                
+                <h3>4. 工具设计底层逻辑</h3>
+                <p>轻量化设计：无需复杂环境配置，仅需文件复制即可使用，降低入门门槛；强制沉淀：通过Hooks而非提醒实现知识积累，确保AI越用越聪明；量化标准：避免模糊描述，让AI有明确目标，提升产出质量；角色清晰：Agent分工明确，避免职责重叠与空闲浪费，平衡效率与成本。</p>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>✅ 實作步驟 Checklist</h2>
+            <ol>
+                <li>
+                    <strong>步骤1：工具与文件准备</strong>
+                    <p>1.1 安装Cloud Code（VS Code插件或桌面端），注册并登录国产模型（推荐Kimi/Minimax）；1.2 下载Skill压缩包（论坛帖子78472/78473），解压后复制到Cloud Code的skills目录；1.3 确认币圈量化框架已配置，API可正常调用（用于数据更新与回测）。</p>
+                    <div class="note">卡關點：Cloud Code目录需正确识别，Skill文件夹直接复制即可，无需修改内部结构</div>
+                </li>
+                <li>
+                    <strong>步骤2：Skill部署与测试</strong>
+                    <p>2.1 启动Cloud Code，调用"仓管主控"Skill，测试需求识别（如"复现茶泡饭老板的帖子"）；2.2 验证Skill串联：检查论坛爬取→选币配置→回测→汇报的全流程是否顺畅；2.3 测试知识引擎：完成任务后，查看知识库目录是否自动更新经验与反思记录。</p>
+                </li>
+                <li>
+                    <strong>步骤3：Hooks配置验证</strong>
+                    <p>3.1 查看Cloud Code的Hooks设置，确认"强制记忆""强制反思"协议已启用；3.2 手动触发一个简单任务（如"创建7日动量因子"），完成后检查是否自动写入知识库；3.3 若未触发，核对Hooks的触发条件（如Agent完成标识）与提示词是否正确。</p>
+                </li>
+                <li>
+                    <strong>步骤4：多Agent团队搭建</strong>
+                    <p>4.1 调用"多Agent团队搭建"Skill，输入需求（如"策略迭代团队"），生成Agent配置；4.2 定义角色分工（产品经理+挑战者+架构师+开发者+测试员），明确量化标准（如收益回撤比＞2）；4.3 启动工作流：逐个拉取Agent执行任务，观察是否形成闭环，及时处理卡死或死循环问题。</p>
+                    <div class="note">卡關點：非GPT模型需明确写出量化标准，避免Agent模糊执行；空闲Agent完成后及时踢除，降低Token消耗</div>
+                </li>
+                <li>
+                    <strong>步骤5：国产模型适配</strong>
+                    <p>5.1 下载国产模型启动脚本，运行后自动替换Cloud Code中的模型；5.2 测试模型兼容性：调用因子研究Skill，验证大白话生成因子、代码解释功能是否正常；5.3 调整Token消耗：设置输出长度限制，避免长篇大论，控制成本（如Kimi 199元会员可满足日常需求）。</p>
+                </li>
+                <li>
+                    <strong>步骤6：实战应用与迭代</strong>
+                    <p>6.1 选择实战场景（策略复现/因子迭代），启动Agent团队，设置运行时间（如夜间无人值守）；6.2 次日查看成果：策略回测报告、因子解释、知识库更新记录；6.3 反馈与优化：将使用问题与需求发布到论坛，纳入后续迭代计划；6.4 跨场景复用：替换底层数据配置，适配A股研报复现或其他重复工作流。</p>
+                </li>
+            </ol>
+        </section>
+
+        <section id="ai-notes">
+            <h2>🤖 AI 補充建議</h2>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 新手建议先从单个Skill（如因子研究/回测分析）入手，熟悉使用逻辑后再搭建多Agent团队，避免一次性配置过于复杂导致挫败感。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 论坛爬取Skill处于政策模糊区间，使用前务必与邢大沟通确认，避免违规；若不可用，可手动下载帖子文件，让AI读取本地文件复现。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 知识库定期整理，删除重复或无效记录，避免AI查阅时浪费时间；可按"策略类型/因子类别/问题类型"分类存储，提升检索效率。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 无人值守运行时，建议设置最大运行时间（如8小时）和Token消耗阈值，避免死循环导致的成本浪费；超过10分钟无产出直接重启Agent。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 建議】</strong> 可通过AI工具批量生成因子大白话解释（如千因子注释），导入知识库后，Agent组合因子时效率更高，Token消耗更低。
+            </div>
+            <div class="ai-item">
+                <strong>【AI 提醒】</strong> 国产模型适配时，优先选择支持长上下文的模型（如Kimi），避免处理大文件或长流程时出现上下文丢失；复杂任务用高级模型，简单任务用低级别模型，平衡效果与成本。
+            </div>
+        </section>
+    </div>
+</body>
+</html>
