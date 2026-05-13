@@ -18,7 +18,6 @@
 
     #container { max-width: 800px; margin: 0 auto; }
 
-    /* 🎛️ 控制面板樣式 */
     .controls-bar {
       display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
       gap: 1rem; margin-bottom: 1.5rem; padding: 0.8rem 1rem;
@@ -35,7 +34,6 @@
     .ctrl-btn:hover { background: #f3f4f6; transform: translateY(-1px); }
     .ctrl-btn.active { background: var(--link); color: #fff; border-color: var(--link); box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
 
-    /* 📋 列表視圖 (預設) */
     .link-list { list-style: none; padding: 0; transition: all 0.3s ease; }
     .link-list li { border-bottom: 1px solid var(--border); transition: all 0.3s ease; }
     .link-list li:last-child { border-bottom: none; }
@@ -48,26 +46,18 @@
     }
     .link-list a::before { content: "📄 "; margin-right: 0.4rem; opacity: 0.6; }
 
-    /* 🃏 卡片視圖覆蓋樣式 */
     #file-container.view-card .link-list {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; padding: 0;
     }
     #file-container.view-card .link-list li {
       border: 1px solid var(--border); border-radius: 10px; background: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 0; border-bottom: 1px solid var(--border);
-    }
-    #file-container.view-card .link-list li:hover {
-      transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 0;
     }
     #file-container.view-card .link-list a {
       padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
     }
-    #file-container.view-card .link-list a:hover {
-      background: transparent; padding-left: 1rem; text-decoration: none; color: var(--link);
-    }
     #file-container.view-card .link-list a::before { font-size: 1.3rem; margin-right: 0; margin-bottom: 0.2rem; opacity: 0.8; }
-    
-    /* 🏷️ 標籤樣式 */
+
     .file-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.2rem; }
     .tag-badge {
       font-size: 0.7rem; padding: 0.15rem 0.5rem; background: #e0e7ff; color: #3730a3;
@@ -75,19 +65,10 @@
     }
     .hidden-item { display: none !important; }
 
-    /* 狀態與載入動畫 */
     .state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
     .spinner { width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--link); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.8rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .error { color: #dc2626; background: #fef2f2; padding: 0.8rem; border-radius: 8px; border: 1px solid #fecaca; margin-top: 1rem; }
-    .empty { font-style: italic; margin-top: 2rem; }
-
-    @media (max-width: 600px) {
-      body { padding: 1rem; }
-      header h1 { font-size: 1.3rem; }
-      .controls-bar { flex-direction: column; align-items: stretch; }
-      .control-group { justify-content: center; }
-    }
   </style>
 </head>
 <body>
@@ -97,12 +78,10 @@
   </header>
 
   <main id="container">
-    <!-- 🎛️ 頂部控制面板 (解密後顯示) -->
     <div id="controls" class="controls-bar" style="display:none;">
       <div class="control-group" id="filter-group">
         <span class="control-label">🏷️ 類型過濾:</span>
         <button class="ctrl-btn active" data-tag="all">全部</button>
-        <!-- 動態標籤按鈕將插入此處 -->
       </div>
       <div class="control-group">
         <span class="control-label">👁️ 顯示模式:</span>
@@ -120,8 +99,37 @@
   <script>
     const CONFIG = { owner: '', repo: '', branch: 'main', path: '' };
 
-    // 🏷️ 自訂標籤關鍵字 (可自由增刪，系統會自動比對檔名並生成過濾器)
-    const TAG_KEYWORDS = ['四龙戏狗', '中性策略', '多头解析', '实盘应对', '分享会', '直播', '策略', '邢不行', '量化', '老登'];
+    // 從單一 HTML 內容提取標籤
+    async function extractTagsFromHTML(file) {
+      try {
+        const res = await fetch(file.download_url);
+        const html = await res.text();
+
+        const tags = new Set();
+
+        // 方法1：抓取所有 .badge 的文字（你目前使用的格式）
+        const badgeRegex = /<span[^>]*class=["'][^"']*badge[^"']*["'][^>]*>([^<]+)<\/span>/gi;
+        let match;
+        while ((match = badgeRegex.exec(html)) !== null) {
+          const tag = match[1].trim();
+          if (tag) tags.add(tag);
+        }
+
+        // 方法2：支援 <meta name="tags" content="...">
+        const metaMatch = html.match(/<meta\s+name=["']tags["']\s+content=["']([^"']*)["']/i);
+        if (metaMatch && metaMatch[1]) {
+          metaMatch[1].split(/[,，]/).forEach(t => {
+            const trimmed = t.trim();
+            if (trimmed) tags.add(trimmed);
+          });
+        }
+
+        return tags.size > 0 ? Array.from(tags) : ['其他'];
+      } catch (err) {
+        console.warn('無法讀取標籤：', file.name);
+        return ['其他'];
+      }
+    }
 
     function autoDetectRepo() {
       const host = window.location.hostname;
@@ -134,20 +142,15 @@
       }
     }
 
-    const CACHE_KEY = 'gh_index_cache';
+    const CACHE_KEY = 'gh_index_cache_v2';
     function getCache() {
       const raw = sessionStorage.getItem(CACHE_KEY);
       if (!raw) return null;
       const { data, time } = JSON.parse(raw);
-      return (Date.now() - time < 3600000) ? data : null;
+      return (Date.now() - time < 3600000) ? data : null; // 1小時快取
     }
-    function setCache(data) { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, time: Date.now() })); }
-
-    // 提取檔案標籤
-    function getFileTags(filename) {
-      const tags = [];
-      TAG_KEYWORDS.forEach(kw => { if (filename.includes(kw)) tags.push(kw); });
-      return tags.length > 0 ? tags : ['其他'];
+    function setCache(data) {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, time: Date.now() }));
     }
 
     async function init() {
@@ -156,7 +159,7 @@
       const listEl = document.getElementById('list');
 
       if (!CONFIG.owner || !CONFIG.repo) {
-        stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo。請編輯 CONFIG 填入 owner 與 repo。</div>`;
+        stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo，請手動設定 CONFIG</div>`;
         stateEl.style.display = 'block';
         return;
       }
@@ -167,7 +170,7 @@
       try {
         const apiURL = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.path}?ref=${CONFIG.branch}`;
         const res = await fetch(apiURL);
-        if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`);
+        if (!res.ok) throw new Error(`API ${res.status}`);
         const files = await res.json();
 
         const htmlFiles = files
@@ -177,38 +180,38 @@
         setCache(htmlFiles);
         render(htmlFiles);
       } catch (err) {
-        stateEl.innerHTML = `<div class="error">❌ 載入失敗：${err.message}<br><small>請確認 Repo 為 Public，且 Pages 分支與 CONFIG.branch 一致。</small></div>`;
+        stateEl.innerHTML = `<div class="error">❌ 載入失敗：${err.message}</div>`;
         stateEl.style.display = 'block';
       }
     }
 
-    function render(files) {
+    async function render(files) {
       const stateEl = document.getElementById('state');
       const containerEl = document.getElementById('file-container');
-      const listEl = document.getElementById('list');
       const controlsEl = document.getElementById('controls');
       const filterGroup = document.getElementById('filter-group');
+      const listEl = document.getElementById('list');
 
       stateEl.style.display = 'none';
       containerEl.style.display = 'block';
       controlsEl.style.display = 'flex';
 
       if (files.length === 0) {
-        listEl.innerHTML = `<div class="state empty">📭 此目錄下找不到其他 .html 檔案</div>`;
+        listEl.innerHTML = `<div class="state empty">📭 找不到其他 .html 檔案</div>`;
         return;
       }
 
-      // 1. 分析標籤並生成過濾按鈕
-      const allTags = new Set();
-      const fileData = files.map(f => {
-        const tags = getFileTags(f.name);
-        tags.forEach(t => allTags.add(t));
+      // 逐一抓取標籤（平行處理加快速度）
+      const fileData = await Promise.all(files.map(async (f) => {
+        const tags = await extractTagsFromHTML(f);
         return { ...f, tags };
-      });
+      }));
 
-      // 清除舊的动态按鈕
+      // 生成過濾按鈕
+      const allTags = new Set();
+      fileData.forEach(item => item.tags.forEach(t => allTags.add(t)));
+
       filterGroup.querySelectorAll('.dynamic-tag-btn').forEach(b => b.remove());
-      // 插入新按鈕
       Array.from(allTags).sort().forEach(tag => {
         const btn = document.createElement('button');
         btn.className = 'ctrl-btn dynamic-tag-btn';
@@ -217,7 +220,7 @@
         filterGroup.appendChild(btn);
       });
 
-      // 2. 渲染列表
+      // 渲染列表
       const baseDir = window.location.pathname.replace(/\/[^\/]*$/, '/');
       listEl.innerHTML = fileData.map(f => {
         const url = `${baseDir}${CONFIG.path || ''}${f.name}`;
@@ -227,13 +230,12 @@
       }).join('');
     }
 
-    // 🎛️ 控制面板事件委託 (過濾 + 視圖切換)
+    // 控制面板事件
     document.getElementById('controls').addEventListener('click', (e) => {
       const btn = e.target.closest('.ctrl-btn');
       if (!btn) return;
 
       if (btn.dataset.tag) {
-        // 過濾邏輯
         document.querySelectorAll('#filter-group .ctrl-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const tag = btn.dataset.tag;
@@ -242,32 +244,29 @@
           li.classList.toggle('hidden-item', tag !== 'all' && !liTags.includes(tag));
         });
       } else if (btn.dataset.view) {
-        // 視圖切換邏輯
         document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('file-container').className = `view-${btn.dataset.view}`;
       }
     });
 
-    // 🔐 密碼觸發邏輯 (已改為 "1")
+    // 三擊解鎖（密碼為 1）
     const secretTrigger = document.getElementById('secret-trigger');
     let clickCount = 0;
     let clickTimer;
-
     secretTrigger.addEventListener('click', () => {
       clickCount++;
       clearTimeout(clickTimer);
-      clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
+      clickTimer = setTimeout(() => { clickCount = 0; }, 1200);
 
       if (clickCount === 3) {
-        const password = prompt("🔒 請輸入密碼解密目錄 (Enter Secret Key):");
-        
+        const password = prompt("🔒 請輸入密碼解密目錄:");
         if (password === "1") {
           document.getElementById('state').style.display = 'block';
           document.getElementById('subtitle').innerText = "已解密，正在取得資料...";
           init();
         } else if (password !== null) {
-          alert("❌ 密碼錯誤！存取被拒絕。 (Access Denied)");
+          alert("❌ 密碼錯誤！");
         }
         clickCount = 0;
       }
