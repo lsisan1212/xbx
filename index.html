@@ -12,85 +12,96 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem 1rem; }
-    header { max-width: 800px; margin: 0 auto 1.5rem; text-align: center; }
+    header { max-width: 900px; margin: 0 auto 1.5rem; text-align: center; position: relative; }
     header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.3rem; user-select: none; cursor: default; }
     header p { color: var(--text-muted); font-size: 0.9rem; }
 
-    #container { max-width: 800px; margin: 0 auto; }
+    .version {
+      position: absolute; top: 0; right: 10px; font-size: 0.75rem; color: #888; background: #fff;
+      padding: 2px 8px; border-radius: 12px; border: 1px solid #ddd;
+    }
+
+    #container { max-width: 900px; margin: 0 auto; }
 
     .controls-bar {
       display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-      gap: 1rem; margin-bottom: 1.5rem; padding: 0.8rem 1rem;
-      background: #fff; border: 1px solid var(--border); border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; 
+      background: #fff; border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
-    .control-group { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
-    .control-label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
-    .ctrl-btn {
-      padding: 0.4rem 0.8rem; border: 1px solid var(--border); border-radius: 99px;
-      background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 500;
-      transition: all 0.2s; color: var(--text);
-    }
-    .ctrl-btn:hover { background: #f3f4f6; transform: translateY(-1px); }
-    .ctrl-btn.active { background: var(--link); color: #fff; border-color: var(--link); box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+    .control-group { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+    .control-label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
 
-    .link-list { list-style: none; padding: 0; transition: all 0.3s ease; }
-    .link-list li { border-bottom: 1px solid var(--border); transition: all 0.3s ease; }
+    select {
+      padding: 0.45rem 0.9rem; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 0.9rem; background: white; min-width: 220px;
+    }
+
+    .ctrl-btn {
+      padding: 0.45rem 0.9rem; border: 1px solid var(--border); border-radius: 99px;
+      background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 500;
+    }
+    .ctrl-btn:hover { background: #f3f4f6; }
+    .ctrl-btn.active { background: var(--link); color: #fff; border-color: var(--link); }
+
+    .link-list { list-style: none; padding: 0; }
+    .link-list li { border-bottom: 1px solid var(--border); }
     .link-list li:last-child { border-bottom: none; }
     .link-list a {
-      display: block; padding: 0.7rem 0.5rem; color: var(--link); text-decoration: none;
-      font-size: 0.95rem; transition: all 0.2s ease; word-break: break-all; overflow-wrap: anywhere;
+      display: block; padding: 0.85rem 0.6rem; color: var(--link); text-decoration: none;
+      font-size: 0.95rem; transition: all 0.2s;
     }
-    .link-list a:hover {
-      color: var(--link-hover); background: #f3f4f6; padding-left: 1rem; text-decoration: underline;
-    }
-    .link-list a::before { content: "📄 "; margin-right: 0.4rem; opacity: 0.6; }
+    .link-list a:hover { background: #f8fafc; padding-left: 1.2rem; }
 
     #file-container.view-card .link-list {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;
     }
     #file-container.view-card .link-list li {
-      border: 1px solid var(--border); border-radius: 10px; background: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 0;
+      border: 1px solid var(--border); border-radius: 12px; background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-    #file-container.view-card .link-list a {
-      padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;
-    }
-    #file-container.view-card .link-list a::before { font-size: 1.3rem; margin-right: 0; margin-bottom: 0.2rem; opacity: 0.8; }
+    #file-container.view-card .link-list a { padding: 1.2rem; }
 
-    .file-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.2rem; }
+    .file-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; }
     .tag-badge {
-      font-size: 0.7rem; padding: 0.15rem 0.5rem; background: #e0e7ff; color: #3730a3;
+      font-size: 0.72rem; padding: 0.1rem 0.5rem; background: #e0e7ff; color: #3730a3;
       border-radius: 99px; font-weight: 500;
     }
     .hidden-item { display: none !important; }
 
-    .state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
-    .spinner { width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--link); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.8rem; }
+    .state { text-align: center; padding: 4rem 1rem; color: var(--text-muted); }
+    .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--link); 
+               border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .error { color: #dc2626; background: #fef2f2; padding: 0.8rem; border-radius: 8px; border: 1px solid #fecaca; margin-top: 1rem; }
+    .error { color: #dc2626; background: #fef2f2; padding: 1rem; border-radius: 8px; border: 1px solid #fecaca; }
   </style>
 </head>
 <body>
   <header>
     <h1 id="secret-trigger">📁 檔案目錄</h1>
     <p id="subtitle">自動同步此資料夾下的所有 HTML 頁面</p>
+    <div class="version">版本 v1.3</div>
   </header>
 
   <main id="container">
     <div id="controls" class="controls-bar" style="display:none;">
-      <div class="control-group" id="filter-group">
-        <span class="control-label">🏷️ 類型過濾:</span>
-        <button class="ctrl-btn active" data-tag="all">全部</button>
+      <div class="control-group">
+        <span class="control-label">🏷️ 標籤過濾：</span>
+        <select id="tag-filter">
+          <option value="all">全部</option>
+        </select>
       </div>
       <div class="control-group">
-        <span class="control-label">👁️ 顯示模式:</span>
+        <span class="control-label">👁️ 顯示模式：</span>
         <button class="ctrl-btn active" data-view="list">📋 列表</button>
         <button class="ctrl-btn" data-view="card">🃏 卡片</button>
       </div>
     </div>
 
-    <div id="state" class="state" style="display:none;"><div class="spinner"></div>解密並掃描中...</div>
+    <div id="state" class="state" style="display:none;">
+      <div class="spinner"></div>
+      解密並掃描中...
+    </div>
     <div id="file-container" class="view-list" style="display:none;">
       <ul id="list" class="link-list"></ul>
     </div>
@@ -98,16 +109,16 @@
 
   <script>
     const CONFIG = { owner: '', repo: '', branch: 'main', path: '' };
+    const VERSION = "v1.3";   // ← 每次更新請修改這裡的版本號
 
-    // 從單一 HTML 內容提取標籤
+    // 從 HTML 內容提取標籤
     async function extractTagsFromHTML(file) {
       try {
         const res = await fetch(file.download_url);
         const html = await res.text();
-
         const tags = new Set();
 
-        // 方法1：抓取所有 .badge 的文字（你目前使用的格式）
+        // 抓取 .badge
         const badgeRegex = /<span[^>]*class=["'][^"']*badge[^"']*["'][^>]*>([^<]+)<\/span>/gi;
         let match;
         while ((match = badgeRegex.exec(html)) !== null) {
@@ -115,23 +126,19 @@
           if (tag) tags.add(tag);
         }
 
-        // 方法2：支援 <meta name="tags" content="...">
+        // 支援 meta tag
         const metaMatch = html.match(/<meta\s+name=["']tags["']\s+content=["']([^"']*)["']/i);
         if (metaMatch && metaMatch[1]) {
-          metaMatch[1].split(/[,，]/).forEach(t => {
-            const trimmed = t.trim();
-            if (trimmed) tags.add(trimmed);
-          });
+          metaMatch[1].split(/[,，]/).forEach(t => t.trim() && tags.add(t.trim()));
         }
 
         return tags.size > 0 ? Array.from(tags) : ['其他'];
       } catch (err) {
-        console.warn('無法讀取標籤：', file.name);
         return ['其他'];
       }
     }
 
-    function autoDetectRepo() {
+    function autoDetectRepo() { /* ... 保持不變 ... */ 
       const host = window.location.hostname;
       const path = window.location.pathname;
       if (host.endsWith('.github.io')) {
@@ -142,12 +149,12 @@
       }
     }
 
-    const CACHE_KEY = 'gh_index_cache_v2';
+    const CACHE_KEY = 'gh_index_cache_v3';
     function getCache() {
       const raw = sessionStorage.getItem(CACHE_KEY);
       if (!raw) return null;
       const { data, time } = JSON.parse(raw);
-      return (Date.now() - time < 3600000) ? data : null; // 1小時快取
+      return (Date.now() - time < 3600000) ? data : null;
     }
     function setCache(data) {
       sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, time: Date.now() }));
@@ -156,10 +163,9 @@
     async function init() {
       autoDetectRepo();
       const stateEl = document.getElementById('state');
-      const listEl = document.getElementById('list');
 
       if (!CONFIG.owner || !CONFIG.repo) {
-        stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo，請手動設定 CONFIG</div>`;
+        stateEl.innerHTML = `<div class="error">⚠️ 無法自動偵測 Repo</div>`;
         stateEl.style.display = 'block';
         return;
       }
@@ -189,83 +195,83 @@
       const stateEl = document.getElementById('state');
       const containerEl = document.getElementById('file-container');
       const controlsEl = document.getElementById('controls');
-      const filterGroup = document.getElementById('filter-group');
       const listEl = document.getElementById('list');
 
       stateEl.style.display = 'none';
       containerEl.style.display = 'block';
       controlsEl.style.display = 'flex';
 
-      if (files.length === 0) {
-        listEl.innerHTML = `<div class="state empty">📭 找不到其他 .html 檔案</div>`;
-        return;
-      }
-
-      // 逐一抓取標籤（平行處理加快速度）
+      // 提取標籤
       const fileData = await Promise.all(files.map(async (f) => {
         const tags = await extractTagsFromHTML(f);
         return { ...f, tags };
       }));
 
-      // 生成過濾按鈕
-      const allTags = new Set();
-      fileData.forEach(item => item.tags.forEach(t => allTags.add(t)));
-
-      filterGroup.querySelectorAll('.dynamic-tag-btn').forEach(b => b.remove());
-      Array.from(allTags).sort().forEach(tag => {
-        const btn = document.createElement('button');
-        btn.className = 'ctrl-btn dynamic-tag-btn';
-        btn.dataset.tag = tag;
-        btn.textContent = tag;
-        filterGroup.appendChild(btn);
+      // 統計每個標籤數量
+      const tagCount = {};
+      fileData.forEach(item => {
+        item.tags.forEach(tag => {
+          tagCount[tag] = (tagCount[tag] || 0) + 1;
+        });
       });
 
-      // 渲染列表
+      // 產生下拉選單
+      const select = document.getElementById('tag-filter');
+      select.innerHTML = `<option value="all">全部 (${fileData.length})</option>`;
+      
+      Object.keys(tagCount).sort().forEach(tag => {
+        const option = document.createElement('option');
+        option.value = tag;
+        option.textContent = `${tag} (${tagCount[tag]})`;
+        select.appendChild(option);
+      });
+
+      // 渲染檔案列表
       const baseDir = window.location.pathname.replace(/\/[^\/]*$/, '/');
       listEl.innerHTML = fileData.map(f => {
         const url = `${baseDir}${CONFIG.path || ''}${f.name}`;
         const displayName = f.name.replace(/\.html$/i, '');
         const tagsHtml = f.tags.map(t => `<span class="tag-badge">${t}</span>`).join('');
-        return `<li data-tags="${f.tags.join(',')}"><a href="${url}">${displayName}<div class="file-tags">${tagsHtml}</div></a></li>`;
+        return `<li data-tags="${f.tags.join(',')}">
+                  <a href="${url}">${displayName}<div class="file-tags">${tagsHtml}</div></a>
+                </li>`;
       }).join('');
     }
 
-    // 控制面板事件
-    document.getElementById('controls').addEventListener('click', (e) => {
-      const btn = e.target.closest('.ctrl-btn');
-      if (!btn) return;
-
-      if (btn.dataset.tag) {
-        document.querySelectorAll('#filter-group .ctrl-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const tag = btn.dataset.tag;
-        document.querySelectorAll('#list li').forEach(li => {
-          const liTags = li.dataset.tags || '';
-          li.classList.toggle('hidden-item', tag !== 'all' && !liTags.includes(tag));
-        });
-      } else if (btn.dataset.view) {
-        document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('file-container').className = `view-${btn.dataset.view}`;
-      }
+    // 下拉選單過濾
+    document.getElementById('tag-filter').addEventListener('change', (e) => {
+      const selectedTag = e.target.value;
+      document.querySelectorAll('#list li').forEach(li => {
+        const liTags = li.dataset.tags || '';
+        li.classList.toggle('hidden-item', selectedTag !== 'all' && !liTags.includes(selectedTag));
+      });
     });
 
-    // 三擊解鎖（密碼為 1）
-    const secretTrigger = document.getElementById('secret-trigger');
+    // 視圖切換
+    document.getElementById('controls').addEventListener('click', (e) => {
+      const btn = e.target.closest('.ctrl-btn');
+      if (!btn || !btn.dataset.view) return;
+      
+      document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('file-container').className = `view-${btn.dataset.view}`;
+    });
+
+    // 三擊解鎖
     let clickCount = 0;
     let clickTimer;
-    secretTrigger.addEventListener('click', () => {
+    document.getElementById('secret-trigger').addEventListener('click', () => {
       clickCount++;
       clearTimeout(clickTimer);
-      clickTimer = setTimeout(() => { clickCount = 0; }, 1200);
+      clickTimer = setTimeout(() => clickCount = 0, 1200);
 
       if (clickCount === 3) {
-        const password = prompt("🔒 請輸入密碼解密目錄:");
-        if (password === "1") {
+        const pw = prompt("🔒 請輸入密碼 (預設: 1)");
+        if (pw === "1") {
           document.getElementById('state').style.display = 'block';
-          document.getElementById('subtitle').innerText = "已解密，正在取得資料...";
+          document.getElementById('subtitle').innerText = "已解密，正在載入檔案...";
           init();
-        } else if (password !== null) {
+        } else if (pw !== null) {
           alert("❌ 密碼錯誤！");
         }
         clickCount = 0;
