@@ -13,7 +13,9 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem 1rem; }
     header { max-width: 800px; margin: 0 auto 2rem; text-align: center; }
-    header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.3rem; }
+    
+    /* Added user-select: none so clicking 3 times doesn't highlight the text */
+    header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.3rem; user-select: none; cursor: default; }
     header p { color: var(--text-muted); font-size: 0.9rem; }
 
     #container { max-width: 800px; margin: 0 auto; }
@@ -40,12 +42,12 @@
 </head>
 <body>
   <header>
-    <h1>📁 檔案目錄</h1>
-    <p>自動同步此資料夾下的所有 HTML 頁面</p>
+    <h1 id="secret-trigger">📁 檔案目錄</h1>
+    <p id="subtitle">自動同步此資料夾下的所有 HTML 頁面</p>
   </header>
 
   <main id="container">
-    <div id="state" class="state"><div class="spinner"></div>掃描中...</div>
+    <div id="state" class="state" style="display:none;"><div class="spinner"></div>解密並掃描中...</div>
     <div id="list" style="display:none;"></div>
   </main>
 
@@ -93,7 +95,6 @@
 
         const htmlFiles = files
           .filter(f => f.name.endsWith('.html') && f.name.toLowerCase() !== 'index.html')
-          // 🔽 依檔名數字/日期由大到小遞減排序
           .sort((a, b) => b.name.localeCompare(a.name, 'zh-Hant', { numeric: true }));
 
         setCache(htmlFiles);
@@ -121,7 +122,36 @@
       }).join('') + `</ul>`;
     }
 
-    init();
+    // --- SECRET CLICK LOGIC ---
+    const secretTrigger = document.getElementById('secret-trigger');
+    let clickCount = 0;
+    let clickTimer;
+
+    secretTrigger.addEventListener('click', () => {
+      clickCount++;
+      clearTimeout(clickTimer);
+      
+      // If the user stops clicking for 1 second, reset the counter
+      clickTimer = setTimeout(() => { 
+        clickCount = 0; 
+      }, 1000);
+
+      // Trigger the prompt after 3 rapid clicks
+      if (clickCount === 3) {
+        const password = prompt("🔒 請輸入密碼解密目錄 (Enter Secret Key):");
+        
+        // Change "123456" to whatever password you want to use
+        if (password === "123456") {
+          document.getElementById('state').style.display = 'block';
+          document.getElementById('subtitle').innerText = "已解密，正在取得資料...";
+          init(); // Only run the fetch function if password is correct
+        } else if (password !== null) {
+          alert("❌ 密碼錯誤！存取被拒絕。 (Access Denied)");
+        }
+        
+        clickCount = 0; // Reset counter after attempting
+      }
+    });
   </script>
 </body>
 </html>
