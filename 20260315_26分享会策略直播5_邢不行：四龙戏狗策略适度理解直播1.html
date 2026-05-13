@@ -21,23 +21,19 @@
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: system-ui, -apple-system, sans-serif;
             line-height: 1.6;
             color: var(--text-primary);
             background-color: var(--background);
             padding: 2rem 1rem;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             padding-bottom: 1.5rem;
             border-bottom: 2px solid var(--primary);
         }
@@ -47,11 +43,49 @@
             color: var(--primary);
             word-break: break-all;
         }
-        header p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+        header p { font-size: 1.1rem; color: var(--text-secondary); font-weight: 500; }
+
+        /* ================= 控制面板樣式 ================= */
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+            border: 1px solid var(--border);
         }
+        .control-group { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+        .control-label { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-right: 0.3rem; }
+        .ctrl-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .ctrl-btn:hover { background: var(--background); transform: translateY(-1px); }
+        .ctrl-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 2px 4px rgba(26, 86, 219, 0.3);
+        }
+
+        /* ================= 內容區塊基礎樣式 ================= */
         section {
             background-color: var(--card-bg);
             border-radius: var(--radius);
@@ -75,194 +109,173 @@
             background-color: var(--primary);
             border-radius: 4px;
         }
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.2rem;
-        }
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
         .dashboard-card {
             background-color: var(--background);
             border-radius: var(--radius);
             padding: 1.2rem;
             border: 1px solid var(--border);
         }
-        .dashboard-card h3 {
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-        .dashboard-card p, .dashboard-card ul {
-            font-size: 1.05rem;
-            font-weight: 500;
-        }
-        .dashboard-card ul {
-            padding-left: 1.2rem;
-        }
-        .dashboard-card ul li {
-            margin-bottom: 0.4rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.3rem 0.6rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .badge-primary {
-            background-color: var(--primary-light);
-            color: white;
-        }
-        .badge-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-        .badge-accent {
-            background-color: var(--accent);
-            color: white;
-        }
-        .badge-warning {
-            background-color: var(--warning);
-            color: white;
-        }
-        .timeline {
-            position: relative;
-            padding-left: 2.5rem;
-        }
+        .dashboard-card h3 { font-size: 1rem; margin-bottom: 0.8rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem; }
+        .dashboard-card p, .dashboard-card ul { font-size: 1.05rem; font-weight: 500; }
+        .dashboard-card ul { padding-left: 1.2rem; }
+        .dashboard-card ul li { margin-bottom: 0.4rem; }
+        .badge { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+        .badge-primary { background-color: var(--primary-light); color: white; }
+        .badge-secondary { background-color: var(--secondary); color: white; }
+        .badge-accent { background-color: var(--accent); color: white; }
+        .badge-warning { background-color: var(--warning); color: white; }
+
+        /* 時間軸與清單 */
+        .timeline { position: relative; padding-left: 2.5rem; }
         .timeline::before {
-            content: "";
-            position: absolute;
-            left: 0.5rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: var(--primary-light);
+            content: ""; position: absolute; left: 0.5rem; top: 0; bottom: 0;
+            width: 2px; background-color: var(--primary-light);
         }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2rem;
-        }
+        .timeline-item { position: relative; margin-bottom: 2rem; transition: all 0.3s ease; }
         .timeline-item::before {
-            content: "";
-            position: absolute;
-            left: -2rem;
-            top: 0.3rem;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            border: 3px solid var(--primary-light);
+            content: ""; position: absolute; left: -2rem; top: 0.3rem;
+            width: 16px; height: 16px; border-radius: 50%;
+            background-color: var(--primary); border: 3px solid var(--primary-light);
         }
-        .timeline-item h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.6rem;
-            color: var(--text-primary);
-        }
+        .timeline-item h3 { font-size: 1.2rem; margin-bottom: 0.6rem; color: var(--text-primary); }
         .timeline-content {
             background-color: var(--background);
             border-radius: var(--radius);
             padding: 1rem;
             border: 1px solid var(--border);
         }
-        .timeline-content p {
-            margin-bottom: 0.8rem;
-        }
-        .checklist {
-            list-style-type: none;
-        }
+        .timeline-content p { margin-bottom: 0.8rem; }
+        .checklist { list-style-type: none; }
         .checklist li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
+            display: flex; align-items: flex-start; gap: 0.8rem;
+            margin-bottom: 1rem; padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border); transition: all 0.3s ease;
         }
-        .checklist li:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .checklist li::before {
-            content: "✅";
-            display: inline-block;
-            min-width: 1.2rem;
-            margin-top: 0.2rem;
-        }
-        .checklist li .param {
-            font-weight: 600;
-            color: var(--primary);
-        }
-        .checklist li .tools {
-            font-style: italic;
-            color: var(--text-secondary);
-        }
-        .checklist li .pitfall {
-            color: var(--danger);
-            font-weight: 500;
-        }
-        details {
-            margin-top: 1rem;
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
+        .checklist li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .checklist li::before { content: "✅"; display: inline-block; min-width: 1.2rem; margin-top: 0.2rem; }
+        .checklist li .param { font-weight: 600; color: var(--primary); }
+        .checklist li .tools { font-style: italic; color: var(--text-secondary); }
+        .checklist li .pitfall { color: var(--danger); font-weight: 500; }
+
+        details { margin-top: 1rem; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
         summary {
-            background-color: var(--background);
-            padding: 0.8rem 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            background-color: var(--background); padding: 0.8rem 1rem;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
         }
-        summary::after {
-            content: "▼";
-            font-size: 0.8rem;
-            transition: transform 0.2s;
+        summary::after { content: "▼"; font-size: 0.8rem; transition: transform 0.2s; margin-left: auto; }
+        details[open] summary::after { transform: rotate(180deg); }
+        details .details-content { padding: 1rem; background-color: white; }
+
+        /* ================= 視圖切換樣式 ================= */
+        .hidden-item { display: none !important; }
+        
+        /* 卡片視圖覆蓋樣式 */
+        #content-container.view-card .timeline {
+            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
         }
-        details[open] summary::after {
-            transform: rotate(180deg);
-        }
-        details .details-content {
-            padding: 1rem;
-            background-color: white;
-        }
-        .ai-note {
-            margin-bottom: 1rem;
-            padding: 1rem;
+        #content-container.view-card .timeline::before { display: none; }
+        #content-container.view-card .timeline-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
-            background-color: rgba(59, 130, 246, 0.05);
-            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 0;
         }
+        #content-container.view-card .timeline-item::before { display: none; }
+        
+        #content-container.view-card .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        #content-container.view-card .checklist li {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--border);
+            flex-direction: column;
+        }
+
+        /* ================= 密碼彈窗樣式 ================= */
+        #pwd-modal {
+            position: fixed; inset: 0; background: rgba(17, 24, 39, 0.85);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; backdrop-filter: blur(6px);
+        }
+        .pwd-box {
+            background: white; padding: 2.5rem 2rem; border-radius: var(--radius);
+            text-align: center; width: 90%; max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .pwd-box h2 { margin-bottom: 0.5rem; color: var(--primary); }
+        .pwd-box p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .pwd-box input {
+            width: 100%; padding: 0.9rem; margin-bottom: 1rem;
+            border: 2px solid var(--border); border-radius: 8px; font-size: 1.1rem;
+            text-align: center; letter-spacing: 2px; transition: border-color 0.2s;
+        }
+        .pwd-box input:focus { outline: none; border-color: var(--primary); }
+        .pwd-box button {
+            width: 100%; padding: 0.9rem; background: var(--primary);
+            color: white; border: none; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .pwd-box button:hover { background: var(--primary-light); }
+        .pwd-error { color: var(--danger); font-size: 0.9rem; margin-top: 0.8rem; display: none; font-weight: 500; }
+
         @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            header h1 {
-                font-size: 1.5rem;
-            }
-            section h2 {
-                font-size: 1.3rem;
-            }
-            .timeline {
-                padding-left: 2rem;
-            }
-            .timeline-item::before {
-                left: -1.5rem;
-            }
+            .dashboard { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.5rem; }
+            section h2 { font-size: 1.3rem; }
+            .controls-bar { flex-direction: column; align-items: stretch; }
+            .control-group { justify-content: center; }
+            #content-container.view-card .timeline,
+            #content-container.view-card .checklist { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+    <!-- 🔐 密碼保護彈窗 -->
+    <div id="pwd-modal">
+        <div class="pwd-box">
+            <h2>🔒 內容受保護</h2>
+            <p>請輸入訪問密碼以查看完整策略筆記</p>
+            <input type="password" id="pwd-input" placeholder="輸入密碼" autocomplete="off">
+            <button id="pwd-btn">確認進入</button>
+            <div class="pwd-error" id="pwd-error">❌ 密碼錯誤，請重試</div>
+        </div>
+    </div>
+
     <header>
         <h1>📁 20260315_26分享会策略直播5_邢不行：四龙戏狗策略适度理解直播1</h1>
         <p>四龙戏狗策略多头深度解析：老登风格资产特征、多空匹配逻辑与实盘应对指南</p>
     </header>
+
+    <!-- 🎛️ 頂部控制面板 -->
+    <div class="controls-bar">
+        <div class="control-group">
+            <span class="control-label">🏷️ 類型過濾:</span>
+            <button class="ctrl-btn active filter-btn" data-tag="all">全部</button>
+            <button class="ctrl-btn filter-btn" data-tag="四龙戏狗">四龙戏狗</button>
+            <button class="ctrl-btn filter-btn" data-tag="中性策略">中性策略</button>
+            <button class="ctrl-btn filter-btn" data-tag="多头解析">多头解析</button>
+            <button class="ctrl-btn filter-btn" data-tag="实盘应对">实盘应对</button>
+        </div>
+        <div class="control-group">
+            <span class="control-label">👁️ 顯示模式:</span>
+            <button class="ctrl-btn active view-btn" data-view="view-list">📋 列表視圖</button>
+            <button class="ctrl-btn view-btn" data-view="view-card">🃏 卡片視圖</button>
+        </div>
+    </div>
 
     <section id="summary">
         <h2>執行儀表板</h2>
@@ -302,150 +315,195 @@
         </div>
     </section>
 
-    <section id="key-points">
-        <h2>重點摘要與邏輯軸</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <h3>策略基礎與實盤現狀</h3>
-                <div class="timeline-content">
-                    <p>1. 策略定义：四龙戏狗是"多头四龙（BTC/ETH/BNB/SOL等权持有）+ 空头落单狗（选币策略）"组成的中性策略，1月16日启动实盘</p>
-                    <p>2. 实盘表现：截至3月15日，实盘先小幅创新高后回撤10%+，属于正常现象，实盘初期回撤是加仓与加深理解的机会</p>
-                    <p>3. 核心观点：实盘初期暴涨是"噩梦"（易导致盲目自信加仓），初期回撤是"福报"（倒逼学习与理性加仓），需做好策略可能半年不盈利的心理准备</p>
+    <!-- 內容容器：應用過濾與視圖切換 -->
+    <div id="content-container" class="view-list">
+        <section id="key-points">
+            <h2>重點摘要與邏輯軸</h2>
+            <div class="timeline">
+                <div class="timeline-item filterable-item" data-tags="四龙戏狗,实盘应对">
+                    <h3>策略基礎與實盤現狀</h3>
+                    <div class="timeline-content">
+                        <p>1. 策略定义：四龙戏狗是"多头四龙（BTC/ETH/BNB/SOL等权持有）+ 空头落单狗（选币策略）"组成的中性策略，1月16日启动实盘</p>
+                        <p>2. 实盘表现：截至3月15日，实盘先小幅创新高后回撤10%+，属于正常现象，实盘初期回撤是加仓与加深理解的机会</p>
+                        <p>3. 核心观点：实盘初期暴涨是"噩梦"（易导致盲目自信加仓），初期回撤是"福报"（倒逼学习与理性加仓），需做好策略可能半年不盈利的心理准备</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item filterable-item" data-tags="多头解析,四龙戏狗">
+                    <h3>四龍（老登風格）資產核心特徵</h3>
+                    <div class="timeline-content">
+                        <p>1. 历史表现：<br>- BTC：21年至今翻2.4倍，最大回撤75%，市值占全市场65%<br>- ETH：翻2.8倍，最大回撤80%，市值占比11%<br>- BNB：翻17.3倍，最大回撤70%以内（最稳），市值占比4.1%<br>- SOL：翻47.1倍，最大回撤95%+，市值占比2.3%</p>
+                        <p>2. 相关性与流动性：<br>- 相关性：BTC与ETH相关性0.81（节奏接近），BNB/SOL与前两者相关性0.6（相对独立）<br>- 成交量：BTC占50%、ETH占38%，合计占88%，是市场流动性核心</p>
+                        <p>3. 风格定义（老登风格）：有基本面支撑（实际用户/应用场景）、市值大（蓝筹/白马股）、支持美股ETF，场外正规资金可流入，长期跑赢全市场概率高</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item filterable-item" data-tags="多头解析,中性策略">
+                    <h3>幣圈市場環境與多頭優勢</h3>
+                    <div class="timeline-content">
+                        <p>1. 全市场现状（深熊）：<br>- 22年以前上线的305个币种中，90%未突破21年新高，34%已退市<br>- 仅6.9%的币种（21个）突破21年新高，多数仅勉强摸高，仅TRX和BTC当前价格高于21年高点</p>
+                        <p>2. 四龙优势：<br>- 均突破过21年新高，远超全市场平均水平<br>- 等权持有四龙可持续创新高，而全市场呈现"涨上去跌下来"的震荡走势，2025年全市场跌幅达60%-70%</p>
+                        <p>3. 回测提示：四龙回测含"未来函数"（21年初无法预知BNB/SOL的涨幅），实际策略逻辑基于"老登风格长期跑赢"的概率与基本面，而非单纯回测数据</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item filterable-item" data-tags="中性策略,实盘应对">
+                    <h3>中性策略核心：多空匹配邏輯</h3>
+                    <div class="timeline-content">
+                        <p>1. 多空匹配定义：多头与空头走势接近，同涨同跌（多头涨更多/空头跌更多），而非曲线完全一致</p>
+                        <p>2. 错配的影响：<br>- 顺境爽：多头横盘/小涨+空头狂跌（策略暴涨）<br>- 逆境难：多头横盘/小跌+空头狂涨（策略大幅回撤，易怀疑人生）</p>
+                        <p>3. 实验验证：<br>- 错配组合（多BTC+空落单狗）：翻10倍，最大回撤37%，横盘寂寞期长达2年<br>- 匹配组合（多全市场+空落单狗）：翻18倍，最大回撤21%，回撤周期短（半年内）</p>
+                        <p>4. 实操建议：开发中性策略需优先考虑多空匹配，四龙与落单狗存在错配，可通过沧浪亭策略优化，或在多头中加入25%大学生等策略平衡</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item filterable-item" data-tags="实盘应对,多头解析">
+                    <h3>老登資產典型行情場景與應對</h3>
+                    <div class="timeline-content">
+                        <p>1. 最难的时候（需坚守）：老登横盘+山寨狂涨（如22年熊市山寨反弹80%，BTC小涨，策略回撤大）→ 避免停策略，耐心等待风格切换</p>
+                        <p>2. 最爽的时候（享收益）：老登横盘+山寨狂跌（如25年初BTC跌7%，山寨跌34%，策略暴涨）→ 持有为主，不盲目止盈</p>
+                        <p>3. 怀疑人生的时候（少出现）：老登大跌+全市场跌得少（如22年6月BTC跌40%，全市场跌幅更小）→ 相信基本面，不恐慌割肉</p>
+                        <p>4. 行情启动的时候（预示好转）：老登独涨+全市场横盘 → 耐心持有，后续可能带动全市场行情，不急于换仓</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item filterable-item" data-tags="多头解析,中性策略">
+                    <h3>多頭優化方向與滄浪亭精選隨機</h3>
+                    <div class="timeline-content">
+                        <p>1. 多头优化建议：<br>- 新人：不建议轮动，等权持有四龙即可<br>- 进阶：加入看好的老登币（有ETF/基本面支撑），或基于链上数据（活跃度/收入/稳定币分布）调整仓位权重</p>
+                        <p>2. 沧浪亭精选随机配置（25/26年同学）：<br>- 多头：20%四龙+30%大学生<br>- 空头：38%黄果树+4%落九天+4%马嵬坡+4%落单狗<br>- 核心优势：策略逻辑硬于浪淘沙，可缓解四龙与落单狗的错配问题</p>
+                        <p>3. 注意事项：先单独理解沧浪亭策略，不急于与浪淘沙/后置过滤混合，后续将补充新的多头/空头匹配配置</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="timeline-item">
-                <h3>四龍（老登風格）資產核心特徵</h3>
-                <div class="timeline-content">
-                    <p>1. 历史表现：
-                        <br>- BTC：21年至今翻2.4倍，最大回撤75%，市值占全市场65%
-                        <br>- ETH：翻2.8倍，最大回撤80%，市值占比11%
-                        <br>- BNB：翻17.3倍，最大回撤70%以内（最稳），市值占比4.1%
-                        <br>- SOL：翻47.1倍，最大回撤95%+，市值占比2.3%
-                    </p>
-                    <p>2. 相关性与流动性：
-                        <br>- 相关性：BTC与ETH相关性0.81（节奏接近），BNB/SOL与前两者相关性0.6（相对独立）
-                        <br>- 成交量：BTC占50%、ETH占38%，合计占88%，是市场流动性核心
-                    </p>
-                    <p>3. 风格定义（老登风格）：有基本面支撑（实际用户/应用场景）、市值大（蓝筹/白马股）、支持美股ETF，场外正规资金可流入，长期跑赢全市场概率高</p>
+        <section id="logic">
+            <h2>底層邏輯與框架</h2>
+            <details>
+                <summary>點擊展開詳情</summary>
+                <div class="details-content">
+                    <h3>1. 思維模型</h3>
+                    <p>✅ 風格輪動模型：币圈存在"老登风格（蓝筹）"与"山寨风格（小票）"的轮动，两者相关性低，呈现"此起彼伏"的潮汐效应，中性策略收益源于风格差异与多空强弱差</p>
+                    <p>✅ 多空匹配模型：中性策略的核心是"风险对冲"，多空匹配可降低回撤幅度与时长，错配虽可能放大收益，但会显著提升心态压力与操作难度，需权衡收益与稳定性</p>
+                    <p>✅ 概率優勢模型：四龙策略的本质不是回测数据支撑，而是基于"老登风格基本面更硬、长期跑赢概率更高"的逻辑，通过多老登、空垃圾币（落单狗）获取概率优势</p>
+                    <p>✅ 行情階段模型：不同行情场景（最难/最爽/启动/怀疑人生）对应不同的投资者心态与应对方式，提前识别场景可避免非理性操作</p>
+
+                    <h3>2. 因果/遞進關係</h3>
+                    <p>① 币圈深熊环境（多数币种退市/不创新高）→ 老登风格资产（四龙）因基本面/流动性优势脱颖而出 → 成为中性策略优质多头 → 长期跑赢全市场</p>
+                    <p>② 多空错配（四龙vs落单狗）→ 顺境收益放大+逆境回撤加剧 → 投资者心态波动 → 需通过策略组合（如加入大学生）或沧浪亭优化 → 平衡收益与稳定性</p>
+                    <p>③ 实盘初期回撤 → 投资者怀疑策略 → 加深对策略逻辑（老登风格+多空错配）的理解 → 理性加仓 → 回撤加仓的收益成为核心盈利来源</p>
+                    <p>④ 风格轮动（老登独涨）→ 吸引场外资金流入 → 带动全市场行情 → 中性策略从"错配压力"转向"收益释放" → 验证行情启动信号</p>
+
+                    <h3>3. 關鍵隱喻與案例</h3>
+                    <p>🏛️ 藍籌與小票隱喻：四龙如同币圈的"上证50/沪深300"，落单狗对应的山寨币如同"中证1000/小票"，两者走势差异如同A股大市值与小市值的分化，中性策略收益源于这种分化</p>
+                    <p>🌊 潮汐效應案例：BTC与全市场的收益差呈现"此起彼伏"的潮汐特征，21年山寨狂涨（BTC跑输）、22年后山寨狂跌（BTC跑赢），验证风格轮动的必然性</p>
+                    <p>⚠️ 回測陷阱案例：四龙回测含未来函数（21年初无法预知SOL/BNB涨幅），提示投资者不可盲目迷信回测数据，需关注策略底层逻辑（基本面/概率优势）</p>
+                    <p>🚀 行情啟動案例：24年底A股指数狂拉后带动全市场上涨，类比币圈BTC独涨后吸引场外资金，说明标杆性资产上涨是行情启动的重要信号</p>
                 </div>
-            </div>
+            </details>
+        </section>
 
-            <div class="timeline-item">
-                <h3>幣圈市場環境與多頭優勢</h3>
-                <div class="timeline-content">
-                    <p>1. 全市场现状（深熊）：
-                        <br>- 22年以前上线的305个币种中，90%未突破21年新高，34%已退市
-                        <br>- 仅6.9%的币种（21个）突破21年新高，多数仅勉强摸高，仅TRX和BTC当前价格高于21年高点
-                    </p>
-                    <p>2. 四龙优势：
-                        <br>- 均突破过21年新高，远超全市场平均水平
-                        <br>- 等权持有四龙可持续创新高，而全市场呈现"涨上去跌下来"的震荡走势，2025年全市场跌幅达60%-70%
-                    </p>
-                    <p>3. 回测提示：四龙回测含"未来函数"（21年初无法预知BNB/SOL的涨幅），实际策略逻辑基于"老登风格长期跑赢"的概率与基本面，而非单纯回测数据</p>
-                </div>
-            </div>
+        <section id="steps">
+            <h2>實作步驟 Checklist</h2>
+            <ul class="checklist">
+                <li class="filterable-item" data-tags="四龙戏狗,实盘应对">
+                    <div>
+                        <span class="param">步驟1：確認多頭仓位配置</span>
+                        <p>① 基础配置：等权持有BTC/ETH/BNB/SOL，确保仓位与策略定义一致；② 数据验证：核对币种市值占比、成交量数据，确认流动性充足；③ 心态建设：接受四龙的高波动性（最大回撤75%+），做好长期持仓准备</p>
+                        <p class="tools">工具：币圈行情软件、实盘框架仓位监控面板</p>
+                        <p class="pitfall">卡關點：因短期回撤盲目更换多头币种，忽视老登风格的长期概率优势；过度集中某一币种（如重仓SOL），放大回撤风险</p>
+                    </div>
+                </li>
+                <li class="filterable-item" data-tags="中性策略,实盘应对">
+                    <div>
+                        <span class="param">步驟2：評估多空匹配程度</span>
+                        <p>① 现状分析：检查自身四龙戏狗策略的多空相关性，判断是否存在严重错配；② 优化调整：新人可保持默认配置，进阶投资者可加入25%大学生策略平衡多头风格；③ 工具适配：若回撤压力大，可导入沧浪亭精选随机配置，缓解错配影响</p>
+                        <p class="tools">工具：策略回测报告、相关性分析工具、沧浪亭精选随机配置包</p>
+                        <p class="pitfall">卡關點：为追求高收益刻意保持错配，忽视自身心态承受能力；盲目混合多种策略，导致仓位混乱</p>
+                    </div>
+                </li>
+                <li class="filterable-item" data-tags="实盘应对,多头解析">
+                    <div>
+                        <span class="param">步驟3：識別行情場景並應對</span>
+                        <p>① 场景判断：根据BTC（老登）与全市场（山寨）的涨跌关系，判断当前属于4种典型场景中的哪一种；② 对应操作：最难时坚守、最爽时持有、怀疑人生时不割肉、行情启动时耐心等待；③ 加仓时机：在策略回撤（尤其是老登横盘+山寨狂跌后的回撤）时分批加仓，不追涨加仓</p>
+                        <p class="tools">工具：行情对比图表、实盘日志、加仓计划表格</p>
+                        <p class="pitfall">卡關點：将"老登独涨"误判为"错配压力"而换仓；在"最难的时候"因回撤过大停掉策略，错过后续风格切换</p>
+                    </div>
+                </li>
+                <li class="filterable-item" data-tags="多头解析,中性策略">
+                    <div>
+                        <span class="param">步驟4：多頭優化（進階）</span>
+                        <p>① 数据收集：获取链上数据（活跃度、收入、稳定币分布）、ETF资金流入数据；② 仓位调整：根据基本面数据，对表现更好的老登币适当提高权重（如BNB基本面稳定可小幅加仓）；③ 币种扩展：加入其他老登风格币（有ETF/实际应用），丰富多头组合，降低单一币种风险</p>
+                        <p class="tools">工具：链上数据分析平台、ETF资金流向工具、实盘框架仓位调整功能</p>
+                        <p class="pitfall">卡關點：过度优化导致偏离"等权持有"的简单逻辑；频繁调仓增加手续费与滑点损耗</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </div>
 
-            <div class="timeline-item">
-                <h3>中性策略核心：多空匹配邏輯</h3>
-                <div class="timeline-content">
-                    <p>1. 多空匹配定义：多头与空头走势接近，同涨同跌（多头涨更多/空头跌更多），而非曲线完全一致</p>
-                    <p>2. 错配的影响：
-                        <br>- 顺境爽：多头横盘/小涨+空头狂跌（策略暴涨）
-                        <br>- 逆境难：多头横盘/小跌+空头狂涨（策略大幅回撤，易怀疑人生）
-                    </p>
-                    <p>3. 实验验证：
-                        <br>- 错配组合（多BTC+空落单狗）：翻10倍，最大回撤37%，横盘寂寞期长达2年
-                        <br>- 匹配组合（多全市场+空落单狗）：翻18倍，最大回撤21%，回撤周期短（半年内）
-                    </p>
-                    <p>4. 实操建议：开发中性策略需优先考虑多空匹配，四龙与落单狗存在错配，可通过沧浪亭策略优化，或在多头中加入25%大学生等策略平衡</p>
-                </div>
-            </div>
+    <script>
+        // 🔐 密碼驗證邏輯 (已改為 "1")
+        const pwdModal = document.getElementById('pwd-modal');
+        const pwdInput = document.getElementById('pwd-input');
+        const pwdBtn = document.getElementById('pwd-btn');
+        const pwdError = document.getElementById('pwd-error');
 
-            <div class="timeline-item">
-                <h3>老登資產典型行情場景與應對</h3>
-                <div class="timeline-content">
-                    <p>1. 最难的时候（需坚守）：老登横盘+山寨狂涨（如22年熊市山寨反弹80%，BTC小涨，策略回撤大）→ 避免停策略，耐心等待风格切换</p>
-                    <p>2. 最爽的时候（享收益）：老登横盘+山寨狂跌（如25年初BTC跌7%，山寨跌34%，策略暴涨）→ 持有为主，不盲目止盈</p>
-                    <p>3. 怀疑人生的时候（少出现）：老登大跌+全市场跌得少（如22年6月BTC跌40%，全市场跌幅更小）→ 相信基本面，不恐慌割肉</p>
-                    <p>4. 行情启动的时候（预示好转）：老登独涨+全市场横盘 → 耐心持有，后续可能带动全市场行情，不急于换仓</p>
-                </div>
-            </div>
+        // 檢查是否已認證
+        if (sessionStorage.getItem('strategy_auth') === 'true') {
+            pwdModal.style.display = 'none';
+        }
 
-            <div class="timeline-item">
-                <h3>多頭優化方向與滄浪亭精選隨機</h3>
-                <div class="timeline-content">
-                    <p>1. 多头优化建议：
-                        <br>- 新人：不建议轮动，等权持有四龙即可
-                        <br>- 进阶：加入看好的老登币（有ETF/基本面支撑），或基于链上数据（活跃度/收入/稳定币分布）调整仓位权重
-                    </p>
-                    <p>2. 沧浪亭精选随机配置（25/26年同学）：
-                        <br>- 多头：20%四龙+30%大学生
-                        <br>- 空头：38%黄果树+4%落九天+4%马嵬坡+4%落单狗
-                        <br>- 核心优势：策略逻辑硬于浪淘沙，可缓解四龙与落单狗的错配问题
-                    </p>
-                    <p>3. 注意事项：先单独理解沧浪亭策略，不急于与浪淘沙/后置过滤混合，后续将补充新的多头/空头匹配配置</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        pwdBtn.addEventListener('click', () => {
+            if (pwdInput.value === '1') {
+                sessionStorage.setItem('strategy_auth', 'true');
+                pwdModal.style.opacity = '0';
+                setTimeout(() => pwdModal.style.display = 'none', 200);
+            } else {
+                pwdError.style.display = 'block';
+                pwdInput.value = '';
+                pwdInput.focus();
+            }
+        });
 
-    <section id="logic">
-        <h2>底層邏輯與框架</h2>
-        <details>
-            <summary>點擊展開詳情</summary>
-            <div class="details-content">
-                <h3>1. 思維模型</h3>
-                <p>✅ 風格輪動模型：币圈存在"老登风格（蓝筹）"与"山寨风格（小票）"的轮动，两者相关性低，呈现"此起彼伏"的潮汐效应，中性策略收益源于风格差异与多空强弱差</p>
-                <p>✅ 多空匹配模型：中性策略的核心是"风险对冲"，多空匹配可降低回撤幅度与时长，错配虽可能放大收益，但会显著提升心态压力与操作难度，需权衡收益与稳定性</p>
-                <p>✅ 概率優勢模型：四龙策略的本质不是回测数据支撑，而是基于"老登风格基本面更硬、长期跑赢概率更高"的逻辑，通过多老登、空垃圾币（落单狗）获取概率优势</p>
-                <p>✅ 行情階段模型：不同行情场景（最难/最爽/启动/怀疑人生）对应不同的投资者心态与应对方式，提前识别场景可避免非理性操作</p>
+        pwdInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') pwdBtn.click();
+        });
 
-                <h3>2. 因果/遞進關係</h3>
-                <p>① 币圈深熊环境（多数币种退市/不创新高）→ 老登风格资产（四龙）因基本面/流动性优势脱颖而出 → 成为中性策略优质多头 → 长期跑赢全市场</p>
-                <p>② 多空错配（四龙vs落单狗）→ 顺境收益放大+逆境回撤加剧 → 投资者心态波动 → 需通过策略组合（如加入大学生）或沧浪亭优化 → 平衡收益与稳定性</p>
-                <p>③ 实盘初期回撤 → 投资者怀疑策略 → 加深对策略逻辑（老登风格+多空错配）的理解 → 理性加仓 → 回撤加仓的收益成为核心盈利来源</p>
-                <p>④ 风格轮动（老登独涨）→ 吸引场外资金流入 → 带动全市场行情 → 中性策略从"错配压力"转向"收益释放" → 验证行情启动信号</p>
+        // 🏷️ 標籤過濾邏輯
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const filterItems = document.querySelectorAll('.filterable-item');
 
-                <h3>3. 關鍵隱喻與案例</h3>
-                <p>🏛️ 藍籌與小票隱喻：四龙如同币圈的"上证50/沪深300"，落单狗对应的山寨币如同"中证1000/小票"，两者走势差异如同A股大市值与小市值的分化，中性策略收益源于这种分化</p>
-                <p>🌊 潮汐效應案例：BTC与全市场的收益差呈现"此起彼伏"的潮汐特征，21年山寨狂涨（BTC跑输）、22年后山寨狂跌（BTC跑赢），验证风格轮动的必然性</p>
-                <p>⚠️ 回測陷阱案例：四龙回测含未来函数（21年初无法预知SOL/BNB涨幅），提示投资者不可盲目迷信回测数据，需关注策略底层逻辑（基本面/概率优势）</p>
-                <p>🚀 行情啟動案例：24年底A股指数狂拉后带动全市场上涨，类比币圈BTC独涨后吸引场外资金，说明标杆性资产上涨是行情启动的重要信号</p>
-            </div>
-        </details>
-    </section>
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 更新按鈕狀態
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
 
-    <section id="steps">
-        <h2>實作步驟 Checklist</h2>
-        <ul class="checklist">
-            <li>
-                <div>
-                    <span class="param">步驟1：確認多頭仓位配置</span>
-                    <p>① 基础配置：等权持有BTC/ETH/BNB/SOL，确保仓位与策略定义一致；② 数据验证：核对币种市值占比、成交量数据，确认流动性充足；③ 心态建设：接受四龙的高波动性（最大回撤75%+），做好长期持仓准备</p>
-                    <p class="tools">工具：币圈行情软件、实盘框架仓位监控面板</p>
-                    <p class="pitfall">卡關點：因短期回撤盲目更换多头币种，忽视老登风格的长期概率优势；过度集中某一币种（如重仓SOL），放大回撤风险</p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <span class="param">步驟2：評估多空匹配程度</span>
-                    <p>① 现状分析：检查自身四龙戏狗策略的多空相关性，判断是否存在严重错配；② 优化调整：新人可保持默认配置，进阶投资者可加入25%大学生策略平衡多头风格；③ 工具适配：若回撤压力大，可导入沧浪亭精选随机配置，缓解错配影响</p>
-                    <p class="tools">工具：策略回测报告、相关性分析工具、沧浪亭精选随机配置包</p>
-                    <p class="pitfall">卡關點：为追求高收益刻意保持错配，忽视自身心态承受能力；盲目混合多种策略，导致仓位混乱</p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <span class="param">步驟3：識別行情場景並應對</span>
-                    <p>① 场景判断：根据BTC（老登）与全市场（山寨）的涨跌关系，判断当前属于4种典型场景中的哪一种；② 对应操作：最难时坚守、最爽时持有、怀疑人生时不割肉、行情启动时耐心等待；③ 加仓时机：在策略回撤（尤其是老登横盘+山寨狂跌后的回撤）时分批加仓，不追涨加仓</p>
-                    <p class="tools">工具：行情对比图表、实盘日志、加仓计划表格</p>
-                    <p class="pitfall">卡關點：将"老登独涨"误判为"错配压力"而换仓；在"最难的时候"因回撤过大停掉策略，错过后续风格切换</p>
-                </div>
-            </li>
-            <li>
-                <div>
-                    <span class="param">步驟4：多頭優化（進階）</span>
-                    <p>① 数据收集：获取链上数据（活跃度、收入、稳定币分布）、ETF资金流入数据；② 仓位调整：根据基本面数据，对表现更好的老登币适当提高权重（如BNB基本面稳定可小幅加仓）；③ 币种扩展：加入其他老登风格币（有ETF/实际应用），丰富多头组合，降低单一币种风险</p>
-                    <p class="tools">工具：链上数据分析平台、ETF资金流向工具、实盘框架仓位调整功能</p>
-                    <p>
+                const tag = btn.dataset.tag;
+                filterItems.forEach(item => {
+                    const itemTags = item.dataset.tags || '';
+                    if (tag === 'all' || itemTags.includes(tag)) {
+                        item.classList.remove('hidden-item');
+                    } else {
+                        item.classList.add('hidden-item');
+                    }
+                });
+            });
+        });
+
+        // 📋/🃏 視圖切換邏輯
+        const viewBtns = document.querySelectorAll('.view-btn');
+        const contentContainer = document.getElementById('content-container');
+
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                viewBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                contentContainer.className = btn.dataset.view;
+            });
+        });
+    </script>
+</body>
+</html>
