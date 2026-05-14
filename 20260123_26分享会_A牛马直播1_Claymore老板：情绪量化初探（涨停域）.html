@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260123_26分享会_A牛马直播1_Claymore老板：情绪量化初探（涨停域）</title>
+    <style>
+        :root {
+            --primary: #DC2626;
+            --secondary: #64748B;
+            --accent: #F59E0B;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --border: #E2E8F0;
+            --success: #10B981;
+            --warning: #D97706;
+            --danger: #EF4444;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(245, 158, 11, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260123_26分享会_A牛马直播1_Claymore老板：情绪量化初探（涨停域）</h1>
+            <p>情绪量化策略全解析：基于开盘啦APP的涨停域研究，涵盖市场择时、强势板块分析、个股筛选与实战技巧（牛马团队联合研究）</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    以开盘啦APP情绪数据为核心，从市场、板块、个股三维度探索情绪量化策略，验证涨停域龙头效应与中等生策略的有效性，提供可落地的短线交易思路
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>短线交易爱好者、分享会成员、量化新手</li>
+                        <li>了解基础动量策略、涨停板交易逻辑</li>
+                        <li>安装开盘啦APP（仅支持手机端）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握基于开盘啦情绪指标的市场择时方法，成功率约65%</li>
+                        <li>理解涨停域龙头效应，学会规避隔夜暴击风险</li>
+                        <li>获取两种实战策略：优中选优（龙头股）与中等生（板块中部个股）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与预期回报</div>
+                <div class="summary-item-content">
+                    学习耗时：1小时（直播核心内容）<br>
+                    实操耗时：1-2天（数据适配+策略回测）<br>
+                    预期回报：优中选优策略回测最大回撤18%，中等生策略回撤30%+，适配不同风险承受能力
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">情绪量化</span>
+                    <span class="badge badge-secondary">涨停域</span>
+                    <span class="badge badge-accent">短线交易</span>
+                    <span class="badge badge-warning">龙头效应</span>
+                    <span class="badge badge-success">开盘啦APP</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>策略框架：市场-板块-个股三维情绪量化逻辑</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心研究思路</h4>
+                            <ul>
+                                <li>基于动量策略逻辑，聚焦情绪量化，通过开盘啦APP的强度指标，从市场、板块、个股三个维度评估活跃度；</li>
+                                <li>研究团队：Claymore（市场择时）、皮皮妮儿+杨博（强势板块分析）、金色河水+这一次未必失败（个股筛选）；</li>
+                                <li>核心工具：开盘啦APP（仅手机端，无网页版），其数据具有自我强化属性——使用人数越多、市场认可度越高，指标有效性越强。</li>
+                            </ul>
+
+                            <h4>2. 三维度分析框架</h4>
+                            <ol>
+                                <li>市场维度：通过开盘啦情绪指标判断整体市场强度，指导仓位控制（满仓/半仓/轻仓）；</li>
+                                <li>板块维度：筛选强度前三/前五的强势板块，分析板块溢价特性与反转效应；</li>
+                                <li>个股维度：在强势板块内筛选个股，分为优中选优（龙头股）与中等生（中部涨幅个股）两种思路。</li>
+                            </ol>
+
+                            <h4>3. 核心数据支持</h4>
+                            <ul>
+                                <li>数据级别：已实现分钟级数据采集，回测暂用日级数据快速验证逻辑；</li>
+                                <li>数据落地：彩虹框架将上线开盘啦板块强度数据，无需手动爬虫；</li>
+                                <li>回测周期：2023年1月3日起，覆盖多轮市场行情，验证策略稳定性。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>市场择时：基于情绪指标的仓位控制</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心指标与信号逻辑</h4>
+                            <ul>
+                                <li>指标构成：基于开盘啦APP的两个核心情绪指标（市场强度+预测量能）；</li>
+                                <li>信号规则：
+                                    <ul>
+                                        <li>做多信号：指标1>35 + 指标2增量 → 满仓；</li>
+                                        <li>减仓信号：指标1<4 + 指标2低于昨日 → 轻仓/空仓；</li>
+                                        <li>中性信号：指标1在50-55区间 + 指标2反向 → 半仓。</li>
+                                    </ul>
+                                </li>
+                                <li>回测表现：日内判断成功率约65%，相关性一般，但足以指导仓位控制。</li>
+                            </ul>
+
+                            <h4>2. 择时核心原则</h4>
+                            <ul>
+                                <li>敬畏市场情绪：情绪指标直接反映游资与散户行为，是短线交易的核心参考；</li>
+                                <li>拒绝极端仓位：即使信号强烈，也需预留安全边际，避免单一信号误判导致重大亏损；</li>
+                                <li>动态调整：结合板块轮动情况，情绪指标与板块强度共振时，信号有效性更高。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>强势板块分析：溢价特性与反转效应</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 强势板块定义与收益特征</h4>
+                            <ul>
+                                <li>定义：开盘啦APP强度排名前三/前五的板块，市场辨识度最高、资金关注度集中；</li>
+                                <li>整体表现：强势板块收益显著跑赢大盘，且强度排名越高，收益稳定性越强；</li>
+                                <li>周期溢价：
+                                    <ul>
+                                        <li>隔日（T1）：排名最高的板块收益最稳定；</li>
+                                        <li>T3-T4：收益较高但稳定性差，需结合市场环境区分；</li>
+                                        <li>长期周期：溢价效应不明确，更适合短线交易。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>2. 核心发现：龙头效应与反转效应</h4>
+                            <ul>
+                                <li>龙头效应：强势板块中，涨停票是收益核心——剔除非涨停票后，板块整体呈现负收益，验证"只做龙头"的市场共识；</li>
+                                <li>反转效应：从IC值分析，板块强度与未来收益呈现负相关，非涨停票部分存在明显反转效应；</li>
+                                <li>时间窗口：涨停票的溢价集中在9:45-10:30，超过10:30后操作价值大幅下降，仅最后半小时可能有零星机会。</li>
+                            </ul>
+
+                            <h4>3. 风险规避：隔夜暴击</h4>
+                            <ul>
+                                <li>核心风险：强势板块中涨幅最高的个股，次日低开风险大（隔夜暴击），跌幅最深的个股同样表现惨淡；</li>
+                                <li>规避方法："去掉最高分与最低分"，选择板块中部涨幅的个股，隔夜溢价更稳定；</li>
+                                <li>数据支撑：剥离涨停票后，板块中部个股（中等生）的收益曲线稳定向上，大幅降低隔夜亏损概率。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>个股筛选：两种实战策略与形态复盘</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 策略一：优中选优（龙头股策略）</h4>
+                            <ul>
+                                <li>选股逻辑：强势板块中涨幅最高、连板数最多、人气值最高的龙头股，追求"强者恒强"；</li>
+                                <li>操作要点：
+                                    <ul>
+                                        <li>入场时机：板块轮动成功后（第二次、第三次确认强势），避免首板试错（试错成本高）；</li>
+                                        <li>交易通道：需快速通道或独立席位，与机构、游资争夺入场机会；</li>
+                                        <li>回测表现：最大回撤18%，盈亏比高，适合风险承受能力强、资金量较小的投资者。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>2. 策略二：中等生策略</h4>
+                            <ul>
+                                <li>选股逻辑：强势板块中中部涨幅的个股（约30只），叠加简单量价优化，不追求极致收益，侧重稳定性；</li>
+                                <li>操作要点：
+                                    <ul>
+                                        <li>入场时机：9:35-9:40（龙头股确认后，中部个股补涨前）；</li>
+                                        <li>优势：无需特殊交易通道，买入成功率高，适合普通散户；</li>
+                                        <li>回测表现：2023年11月-2月，回撤30%+，收益曲线相对平稳，无极端亏损。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>3. 形态复盘方法</h4>
+                            <ul>
+                                <li>核心逻辑：市场风格快速切换，需跟随主流形态（如N字、趋势型、一字板、圆弧底等）；</li>
+                                <li>复盘步骤：
+                                    <ol>
+                                        <li>每日跟踪10厘米/20厘米涨停票，总结主流形态；</li>
+                                        <li>筛选未启动但形态符合主流的个股，提前布局；</li>
+                                        <li>动态调整：行情差时（涨停20-30只）可精细化复盘，行情好时（涨停60-70只）需结合指标筛选。</li>
+                                    </ol>
+                                </li>
+                                <li>典型形态：
+                                    <ul>
+                                        <li>龙回头：N字形态，回调后再次上涨；</li>
+                                        <li>动量叠波：跳空高开、无明显回调，持续上涨；</li>
+                                        <li>趋势型：平台整理后突破上涨。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>炼丹方法：选股投票与权重优化</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心思路</h4>
+                            <ul>
+                                <li>本质：多策略选股投票，结合相似度衰减调整权重，优化仓位分配；</li>
+                                <li>目的：避免单一策略的局限性，适应快速切换的市场风格。</li>
+                            </ul>
+
+                            <h4>2. 操作步骤</h4>
+                            <ol>
+                                <li>预处理：收集多组选股策略（如涨跌幅、量价因子等），明确选股逻辑与参数；</li>
+                                <li>相似度衰减：
+                                    <ul>
+                                        <li>多策略选中同一股票时，降低其权重（如从1降至0.8/0.5），避免过度集中；</li>
+                                        <li>仅单一策略选中的股票，权重保持1，提升分散度。</li>
+                                    </ul>
+                                </li>
+                                <li>权重计算：根据策略有效性分配基础权重，再乘以相似度衰减系数，得到最终投票结果；</li>
+                                <li>仓位分配：按投票结果排序，高投票权个股分配更高仓位。</li>
+                            </ol>
+
+                            <h4>3. 工具支持</h4>
+                            <ul>
+                                <li>依赖P神炼丹炉模块，支持多因子整合与权重计算；</li>
+                                <li>输出结果：股票投票排名、因子分位、最终仓位建议，可直接用于实盘参考。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>实战技巧与常见问题解答</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心实战技巧</h4>
+                            <ul>
+                                <li>潜在龙头识别：
+                                    <ul>
+                                        <li>板块维度：概念新颖、资金持续涌入、回调后仍有持续性；</li>
+                                        <li>个股维度：形态符合主流、股性活跃、未过度上涨；</li>
+                                        <li>确认时机：二板、三板时确认龙头地位，避免过早入场。</li>
+                                    </ul>
+                                </li>
+                                <li>可转债替代：龙头股买不进时，可关注对应可转债（T+0交易），需注意容量限制；</li>
+                                <li>盘口参考：不可完全依赖盘口，避免开盘涨跌停诱骗，需结合情绪指标与形态综合判断。</li>
+                            </ul>
+
+                            <h4>2. 常见问题解答</h4>
+                            <ul>
+                                <li>Q：策略容量与拥挤度如何？
+                                    <li>A：容量无问题，强势板块龙头股成交量大，足够散户买入；拥挤度一般，仅优中选优策略可能存在短期拥挤。</li>
+                                </li>
+                                <li>Q：止损如何设置？
+                                    <li>A：未专门研究止损，主要通过仓位控制（情绪差时轻仓）降低风险，可参考东东老板的烂板策略与邢大公开直播的止损逻辑。</li>
+                                </li>
+                                <li>Q：Tick级数据是否必要？
+                                    <li>A：普通人无需，Tick级数据对服务器要求高，且策略需极度简单（5行代码以内），否则易错过时机；机构级玩家可尝试。</li>
+                                </li>
+                                <li>Q：中等生策略是否需要考虑滑点？
+                                    <li>A：无需重点考虑，优中选优策略因需抢筹，需关注滑点影响。</li>
+                                </li>
+                            </ul>
+
+                            <h4>3. 错误观点批驳</h4>
+                            <ul>
+                                <li>圣杯论：不存在穿越牛熊的短线圣杯，策略需跟随市场风格动态调整，总有失效期；</li>
+                                <li>短线无忧论：短线爆发力强，但风险也高，需严格控制仓位与入场时机，不可盲目跟风。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 情绪共振模型：市场情绪、板块强度、个股形态三者共振时，交易成功率最高，是短线交易的核心逻辑；</p>
+                    <p>• 风险收益匹配模型：优中选优策略（高风险高收益）与中等生策略（中风险中收益），适配不同风险承受能力；</p>
+                    <p>• 跟随市场模型：短线市场风格切换快，拒绝"一招鲜"，通过复盘主流形态、动态调整策略，敬畏市场、跟随趋势；</p>
+                    <p>• 分散优化模型：通过多策略投票与相似度衰减，降低单一策略风险，提升组合稳定性。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 情绪指标有效→强势板块收益跑赢大盘→龙头股是收益核心→非龙头股存在反转效应（因果链条）；</p>
+                    <p>• 龙头股难买→中等生策略成为替代→规避隔夜暴击→提升实盘存活率（递进关系）；</p>
+                    <p>• 市场风格切换快→单一策略失效→多策略投票→权重优化→适应复杂市场（递进关系）；</p>
+                    <p>• 开盘啦APP使用人数多→市场认可度高→指标自我强化→策略有效性提升（因果链条）。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：强势板块=热门赛道，龙头股=赛道冠军，中等生=赛道中游选手——冠军收益最高但竞争激烈，中游选手收益稳定且入场门槛低；</p>
+                    <p>• 案例1：强势板块中剔除非涨停票后呈现负收益，证明龙头股的核心地位，与"只做龙头"的市场共识一致；</p>
+                    <p>• 案例2：9:45-10:30是涨停票溢价黄金时段，验证了短线交易"早买早赚"的时间窗口逻辑；</p>
+                    <p>• 案例3：中等生策略回测回撤30%+，但无极端亏损，优中选优策略回撤18%但盈亏比高，体现风险与收益的正相关关系；</p>
+                    <p>• 隐喻2：炼丹方法=多人投票，相似度衰减=避免"一言堂"，通过集体智慧提升选股准确性，同时降低过度集中风险。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">工具准备与数据获取</div>
+                <div class="step-content">
+                    <ol>
+                        <li>安装工具：手机端下载开盘啦APP，熟悉情绪指标、板块强度排名功能；</li>
+                        <li>获取数据：等待彩虹框架上线开盘啦板块强度数据，无需手动爬虫；</li>
+                        <li>准备环境：配置回测框架，支持日级数据回测，有条件可适配分钟级数据。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：开盘啦无网页版，仅支持手机端查看；数据需等待彩虹框架集成，暂无法直接获取分钟级原始数据。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">市场择时与仓位确定</div>
+                <div class="step-content">
+                    <ol>
+                        <li>指标配置：在开盘啦APP中找到市场情绪指标（市场强度+预测量能）；</li>
+                        <li>信号判断：
+                            <ul>
+                                <li>做多信号：指标1>35 + 指标2增量 → 满仓；</li>
+                                <li>中性信号：指标1在50-55区间 + 指标2反向 → 半仓；</li>
+                                <li>减仓信号：指标1<4 + 指标2低于昨日 → 轻仓/空仓。</li>
+                            </ul>
+                        </li>
+                        <li>仓位执行：根据信号确定当日仓位，情绪与板块强度共振时可适当提高仓位。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：情绪指标判断需结合市场实际情况，不可机械执行，共振信号优先级高于单一信号。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">强势板块筛选与个股选择</div>
+                <div class="step-content">
+                    <ol>
+                        <li>筛选板块：选择开盘啦强度排名前三/前五的强势板块，优先选择有持续性的板块；</li>
+                        <li>策略选择：
+                            <ul>
+                                <li>优中选优：选择板块内涨停、连板数最多、人气最高的龙头股，需快速通道；</li>
+                                <li>中等生：选择板块中部涨幅个股（约30只），叠加简单量价筛选（如成交量温和放大）。</li>
+                            </ul>
+                        </li>
+                        <li>入场时机：龙头股9:45前入场，中等生9:35-9:40入场，避免错过溢价窗口。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：龙头股需抢筹，普通散户若无快速通道，建议优先选择中等生策略，降低入场难度。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">形态复盘与炼丹优化（进阶）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>每日复盘：跟踪10厘米/20厘米涨停票，总结当日主流形态（如N字、趋势型）；</li>
+                        <li>形态筛选：在强势板块中，筛选形态符合主流且未启动的个股；</li>
+                        <li>炼丹优化：
+                            <ul>
+                                <li>导入多组选股策略，设置基础权重；</li>
+                                <li>启用相似度衰减，多策略选中个股权重降至0.8/0.5；</li>
+                                <li>按投票结果排序，分配仓位。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：炼丹需依赖P神炼丹炉模块，新手可先跳过，熟悉基础策略后再进阶优化。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="5">
+                <div class="step-title">实盘执行与风险控制</div>
+                <div class="step-content">
+                    <ol>
+                        <li>小资金试错：初始资金建议不超过总资金的20%，验证策略适配性；</li>
+                        <li>风险控制：
+                            <ul>
+                                <li>避免极端仓位，即使信号强烈也预留安全边际；</li>
+                                <li>隔夜持仓控制：优中选优策略隔夜持仓不超过50%，中等生策略可适当提高；</li>
+                                <li>止损参考：参考烂板策略逻辑，个股跌破关键支撑位时果断止损。</li>
+                            </ul>
+                        </li>
+                        <li>动态调整：每日复盘策略表现，结合市场风格调整形态筛选标准与板块选择逻辑。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：实盘需严格执行仓位控制，避免因情绪冲动加大仓位；止损标准需提前明确，不可临时决策。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>策略适配人群与风险匹配</div>
+                <div class="ai-note-content">
+                    优中选优策略适合风险承受能力强、有快速交易通道、资金量较小的投资者；中等生策略适合普通散户，入场难度低、稳定性强，但回撤相对较大。需根据自身情况选择，不可盲目追求高收益而忽视风险。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>数据与工具优化方向</div>
+                <div class="ai-note-content">
+                    等待彩虹框架集成开盘啦数据后，优先适配分钟级数据，提升择时与入场时机的精准度；新手可先用日级数据回测验证逻辑，熟悉后再进阶；无快速通道的散户，可重点优化中等生策略，通过形态筛选与量价过滤进一步提升收益稳定性。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>避免过度依赖单一指标</div>
+                <div class="ai-note-content">
+                    开盘啦情绪指标虽有效，但不可单独作为交易依据，需结合板块轮动、个股形态、成交量等多维度验证；市场风格切换时，需及时调整策略重心，避免因指标失效导致亏损；短线交易需灵活应变，不可机械执行策略。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>复盘与迭代的重要性</div>
+                <div class="ai-note-content">
+                    短线策略的核心在于复盘，建议每日花30分钟总结主流形态与板块轮动规律，每周进行一次策略迭代；可建立复盘笔记，记录成功与失败案例，逐步形成适合自己的交易体系；结合炼丹方法，持续优化选股权重与策略组合，提升适应市场的能力。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>实盘注意事项</div>
+                <div class="ai-note-content">
+                    实盘前务必进行充分回测，验证策略在不同市场环境下的表现；小资金试错期间，重点关注策略的执行难度与风险控制效果，而非单纯追求收益；龙头股交易需注意交易成本与滑点，避免因通道劣势导致实际收益大幅低于回测；可转债替代需关注容量与溢价率，不可盲目跟风。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

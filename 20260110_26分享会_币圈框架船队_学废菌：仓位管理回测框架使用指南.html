@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260110_26分享会_币圈框架船队_学废菌：仓位管理回测框架使用指南</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --secondary: #64748B;
+            --accent: #DB2777;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --border: #E2E8F0;
+            --success: #059669;
+            --warning: #D97706;
+            --danger: #DC2626;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(219, 39, 119, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260110_26分享会_币圈框架船队_学废菌：仓位管理回测框架使用指南</h1>
+            <p>币圈仓位管理回测全攻略：详解网页版与代码版框架部署、策略配置、因子逻辑与回测分析，新手快速上手多空/中性策略回测</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    面向币圈量化新手与分享会成员，提供仓位管理回测框架（网页版+代码版）的完整使用指南，覆盖环境准备、策略配置、因子逻辑与回测验证，聚焦固定比例仓位管理策略的落地
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>币圈量化新手、分享会成员，无编程基础也可入门</li>
+                        <li>了解币圈基础概念（现货/合约、做多/做空、杠杆）</li>
+                        <li>完成Python环境安装（可咨询林奇助教远程协助）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握框架部署流程：下载框架/网页版/基础策略包，完成Python环境与数据准备</li>
+                        <li>学会策略配置核心：理解cap_ratio与cap_weight的资金分配逻辑，掌握多空/中性策略设置</li>
+                        <li>理解核心因子逻辑：选币范围（Mix Spot/Swap等）、截面因子、前置/后置过滤的应用</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与预期回报</div>
+                <div class="summary-item-content">
+                    学习耗时：2.5小时（直播核心内容）<br>
+                    实操耗时：1-2小时（环境部署+策略回测）<br>
+                    预期回报：独立完成固定比例仓位管理策略回测，能灵活调整参数、切换多空/中性策略，为实盘奠定基础
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">币圈回测</span>
+                    <span class="badge badge-secondary">仓位管理</span>
+                    <span class="badge badge-accent">网页版</span>
+                    <span class="badge badge-warning">代码版</span>
+                    <span class="badge badge-success">多空策略</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>前置基础：概念与工具准备</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心概念预习</h4>
+                            <ul>
+                                <li>仓位管理：二阶复合策略，在选币/趋势/择时基础上，动态调整不同风格策略的资金比例（固定比例/轮动/择时），目标是赚得多、跑得稳；</li>
+                                <li>核心策略类型：
+                                    <ul>
+                                        <li>多头策略：仅做多（如囤币、全市场做多）；</li>
+                                        <li>空头策略：仅做空（如做空垃圾币、高价币）；</li>
+                                        <li>中性策略：多空各50%，靠差价盈利，币圈核心策略类型。</li>
+                                    </ul>
+                                </li>
+                                <li>关键术语：
+                                    <ul>
+                                        <li>Offset：持仓周期内的交易时间偏移（如0/5/10分钟），支持一台服务器跑多个子账户；</li>
+                                        <li>cap_ratio：策略组的资金占比（总和≤1，否则变相加杠杆）；</li>
+                                        <li>cap_weight：策略组内单个策略的资金占比（自动归一，总和为1）；</li>
+                                        <li>截面因子：计算因子排名的相对变化（如涨速排名进步/退步），二阶计算逻辑。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>2. 工具与环境准备</h4>
+                            <ul>
+                                <li>框架文件：
+                                    <ul>
+                                        <li>核心框架：仓位管理回测框架1.3X；</li>
+                                        <li>网页版工具：回测网页版脚本（与框架目录合并使用）；</li>
+                                        <li>策略包：基础策略包（含多头/空头/中性/截面因子等案例策略）。</li>
+                                    </ul>
+                                </li>环境要求：Python环境（建议3.10+）、三方库（框架依赖），可参考林奇助教的环境部署帖子或寻求远程协助；</li>
+                                <li>辅助工具：数据通过网页版下载（支持全量/增量更新），回测结果含资金曲线、持仓占比等可视化图表。</li>
+                            </ul>
+
+                            <h4>3. 学习资料参考</h4>
+                            <ul>
+                                <li>预备课程：币圈新人准备、量化必备基础金融知识（了解现货/合约、做多/做空）；</li>
+                                <li>攻略帖：《币圈仓位管理回测框架1.3X及网页版使用指南》（3万+字符，可当手册/字典查询）；</li>
+                                <li>答疑渠道：群内咨询老同学或林奇助教，框架报错优先检查参数配置与数据路径。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>框架部署：文件结构与数据准备</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 框架文件结构</h4>
+                            <ul>
+                                <li>核心目录：
+                                    <ul>
+                                        <li>Call：回测核心脚本（数据整理、因子计算、选币、资金曲线生成）；</li>
+                                        <li>Factors/Sections/Positions：选币因子、截面因子、仓位管理策略文件；</li>
+                                        <li>Web版脚本：网页版管理工具（数据更新、策略导入、一键回测）；</li>
+                                        <li>Backtest.py/Config.py：回测执行脚本与核心配置文件。</li>
+                                    </ul>
+                                </li>文件合并：将网页版脚本目录（Config master compose）复制到回测框架根目录，实现网页版与代码版互通（修改一方同步刷新另一方）。</li>
+                            </ul>
+
+                            <h4>2. 数据准备流程（网页版操作）</h4>
+                            <ol>
+                                <li>配置网页版：编辑网页版Config文件，填写葫芦ID、API Key（用于获取彩虹数据服务）、本地数据存储路径；</li>
+                                <li>启动网页版：运行web版main脚本，复制终端输出的链接，浏览器打开登录；</li>
+                                <li>数据更新：
+                                    <ul>
+                                        <li>首次使用：点击"全量更新"，下载2021年至今的合约/现货/市值数据（约10分钟）；</li>
+                                        <li>后续更新：点击"增量更新"，每周更新1次即可，无需天天更新；</li>
+                                        <li>数据格式：下载后自动解压为CSV文件，本地转换为PKL预处理数据，支持网页版直接管理。</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h4>3. 策略导入方法</h4>
+                            <ul>
+                                <li>网页版导入：点击"策略管理"→"导入策略"，选择下载的基础策略包（zip格式），自动导入因子、截面因子、Config文件；</li>
+                                <li>手动导入：解压策略包，将Factors/Sections/Config文件复制到框架对应目录；</li>
+                                <li>策略模板：网页版支持新增策略组（如单币做多、全市场做空），可基于模板快速创建，支持重命名、启用/禁用。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>网页版使用：新手友好型回测流程</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心优势</h4>
+                            <ul>
+                                <li>操作简单：点点鼠标完成数据更新、策略导入、参数调整、一键回测；</li>
+                                <li>教学功能：界面含参数说明（问号图标），支持查看策略逻辑、直播链接；</li>
+                                <li>数据管理：自动维护合约/现货/市值数据，支持全量/增量更新，无需手动处理文件。</li>
+                            </ul>
+
+                            <h4>2. 关键参数配置</h4>
+                            <ul>
+                                <li>回测时间：
+                                    <ul>
+                                        <li>开始时间：默认2021年1月1日；</li>
+                                        <li>结束时间：数据更新到1月8日时，填写1月9日（对应1月8日23点数据）。</li>
+                                    </ul>
+                                </li>策略比例（cap_ratio）：
+                                    <ul>
+                                        <li>设置不同策略组的资金占比（如单币做多0.1、全市场做多0.1、中性0.4）；</li>
+                                        <li>总和≤1，否则变相加杠杆，新手建议总和=1。</li>
+                                    </ul>
+                                </li>选币范围（market参数）：
+                                    <ul>
+                                        <li>Spot：仅现货（400+币种）；</li>
+                                        <li>Swap：仅合约（500+币种）；</li>
+                                        <li>Mix Spot：现货+合约选币，优先交易现货；</li>
+                                        <li>Mix Swap：现货+合约选币，优先交易合约；</li>
+                                        <li>Spot Swap：仅现货池选币，有合约则优先交易合约。</li>
+                                    </ul>
+                                </li>性能参数：根据电脑配置选择（8核32G选"性能"，16G选"均衡"，8G选"节能"），避免回测卡顿。</li>
+                            </ul>
+
+                            <h4>3. 回测执行与结果查看</h4>
+                            <ol>
+                                <li>策略启用：将仓库中的策略启用（覆盖框架Config），无需修改的策略可设为0比例；</li>
+                                <li>一键回测：点击"回测"按钮，等待执行完成（视策略复杂度耗时1-10分钟）；</li>
+                                <li>结果分析：
+                                    <ul>
+                                        <li>资金曲线：查看整体及单个子策略的收益走势；</li>
+                                        <li>持仓分析：最大持仓占比、多空占比、空仓情况（后置过滤导致）；</li>
+                                        <li>选币统计：多头/空头选币数量、最大回撤等关键指标。</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>代码版深入：参数配置与策略逻辑</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. Config核心配置区域</h4>
+                            <ul>
+                                <li>回测配置：
+                                    <ul>
+                                        <li>时间范围：start_date/end_date（格式如"2021-01-01"）；</li>
+                                        <li>数据路径：填写预处理数据（preprocess）的完整路径（代码版需手动填写，网页版自动生成）；</li>
+                                        <li>基础参数：最小K线数（上市168小时后可交易）、黑名单（不交易的币种，格式如"BTC-USDT"）、杠杆（默认1，新手不建议放大）。</li>
+                                    </ul>
+                                </li>回测模拟参数：
+                                    <ul>
+                                        <li>账户类型：普通账户/统一账户（回测结果略有差异）；</li>
+                                        <li>初始资金：模拟实盘资金（如2000U，选币多则设大一点）；</li>
+                                        <li>手续费：合约万5、现货千1（BNB抵扣可打折，实盘时设置）；</li>
+                                        <li>最小下单量：合约5U、现货10U（默认无需修改）。</li>
+                                    </ul>
+                                </li>仓位管理配置：
+                                    <ul>
+                                        <li>回测名称：自定义（如"26基础策略"），决定回测结果目录名；</li>
+                                        <li>仓管策略：固定比例（fix_ratio_strategy），需与Positions目录文件名一致；</li>
+                                        <li>cap_ratio：策略组资金占比（与网页版一一对应，数量需与策略组一致）；</li>
+                                        <li>strategy_pool：策略组池子，每个策略组含多个选币策略（strategy_list）。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>2. 策略逻辑核心：因子与过滤</h4>
+                            <ul>
+                                <li>选币因子（factor_list）：
+                                    <ul>
+                                        <li>格式：(因子名称, 排序方向, 因子参数, 权重)，如("low_price", True, 360, 1)；</li>
+                                        <li>关键因子：
+                                            <ul>
+                                                <li>low_price：过去N小时收盘价平均值；</li>
+                                                <li>pct_change：过去N小时价格变动值；</li>
+                                                <li>bias：收盘价相对均线的偏离度（涨速加速度）。</li>
+                                            </ul>
+                                        </li>
+                                        <li>排序方向：True（从小到大）、False（从大到小）；中性策略中，空头选币逻辑与排序方向相反（如True实际筛选高价币）。</li>
+                                    </ul>
+                                </li>过滤逻辑：
+                                    <ul>
+                                        <li>前置过滤（filter_list）：先筛选符合条件的币种（如pct_change前50%，即涨得少或跌得多的币），缩小选币范围；</li>
+                                        <li>后置过滤（post_filter_list）：选币后再过滤（如价格>50U），可导致半仓/空仓，有择时能力。</li>
+                                    </ul>
+                                </li>截面因子（section_factor）：
+                                    <ul>
+                                        <li>逻辑：计算因子排名的相对变化（如bias因子的排名进步/退步），而非绝对因子值；</li>
+                                        <li>应用场景：牛市选涨速排名进步快的币，熊市选跌速排名进步快的币。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>3. 回测执行与结果分析</h4>
+                            <ul>
+                                <li>执行脚本：运行Backtest.py，终端输出回测进度，完成后在Data目录生成结果；</li>
+                                <li>结果文件：含资金曲线、持仓记录、选币结果（PKL格式）；</li>
+                                <li>关键注意点：
+                                    <ul>
+                                        <li>cap_ratio与cap_weight的区别：先按cap_ratio给策略组分钱，再按cap_weight在组内分配（自动归一）；</li>
+                                        <li>中性策略配置：long_cap_rate=0.5、short_cap_rate=0.5，多头/空头分别设置选币数量；</li>
+                                        <li>参数一致性：策略组数量、cap_ratio数量、strategy_pool数量需一一对应，否则报错。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>核心难点解析：选币范围与多空逻辑</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 选币范围（market参数）深度解析</h4>
+                            <ul>
+                                <li>核心逻辑：基于现货（400+）与合约（500+）的币种交集/并集，结合"优先交易类型"筛选；</li>
+                                <li>分情况示例（以Mix Swap为例）：
+                                    <ul>
+                                        <li>币种既有现货又有合约：优先交易合约；</li>
+                                        <li>币种只有现货：交易现货；</li>
+                                        <li>币种只有合约：交易合约；</li>
+                                        <li>选币范围：现货+合约的并集（最大选币范围）。</li>
+                                    </ul>
+                                </li>新手建议：中性策略优先用Mix Swap（覆盖币种多，合约交易手续费更低），纯多头策略用Spot或Mix Spot。</li>
+                            </ul>
+
+                            <h4>2. 中性策略多空逻辑反转</h4>
+                            <ul>
+                                <li>核心规则：中性策略中，空头选币的排序逻辑与设置相反（True→筛选最大值，False→筛选最小值）；</li>
+                                <li>示例：
+                                    <ul>
+                                        <li>多头选币：("low_price", True, 360, 1) → 筛选低价币；</li>
+                                        <li>空头选币：("low_price", True, 360, 1) → 筛选高价币（逻辑反转）。</li>
+                                    </ul>
+                                </li>原因：框架为简化配置，中性策略自动实现多空逻辑相反，无需手动修改参数；</li>
+                                <li>注意：过滤逻辑（前置/后置）不反转，仅选币因子的排序逻辑反转。</li>
+                            </ul>
+
+                            <h4>3. cap_ratio与cap_weight的资金分配逻辑</h4>
+                            <ul>
+                                <li>分配顺序：先按cap_ratio给策略组分钱，再按cap_weight在组内分配；</li>
+                                <li>示例：
+                                    <ul>
+                                        <li>总资金10000U，单币策略组cap_ratio=0.1（分1000U）；</li>
+                                        <li>单币策略组内有3个策略（BTC/ETH/ZEC），cap_weight均为1（自动归一为1/3）；</li>
+                                        <li>最终每个币种分配：1000U × 1/3 ≈ 333U。</li>
+                                    </ul>
+                                </li>关键提醒：cap_ratio总和不可超过1，否则变相加杠杆；cap_weight无需手动归一，框架自动计算比例。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>常见问题与避坑指南</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 数据相关问题</h4>
+                            <ul>
+                                <li>全量更新次数用完：联系林奇助教清零次数，新人首次更新建议预留充足时间（约10分钟）；</li>
+                                <li>数据路径错误：代码版需填写preprocess目录的完整路径，网页版自动生成，避免手动修改目录名；</li>
+                                <li>数据更新失败：检查网络连接或彩虹数据服务器状态，重启网页版重试。</li>
+                            </ul>
+
+                            <h4>2. 配置相关问题</h4>
+                            <ul>
+                                <li>策略启用后不生效：检查策略组名称与Positions目录文件名一致，cap_ratio未设为0；</li>
+                                <li>回测报错"参数不匹配"：cap_ratio数量、策略组数量、strategy_pool数量需一一对应；</li>
+                                <li>中性策略不赚钱：检查多空选币逻辑是否相反，选币范围是否适配（如空头选合约、多头选现货）。</li>
+                            </ul>
+
+                            <h4>3. 回测结果相关问题</h4>
+                            <ul>
+                                <li>资金曲线贴地（爆仓）：初始资金设置过小、选币数量过多、杠杆放大，新手建议初始资金≥2000U、杠杆=1；</li>
+                                <li>空仓占比高：后置过滤条件过严（如价格>50U但选币均为低价币），放宽后置过滤参数；</li>
+                                <li>单个策略表现差：基础策略包仅用于框架演示，实际需使用邢大官方策略，避免直接实盘。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 分层策略模型：仓位管理是二阶策略，基于底层选币/趋势策略，通过资金分配实现风险分散与收益优化，如同"基金组合"（不同风格基金按比例配置）；</p>
+                    <p>• 多空对冲模型：中性策略通过多空各50%配置，对冲市场系统性风险，聚焦策略本身的超额收益，适合币圈震荡/熊市环境；</p>
+                    <p>• 灵活适配模型：选币范围支持现货/合约的多种组合，满足不同策略需求（多头优先现货、空头优先合约），提升策略适配性；</p>
+                    <p>• 渐进式过滤模型：前置过滤缩小选币范围（提高策略纯度），后置过滤控制仓位（实现择时），双重过滤提升策略稳定性。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 币圈7×24小时交易→单一策略风险高→需要仓位管理→通过多策略组合→分散风险、提升收益（因果链条）；</p>
+                    <p>• 新手缺乏编程基础→需要低门槛工具→网页版框架一键操作→快速上手回测→代码版满足高阶需求（递进关系）；</p>
+                    <p>• 选币范围过窄→错过优质标的→多种选币范围设计→覆盖更多币种→提升策略收益潜力（因果链条）；</p>
+                    <p>• 绝对因子值受市场环境影响大→引入截面因子→计算相对排名变化→适配不同市场风格（牛市/熊市）→提升策略鲁棒性（递进关系）。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：仓位管理=资金分配的"厨师"，选币策略是"食材"，厨师按比例搭配食材（多空/中性），做出"美味菜肴"（稳定收益）；</p>
+                    <p>• 案例1：10000U资金，cap_ratio设置为单币做多0.1、全市场做多0.1、中性0.4、空头0.4，最终中性策略分4000U（多空各2000U），空头策略分4000U，实现多空平衡；</p>
+                    <p>• 隐喻2：选币范围="购物超市"，Spot是"食品区"，Swap是"日用品区"，Mix Swap是"综合超市"，厨师根据菜谱（策略）选择不同超市采购；</p>
+                    <p>• 案例2：中性策略选币范围设为Mix Swap，多头选低价币（low_price=True），空头自动选高价币（逻辑反转），2025年熊市中空头盈利覆盖多头亏损，整体实现正收益；</p>
+                    <p>• 隐喻3：截面因子="跑步比赛"，不看绝对速度（因子值），只看相对排名（进步/退步），确保在不同赛道（牛市/熊市）都能选出领先者。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">环境与工具准备</div>
+                <div class="step-content">
+                    <ol>
+                        <li>安装Python环境：参考林奇助教的部署帖子，安装Python 3.10+及框架依赖的三方库，新手可寻求远程协助；</li>
+                        <li>下载框架文件：
+                            <ul>
+                                <li>核心框架：仓位管理回测框架1.3X；</li>
+                                <li>网页版工具：回测网页版脚本；</li>
+                                <li>策略包：基础策略包（含多空/中性/截面因子案例）。</li>
+                            </ul>
+                        </li>
+                        <li>合并框架文件：将网页版脚本目录复制到回测框架根目录，确保文件结构正确；</li>
+                        <li>配置网页版：编辑网页版Config文件，填写葫芦ID、API Key、本地数据存储路径（如"D:/Trade3/币圈Data"）。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：Python环境安装失败可直接联系林奇助教；API Key需从彩虹网站个人主页获取，避免填写错误导致数据下载失败。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">数据下载与更新</div>
+                <div class="step-content">
+                    <ol>
+                        <li>启动网页版：运行web版main脚本，复制终端输出的链接，浏览器打开并登录；</li>
+                        <li>全量数据更新：首次使用点击"全量更新"，下载2021年至今的合约/现货/市值数据（约10分钟）；</li>
+                        <li>验证数据：检查本地数据目录是否生成preprocess文件夹，含PKL预处理数据；</li>
+                        <li>后续更新：每周点击"增量更新"即可，无需重复全量下载。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：全量更新次数每周1次，用完可联系林奇助教清零；数据更新失败可重启网页版或检查网络连接。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">策略导入与参数配置（网页版）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>导入策略：点击"策略管理"→"导入策略"，选择基础策略包（zip格式），等待导入完成；</li>
+                        <li>设置回测参数：
+                            <ul>
+                                <li>时间范围：开始时间"2021-01-01"，结束时间设为数据更新日期+1（如数据更新到1月8日则填1月9日）；</li>
+                                <li>策略比例：调整cap_ratio（如单币做多0.1、全市场做多0.1、中性0.4、空头0.4），总和≤1；</li>
+                                <li>选币范围：中性策略设为"Mix Swap"，纯多头设为"Spot"，纯空头设为"Swap"；</li>
+                                <li>性能参数：根据电脑配置选择（8核32G选"性能"，16G选"均衡"）。</li>
+                            </ul>
+                        </li>
+                        <li>启用策略：将需要回测的策略启用（仓库策略→框架Config），无需回测的策略设为0比例；</li>
+                        <li>保存配置：点击"保存"，确保参数无误。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：策略组数量、cap_ratio数量需一致；选币范围设置错误会导致策略表现异常，新手建议中性策略优先用Mix Swap。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">回测执行与结果分析</div>
+                <div class="step-content">
+                    <ol>
+                        <li>启动回测：点击"一键回测"，等待执行完成（视策略复杂度耗时1-10分钟）；</li>
+                        <li>分析回测结果：
+                            <ul>
+                                <li>资金曲线：查看整体收益、最大回撤，对比单个子策略表现；</li>
+                                <li>持仓分析：检查多空占比是否平衡（中性策略应接近50%）、是否有空仓情况（后置过滤导致）；</li>
+                                <li>选币统计：查看多头/空头选币数量，是否符合策略预期（如空头选高价币）。</li>
+                            </ul>
+                        </li>
+                        <li>参数优化：
+                            <ul>
+                                <li>调整cap_ratio：增加表现好的策略比例，降低表现差的比例；</li>
+                                <li>切换选币范围：如中性策略从Mix Swap改为Mix Spot，对比回测结果；</li>
+                                <li>修改过滤条件：放宽/收紧后置过滤，观察仓位变化对收益的影响。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：回测结果显示"爆仓"（资金曲线贴地），需增大初始资金或降低杠杆；空仓占比过高需放宽后置过滤参数。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="5">
+                <div class="step-title">代码版进阶配置（可选）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>编辑Config.py：
+                            <ul>
+                                <li>填写数据路径：手动输入preprocess目录的完整路径（如"D:/Trade3/币圈Data/preprocess"）；</li>
+                                <li>修改策略逻辑：调整factor_list（如新增bias因子）、filter_list（如pct_change前30%）；</li>
+                                <li>设置中性策略：long_cap_rate=0.5、short_cap_rate=0.5，确保多空逻辑正确。</li>
+                            </ul>
+                        </li>
+                        <li>运行回测：打开终端，进入框架目录，执行"python Backtest.py"，等待回测完成；</li>
+                        <li>查看结果：在Data目录找到回测结果文件夹，分析资金曲线、持仓记录等文件；</li>
+                        <li>参数遍历：（进阶）使用参数遍历脚本，测试不同因子参数（如360小时/720小时）的表现。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：代码版需严格按照格式填写参数，括号、逗号缺失会导致报错；中性策略空头逻辑反转无需手动修改，框架自动实现。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>新手优先使用网页版，避免代码版配置复杂导致挫败感</div>
+                <div class="ai-note-content">
+                    代码版需要手动填写路径、配置参数，对新手不够友好；网页版点点鼠标即可完成回测，还能自动维护数据，建议新手先通过网页版熟悉策略逻辑与回测流程，再逐步过渡到代码版进行高阶优化。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>回测前务必验证数据完整性，避免因数据缺失导致结果失真</div>
+                <div class="ai-note-content">
+                    数据是回测的基础，全量更新后需检查preprocess目录是否有完整的PKL文件；若数据缺失，可重新全量更新或联系林奇助教获取预处理数据；回测时若出现"数据文件不存在"报错，优先检查数据路径配置。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>严格控制cap_ratio总和≤1，避免变相加杠杆放大风险</div>
+                <div class="ai-note-content">
+                    部分新手为追求高收益，将cap_ratio总和设为2（如单币做多1.0、空头1.0），相当于加2倍杠杆，会导致回撤大幅放大，甚至爆仓；新手建议cap_ratio总和=1，待熟悉策略后再考虑适度优化比例。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>基础策略包仅用于框架演示，切勿直接实盘</div>
+                <div class="ai-note-content">
+                    直播提供的基础策略包（如单币做多、全市场做空）历史表现较差，仅用于帮助大家熟悉框架操作；实际实盘需使用邢大官方策略，或基于官方策略进行优化；回测结果好的策略也需经过模拟实盘验证，再小资金试错。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>中性策略多空逻辑反转是核心难点，需反复验证</div>
+                <div class="ai-note-content">
+                    中性策略中空头选币逻辑与排序方向相反，是新手最易混淆的点；建议通过简单案例验证（如多头选low_price=True，查看空头是否选高价币），确认逻辑正确后再进行复杂策略回测；若中性策略表现异常，优先检查多空选币逻辑是否反转。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

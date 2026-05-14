@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260111_26分享会_币圈框架船队_学废菌：B圈实盘框架使用指南</title>
+    <style>
+        :root {
+            --primary: #0EA5E9;
+            --secondary: #64748B;
+            --accent: #F97316;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --border: #E2E8F0;
+            --success: #10B981;
+            --warning: #D97706;
+            --danger: #EF4444;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(249, 115, 22, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260111_26分享会_币圈框架船队_学废菌：B圈实盘框架使用指南</h1>
+            <p>币圈实盘全流程指南：详解网页版与代码版实盘框架部署、配置、测试与交易，含服务器准备、参数设置与风险控制（新手友好）</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    面向币圈量化新手与分享会成员，提供网页版（新手友好）与代码版（高扩展性）实盘框架的完整使用指南，从环境准备到实盘交易全流程覆盖
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>币圈量化新手、分享会成员，有基础回测框架使用经验</li>
+                        <li>完成币圈预备课程（了解现货/合约、做多/做空、API Key等基础）</li>
+                        <li>具备基础电脑操作能力，会复制粘贴命令行</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握云服务器选购与环境部署（腾讯云/阿里云/UC Cloud），熟悉Termius工具使用</li>
+                        <li>学会网页版实盘框架一键部署、参数配置与三种交易模式（测试/模拟/实盘）</li>
+                        <li>理解代码版框架文件结构、Config配置与PM2守护进程启动，适配高阶自定义需求</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与预期回报</div>
+                <div class="summary-item-content">
+                    学习耗时：2小时（直播核心内容）<br>
+                    实操耗时：网页版1小时，代码版2-3小时<br>
+                    预期回报：成功部署实盘框架，实现策略从回测到实盘的无缝迁移，支持多账户、多策略同时运行
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">币圈实盘</span>
+                    <span class="badge badge-secondary">框架使用</span>
+                    <span class="badge badge-accent">网页版</span>
+                    <span class="badge badge-warning">代码版</span>
+                    <span class="badge badge-success">服务器部署</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>前置准备：预备知识与工具清单</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 必备预备知识</h4>
+                            <ul>
+                                <li>币圈基础：学习预备课程，了解现货（做多）、合约（多空双向）、统一账户与普通账户区别、API Key与密钥获取；</li>
+                                <li>框架基础：熟悉回测框架使用，掌握Config配置、因子库/截面因子库/仓位管理文件导入逻辑；</li>
+                                <li>学习资料：参考分享会"币圈新人准备工作汇总"帖子（含注册、入金、技术访问等），遇到问题咨询灵奇助教。</li>
+                            </ul>
+
+                            <h4>2. 核心工具清单</h4>
+                            <ul>
+                                <li>框架代码：
+                                    <ul>
+                                        <li>网页版：实盘网页版部署脚本（0.5.1版本，仅1个sh文件）；</li>
+                                        <li>代码版：实盘框架1.3.11 + 数据中心1.1.6（Coin Real Time Data）；</li>
+                                        <li>辅助文件：部署命令行TXT（含环境配置脚本，复制粘贴即可）。</li>
+                                    </ul>
+                                </li>服务器工具：Termius（免费，支持FTP文件上传与命令行登录，二合一功能）；</li>
+                                <li>其他工具：谷歌身份认证器（动态密码生成，用于网页版登录）、企业微信（接收交易日志与资金曲线）。</li>
+                            </ul>
+
+                            <h4>3. 关键概念预习</h4>
+                            <ul>
+                                <li>分钟偏移：用于一台服务器跑多个子账户，避免冲突，最多支持12个（0/5/10...55分钟）；</li>
+                                <li>BNB燃烧：用BNB抵扣手续费可享折扣（合约9折、现货75折），框架可自动购买BNB；</li>
+                                <li>实盘模式：Debug（测试，仅选币不画图）、Simulate（模拟，算资金曲线不下单）、None（实盘，真实交易）；</li>
+                                <li>K线数量计算：普通因子取参数值，截面因子需参数值×2+冗余（如360×2+100=820）。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>服务器准备：选购与环境部署</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 服务器选购要点</h4>
+                            <ul>
+                                <li>推荐厂商：腾讯云（性价比最高）、阿里云、UC Cloud；</li>
+                                <li>配置要求：境外服务器（东京/香港/新加坡，优先东京，靠近币安服务器）、2核4G、硬盘≥50G、Ubuntu系统；</li>
+                                <li>价格参考：腾讯云199元/年，UC Cloud 344元/年（新用户），阿里云78元/月；</li>
+                                <li>核心原因：币圈7×24小时交易，服务器稳定性/安全性优于本地电脑，境外服务器访问币安速度更快。</li>
+                            </ul>
+
+                            <h4>2. 环境部署步骤（代码版必备，网页版自动部署）</h4>
+                            <ul>
+                                <li>基础环境：通过部署脚本安装Miniconda（轻量化Anaconda）、Python 3.12虚拟环境、必要三方库；</li>
+                                <li>工具安装：安装PM2（进程守护，自动重启崩溃脚本）、浏览器（用于生成资金曲线）、中文字体（避免乱码）；</li>
+                                <li>虚拟内存：建议设置（网页版自动提示，代码版需手动配置），提升服务器运行稳定性；</li>
+                                <li>防火墙设置：开放网页版端口（如9900），否则无法访问网页管理界面。</li>
+                            </ul>
+
+                            <h4>3. Termius使用指南</h4>
+                            <ul>
+                                <li>连接服务器：输入IP、端口、用户名、密码，建立SSH连接；</li>
+                                <li>文件上传：通过SFTP功能，左侧本地文件→右侧服务器目录，右键复制即可；</li>
+                                <li>命令行操作：支持Ctrl+Shift+C/V复制粘贴，执行部署脚本与启动命令。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>网页版实盘框架：新手友好，一键部署</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心优势与适用人群</h4>
+                            <ul>
+                                <li>优势：操作简单（点点鼠标完成部署）、迁移方便（服务器到期一键迁移）、策略导入快捷（直接导入回测Config）；</li>
+                                <li>局限：灵活性低，无法自定义代码，部分参数不可修改；</li>
+                                <li>适用人群：新手、懒人、无需复杂自定义的用户。</li>
+                            </ul>
+
+                            <h4>2. 部署与配置步骤</h4>
+                            <ol>
+                                <li>上传脚本：将网页版部署脚本（Deploy_Chronos.sh）通过Termius上传到服务器；</li>
+                                <li>授权执行：执行命令<code>chmod +x Deploy_Chronos.sh</code>（添加可执行权限），再执行<code>./Deploy_Chronos.sh</code>（自动部署环境）；</li>
+                                <li>记录链接：部署成功后生成网页访问链接（含IP、端口、随机密码），建议收藏；</li>
+                                <li>登录认证：
+                                    <ul>
+                                        <li>第一步：同意开源声明，获取GitHub代码库中的验证码，填入后进入；</li>
+                                        <li>第二步：用谷歌身份认证器扫描二维码，生成动态密码登录；</li>
+                                        <li>第三步：微信扫码绑定身份，享受彩虹数据服务。</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h4>3. 数据中心配置（关键）</h4>
+                            <ul>
+                                <li>历史数据小时数：根据策略最大因子参数设置（截面因子需×2+冗余），默认2000小时足够；</li>
+                                <li>数据API：建议勾选彩虹数据服务，与币安数据形成双备份，提升稳定性；</li>
+                                <li>分钟偏移：设置需与后续账户配置一致（如0/15分钟），支持多账户分开运行；</li>
+                                <li>启动运行：设置完成后点击启动，通过"查看运行日志"确认数据下载正常。</li>
+                            </ul>
+
+                            <h4>4. 账户与策略配置</h4>
+                            <ol>
+                                <li>新增账户：填写账户名称、类型（普通/统一）、分钟偏移、K线数量、杠杆、黑名单等基础参数；</li>
+                                <li>关键设置：
+                                    <ul>
+                                        <li>BNB燃烧：勾选后自动用BNB抵扣手续费，自动购买11U BNB（可修改金额）；</li>
+                                        <li>保证金设置：默认用USDT（填写1），支持多稳定币组合（如0.5 USDT + 0.5 USDC）；</li>
+                                        <li>API配置：填写币安API Key与密钥，实盘交易必备。</li>
+                                    </ul>
+                                </li>
+                                <li>导入策略：上传回测框架的Config文件、因子库（Factors）、截面因子库（Sections）、仓位管理文件（Positions）；</li>
+                                <li>模式选择：Debug（测试）→ Simulate（模拟）→ None（实盘），逐步验证策略有效性。</li>
+                            </ol>
+
+                            <h4>5. 三种交易模式详解</h4>
+                            <ul>
+                                <li>Debug模式：仅验证选币逻辑，输出选币列表，不生成资金曲线，不下单；</li>
+                                <li>Simulate模式：计算资金曲线并推送至企业微信，不下单，用于验证策略历史表现；</li>
+                                <li>None模式：真实下单交易，需确保API配置正确、资金充足，建议先小资金试错（2000U以内）。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>代码版实盘框架：高扩展性，自定义灵活</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心优势与适用人群</h4>
+                            <ul>
+                                <li>优势：支持代码自定义（如修改下单逻辑、添加特殊过滤）、多账户多策略同时运行、参数配置更细致；</li>
+                                <li>局限：部署步骤繁琐，需一定命令行操作基础；</li>
+                                <li>适用人群：有代码基础、需要个性化需求的高阶用户。</li>
+                            </ul>
+
+                            <h4>2. 文件结构解析</h4>
+                            <ul>
+                                <li>核心目录：
+                                    <ul>
+                                        <li>Account：存放子账户Config（每个PY文件对应一个账户，不含下划线才会被识别）；</li>
+                                        <li>Factors/Sections/Positions：因子库、截面因子库、仓位管理文件（从回测框架复制）；</li>
+                                        <li>Call：执行数据整理、因子计算、选币的核心脚本；</li>
+                                        <li>Example：普通账户/统一账户Config模板，含完整参数说明；</li>
+                                        <li>Startup.json：控制启动脚本（Startup.py/Monitor.py/DeList.py）的路径与日志配置。</li>
+                                    </ul>
+                                </li>关键文件：
+                                    <ul>
+                                        <li>Config.py：框架全局配置（数据路径、企业微信机器人、实盘模式）；</li>
+                                        <li>Startup.py：启动实盘交易的主脚本；</li>
+                                        <li>Monitor.py：防止策略爆仓的监控脚本；</li>
+                                        <li>DeList.py：防止下架币冲击的防护脚本。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>3. 核心配置步骤</h4>
+                            <ol>
+                                <li>数据中心配置：
+                                    <ul>
+                                        <li>Config设置：填写K线数量、企业微信机器人链接、彩虹API开关、分钟偏移（单偏移需加逗号，如[0,]）；</li>
+                                        <li>上传启动：将数据中心文件上传到服务器，激活虚拟环境后执行<code>python Real_Time_Data.py</code>测试，再用<code>pm2 start Real_Time_Data.py</code>后台运行。</li>
+                                    </ul>
+                                </li>账户Config配置：
+                                    <ul>
+                                        <li>账户设置：填写API Key、密钥、账户类型、分钟偏移、最小下单量（现货10U/合约5U）、BNB燃烧开关；</li>
+                                        <li>策略设置：导入回测框架的策略配置（子策略池、选币数量、过滤条件等），设置所需K线数量。</li>
+                                    </ul>
+                                </li>框架Config配置：
+                                    <ul>
+                                        <li>数据路径：复制数据中心的data目录路径，确保框架能读取数据；</li>
+                                        <li>实盘模式：设置为"Debug"/"Simulate"/"None"，与网页版一致；</li>
+                                        <li>企业微信机器人：填写链接，接收全局报错信息。</li>
+                                    </ul>
+                                </li>Startup.json配置：填写三个核心脚本的路径与日志路径，支持删除不需要的脚本（如Monitor.py）。</li>
+                            </ol>
+
+                            <h4>4. 启动与监控</h4>
+                            <ul>
+                                <li>测试启动：执行<code>python Startup.py</code>，验证选币与资金曲线计算是否正常；</li>
+                                <li>后台启动：执行<code>pm2 start Startup.json</code>，通过<code>pm2 list</code>查看脚本运行状态；</li>
+                                <li>日志排查：若运行异常，下载框架目录下的日志文件，发给灵奇助教协助排查；</li>
+                                <li>多账户运行：在Account目录添加多个Config文件，设置不同分钟偏移，即可实现多账户同时运行（最多12个）。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>关键操作：策略迁移与风险控制</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 策略从回测到实盘的迁移</h4>
+                            <ul>
+                                <li>网页版：直接上传回测框架的Config、Factors、Sections、Positions文件，框架自动适配；</li>
+                                <li>代码版：将回测框架的对应文件复制到实盘框架的同名目录，修改Account中的策略配置，确保参数一致；</li>
+                                <li>选币策略适配：实盘框架支持选币策略，会自动转换为cap_ratio=1的仓管策略运行。</li>
+                            </ul>
+
+                            <h4>2. 资金与风险控制要点</h4>
+                            <ul>
+                                <li>资金要求：根据选币数量计算（1个币≈10U，50个币需500U以上，建议1000U起投）；</li>
+                                <li>仓位管理：实盘前先设置杠杆为0，清空持仓后再切换模式，避免强制平仓；</li>
+                                <li>测试流程：先Debug模式验证选币逻辑→再Simulate模式观察资金曲线→最后None模式小资金实盘；</li>
+                                <li>服务器隔离：测试与实盘建议使用不同服务器，避免测试代码影响实盘运行；</li>
+                                <li>策略风险：基础策略长期表现不佳，仅适合小资金试错（2000U以内），需等待分享会官方策略。</li>
+                            </ul>
+
+                            <h4>3. 常见问题解决</h4>
+                            <ul>
+                                <li>网页版无法访问：检查服务器防火墙端口是否开放，链接是否正确（含密码部分）；</li>
+                                <li>数据下载失败：确认彩虹API已勾选，网络连接正常，查看数据中心运行日志；</li>
+                                <li>资金曲线乱码：安装中文字体，代码版需手动配置字体路径，网页版自动处理；</li>
+                                <li>多账户冲突：确保每个账户的分钟偏移不同，避免同一时间计算选币；</li>
+                                <li>BNB燃烧失效：检查账户中有足够USDT，确保已勾选"BNB燃烧"选项。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>网页版与代码版对比及进阶技巧</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心差异对比</h4>
+                            <table style="width:100%;border-collapse:collapse;margin:1rem 0;">
+                                <tr style="background-color:var(--background);">
+                                    <<th style="padding:0.8rem;border:1px solid var(--border);text-align:left;">对比维度</</th>
+                                    <<th style="padding:0.8rem;border:1px solid var(--border);text-align:left;">网页版</</th>
+                                    <<th style="padding:0.8rem;border:1px solid var(--border);text-align:left;">代码版</</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">部署难度</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">低（一键部署，1小时）</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">高（步骤繁琐，2-3小时）</td>
+                                </tr>
+                                <tr style="background-color:var(--background);">
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">灵活性</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">低（不可修改代码）</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">高（支持自定义开发）</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">适用人群</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">新手、懒人</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">高阶用户、有自定义需求者</td>
+                                </tr>
+                                <tr style="background-color:var(--background);">
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">迁移难度</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">低（一键迁移）</td>
+                                    <td style="padding:0.8rem;border:1px solid var(--border);">中（需复制文件配置）</td>
+                                </tr>
+                            </table>
+
+                            <h4>2. 进阶使用技巧</h4>
+                            <ul>
+                                <li>数据共享：同一服务器上，代码版可直接读取网页版的数据中心数据（只需配置正确数据路径）；</li>
+                                <li>多模式共存：网页版与代码版可安装在同一服务器，但需确保子账户分钟偏移不冲突；</li>
+                                <li>策略组合：代码版支持在一个账户中运行多个子策略，通过分钟偏移分开执行，提升资金利用率；</li>
+                                <li>下单逻辑：实盘框架默认市价下单，进阶用户可参考"币圈实盘框架下单逻辑解析与升级"帖子修改下单方式；</li>
+                                <li>框架升级：网页版支持在线更新，代码版需下载最新框架文件，覆盖旧文件后重新配置。</li>
+                            </ul>
+
+                            <h4>3. 后续学习方向</h4>
+                            <ul>
+                                <li>官方策略：等待分享会新策略上线，学习从回测优化到实盘部署的完整流程；</li>
+                                <li>自定义开发：代码版用户可学习修改因子逻辑、添加特殊过滤条件、优化下单算法；</li>
+                                <li>多交易所适配：OKX交易所需下载专用实盘框架，网页版暂不支持；</li>
+                                <li>监控与告警：完善企业微信机器人配置，实时接收策略报错、资金曲线、交易记录。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 分层部署模型：网页版（低门槛入门）与代码版（高阶扩展）分层设计，适配不同用户需求，兼顾易用性与灵活性；</p>
+                    <p>• 稳定性优先模型：通过服务器部署、双数据备份（彩虹+币安）、PM2进程守护、虚拟内存扩展，全方位保障实盘稳定性；</p>
+                    <p>• 渐进式测试模型：Debug→Simulate→None三阶段测试，从逻辑验证到模拟运行再到真实交易，逐步降低实盘风险；</p>
+                    <p>• 复用回测逻辑模型：实盘框架直接复用回测框架的Config、因子库等文件，避免重复配置，实现从回测到实盘的无缝衔接。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 币圈7×24小时交易→本地电脑稳定性不足→需使用云服务器→服务器需境外部署（靠近币安）→提升交易时效性（因果链条）；</p>
+                    <p>• 新手缺乏代码基础→需要低门槛工具→网页版框架一键部署→满足基础实盘需求→高阶用户需要自定义→代码版框架提供扩展能力（递进关系）；</p>
+                    <p>• 实盘风险高→需分阶段测试→Debug模式验证逻辑→Simulate模式观察曲线→None模式小资金试错→降低亏损概率（递进关系）；</p>
+                    <p>• 策略参数复杂→截面因子需更多数据→K线数量计算为参数×2+冗余→数据中心提前下载足够数据→框架正常运行（因果链条）。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：网页版=自动挡汽车（简单易操作，适合新手），代码版=手动挡汽车（操控灵活，适合老司机），两者均能到达目的地（实盘交易），适配不同驾驶水平；</p>
+                    <p>• 案例1：某新手用户通过网页版框架，1小时完成部署，导入回测策略后启动模拟运行，成功观察到低价币近期上涨的资金曲线；</p>
+                    <p>• 案例2：某高阶用户通过代码版框架，自定义添加止损逻辑，同时运行3个不同分钟偏移的子账户，实现多策略分散投资；</p>
+                    <p>• 隐喻2：服务器=实盘交易的"机房"，Termius=连接机房的"钥匙"，框架=交易的"核心设备"，三者缺一不可，共同支撑实盘运行；</p>
+                    <p>• 案例3：25年10月11日币圈异常行情中，选择东京服务器的用户因网络稳定，实盘未受明显影响，验证了服务器选址的重要性。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">前置准备与工具下载</div>
+                <div class="step-content">
+                    <ol>
+                        <li>学习预备课程：熟悉币圈现货/合约、API Key、分钟偏移等基础概念，参考"币圈新人准备工作汇总"帖子；</li>
+                        <li>下载框架文件：
+                            <ul>
+                                <li>网页版：下载实盘网页版部署脚本（0.5.1版本）；</li>
+                                <li>代码版：下载实盘框架1.3.11、数据中心1.1.6、部署命令行TXT；</li>
+                            </ul>
+                        </li>
+                        <li>安装辅助工具：Termius（文件上传+命令行）、谷歌身份认证器（动态密码）、企业微信（接收通知）；</li>
+                        <li>咨询灵奇助教：解决注册、入金、技术访问等问题，确保币圈交易账户正常。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：新手需重点理解分钟偏移与K线数量计算逻辑，否则后续配置易出错；API Key需妥善保管，避免泄露。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">服务器选购与环境部署</div>
+                <div class="step-content">
+                    <ol>
+                        <li>选购服务器：优先腾讯云2核4G境外服务器（东京），Ubuntu系统，硬盘≥50G；</li>
+                        <li>配置防火墙：开放网页版端口（如9900），确保外部可访问；</li>
+                        <li>网页版环境：无需手动部署，上传脚本后自动安装；</li>
+                        <li>代码版环境：
+                            <ul>
+                                <li>执行部署脚本：安装Miniconda、Python 3.12虚拟环境、PM2等工具；</li>
+                                <li>设置虚拟内存：提升服务器稳定性，避免运行崩溃；</li>
+                                <li>安装中文字体：防止资金曲线乱码。</li>
+                            </ul>
+                        </li>
+                        <li>测试Termius连接：成功连接服务器，确保文件上传与命令行操作正常。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：服务器需选择境外节点，境内服务器无法正常访问币安；代码版部署脚本需逐行执行，若报错需联系灵奇助教排查。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">网页版框架部署与配置（新手优先）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>上传部署脚本：通过Termius将Deploy_Chronos.sh上传到服务器；</li>
+                        <li>执行部署命令：<code>chmod +x Deploy_Chronos.sh</code>→<code>./Deploy_Chronos.sh</code>，等待自动部署完成；</li>
+                        <li>记录访问链接：部署成功后生成的含密码链接，收藏备用；</li>
+                        <li>登录认证：
+                            <ul>
+                                <li>填入GitHub代码库中的验证码；</li>
+                                <li>谷歌身份认证器扫描二维码登录；</li>
+                                <li>微信扫码绑定身份。</li>
+                            </ul>
+                        </li>
+                        <li>配置数据中心：
+                            <ul>
+                                <li>设置历史数据小时数（如820小时）；</li>
+                                <li>勾选彩虹数据API；</li>
+                                <li>设置分钟偏移（如0/15分钟）；</li>
+                                <li>启动数据中心，查看日志确认数据下载正常。</li>
+                            </ul>
+                        </li>
+                        <li>新增账户与导入策略：
+                            <ul>
+                                <li>填写账户基础信息、API Key、保证金设置；</li>
+                                <li>上传回测Config、Factors、Sections、Positions文件；</li>
+                                <li>选择实盘模式为"Debug"。</li>
+                            </ul>
+                        </li>
+                        <li>测试运行：启动账户，查看选币结果是否正常，无报错则完成配置。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：访问链接需完整复制（含末尾密码），否则无法登录；数据中心启动后需等待5-10分钟，确保数据下载完成。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">代码版框架部署与配置（高阶用户）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>上传框架文件：将实盘框架与数据中心文件通过Termius上传到服务器，分别创建目录存放；</li>
+                        <li>配置数据中心：
+                            <ul>
+                                <li>编辑Config.py：设置K线数量、企业微信机器人、分钟偏移；</li>
+                                <li>测试启动：<code>python Real_Time_Data.py</code>，确认无报错；</li>
+                                <li>后台运行：<code>pm2 start Real_Time_Data.py</code>。</li>
+                            </ul>
+                        </li>
+                        <li>配置账户Config：
+                            <ul>
+                                <li>参考Example目录模板，创建子账户Config文件（不含下划线）；</li>
+                                <li>填写账户信息、API Key、策略配置、所需K线数量；</li>
+                                <li>复制回测框架的Factors/Sections/Positions文件到对应目录。</li>
+                            </ul>
+                        </li>
+                        <li>配置框架Config.py：
+                            <ul>
+                                <li>填写数据中心data目录路径；</li>
+                                <li>设置实盘模式为"Debug"；</li>
+                                <li>填写企业微信机器人链接。</li>
+                            </ul>
+                        </li>
+                        <li>配置Startup.json：填写Startup.py/Monitor.py/DeList.py的路径与日志路径；</li>
+                        <li>测试启动：<code>python Startup.py</code>，验证选币与资金曲线计算正常；</li>
+                        <li>后台运行：<code>pm2 start Startup.json</code>，通过<code>pm2 list</code>确认运行状态。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：账户Config文件名不能含下划线，否则框架无法识别；数据路径需准确，否则框架无法读取行情数据导致报错。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="5">
+                <div class="step-title">实盘运行与风险控制</div>
+                <div class="step-content">
+                    <ol>
+                        <li>阶段一：Debug模式测试（1-2天）
+                            <ul>
+                                <li>验证选币逻辑：确认选币结果与回测一致，无漏选/错选；</li>
+                                <li>排查报错：若运行异常，查看日志文件，解决参数配置或数据问题。</li>
+                            </ul>
+                        </li>
+                        <li>阶段二：Simulate模式模拟（3-5天）
+                            <ul>
+                                <li>观察资金曲线：确认策略表现与预期一致，无异常回撤；</li>
+                                <li>优化参数：根据模拟结果调整策略参数（如选币数量、过滤条件）。</li>
+                            </ul>
+                        </li>
+                        <li>阶段三：None模式实盘（小资金）
+                            <ul>
+                                <li>资金准备：投入2000U以内资金，避免重仓风险；</li>
+                                <li>切换模式：将实盘模式改为"None"，重启框架；</li>
+                                <li>实时监控：通过企业微信接收资金曲线与交易记录，每日查看运行日志；</li>
+                                <li>风险控制：若出现大幅回撤，及时设置杠杆为0，清空持仓排查问题。</li>
+                            </ul>
+                        </li>
+                        <li>进阶优化：
+                            <ul>
+                                <li>多账户运行：添加多个子账户Config，设置不同分钟偏移；</li>
+                                <li>策略组合：在一个账户中运行多个子策略，提升资金利用率；</li>
+                                <li>框架升级：定期更新框架文件，适配新策略与功能。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：实盘前务必确认API Key权限正确（开启交易权限），资金充足；切换模式前需清空持仓，避免强制平仓风险。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>新手优先选择网页版，避免初期挫败感</div>
+                <div class="ai-note-content">
+                    代码版部署步骤繁琐，需命令行操作与基础代码知识，新手直接上手易出错；网页版一键部署、图形化操作，1小时即可完成从部署到测试的全流程，建议新手先通过网页版熟悉实盘逻辑，再逐步过渡到代码版。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>服务器配置宁高不低，优先保障稳定性</div>
+                <div class="ai-note-content">
+                    虽然2核4G服务器可满足基础需求，但如果需同时运行多个账户或复杂策略，建议选择4核8G配置；硬盘选择≥60G，避免数据存储不足；服务器到期前提前备份数据与配置文件，防止数据丢失。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>严格遵循三阶段测试流程，切勿跳过模拟直接实盘</div>
+                <div class="ai-note-content">
+                    部分用户急于实盘赚钱，跳过Debug或Simulate模式，直接启动真实交易，易因参数配置错误、选币逻辑异常导致亏损；建议至少运行3天模拟模式，确认资金曲线与回测预期一致后，再用小资金试错。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>善用辅助工具与社区资源，减少踩坑</div>
+                <div class="ai-note-content">
+                    Termius的SFTP功能可快速上传文件，避免手动输入命令出错；遇到问题先查看攻略帖（含详细步骤与截图），再咨询灵奇助教或群内老同学，他们已踩过大部分坑，能快速提供解决方案；定期关注分享会直播，学习新功能与优化技巧。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>实盘策略需动态调整，避免长期单一策略</div>
+                <div class="ai-note-content">
+                    币圈市场风格变化快，单一策略可能短期有效但长期失效（如基础低价币策略近期上涨但长期表现不佳）；建议实盘后定期复盘，结合市场环境调整策略参数，或添加多个策略组合运行，降低单一策略风险；等待分享会官方策略上线后，及时替换基础策略，提升实盘收益。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

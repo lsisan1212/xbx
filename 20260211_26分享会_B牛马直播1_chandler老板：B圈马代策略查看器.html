@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260211_26分享会_B牛马直播1_chandler老板：B圈马代策略查看器</title>
+    <style>
+        :root {
+            --primary: #165DFF;
+            --secondary: #6E7891;
+            --accent: #FF7D00;
+            --background: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --text-primary: #1D2129;
+            --text-secondary: #4E5969;
+            --border: #E5E9F2;
+            --success: #00B42A;
+            --warning: #FF7D00;
+            --danger: #F53F3F;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(255, 125, 0, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260211_26分享会_B牛马直播1_chandler老板：B圈马代策略查看器</h1>
+            <p>B圈马代策略查看器详细教程：安装部署+核心功能（选币/仓位管理）+实操指南</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    一款B圈量化策略分析工具，含选币框架与仓位管理框架，支持策略回测分析、因子调试、参数平原可视化等功能，帮助用户优化量化策略
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>B圈量化交易爱好者、策略开发者</li>
+                        <li>具备基础Python环境部署能力</li>
+                        <li>了解量化策略基本概念（因子、回测、参数平原）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握工具安装部署流程（复制粘贴+命令执行）</li>
+                        <li>学会选币框架核心功能（交易分析、因子调试、策略对比）</li>
+                        <li>理解仓位管理框架使用场景（相关性分析、仓位占比统计）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与预期回报</div>
+                <div class="summary-item-content">
+                    安装耗时：10-15分钟（简单复制部署）<br>
+                    学习耗时：1-2小时（核心功能熟悉）<br>
+                    预期回报：高效分析量化策略漏洞，快速优化因子与参数
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">B圈量化</span>
+                    <span class="badge badge-secondary">策略查看器</span>
+                    <span class="badge badge-accent">选币框架</span>
+                    <span class="badge badge-warning">仓位管理</span>
+                    <span class="badge badge-success">工具教程</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>工具整体架构与核心功能</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 整体架构</h4>
+                            <p>工具分为两大核心框架，独立部署但功能互补：</p>
+                            <ul>
+                                <li>选币框架：核心功能模块，含交易分析、因子调试、策略比较、参数平原、IC分析等，偏向单因子分析与单笔交易优化；</li>
+                                <li>仓位管理框架：辅助模块，含相关性分析、仓位占比统计，核心聚焦子策略组合与仓位分布分析。</li>
+                            </ul>
+                            <p>额外说明：传统分析功能集成在选币框架内，暂未开发与实盘对比功能。</p>
+
+                            <h4>2. 核心设计思路</h4>
+                            <p>选币框架：以"分析因子→发现优化点→优化策略"为逻辑，支持无回测调整因子参数，提升调试效率；</p>
+                            <p>仓位管理框架：以子策略为核心，简化功能设计，重点解决多策略组合的相关性与仓位分布问题。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>工具安装部署流程（简单易操作）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 前置准备</h4>
+                            <p>下载安装包：帖子链接6868333，安装包位于帖子最底部，含选币框架与仓位管理框架两个版本。</p>
+
+                            <h4>2. 部署步骤</h4>
+                            <ol>
+                                <li>文件放置：选币框架安装包复制到"选币"目录下，仓位管理框架复制到"仓位管理"目录下；</li>
+                                <li>命令安装：执行指定命令完成安装（无需复杂配置）；</li>
+                                <li>参数配置：建议将debug模式改为false（避免代码修改后自动刷新，影响使用体验）；</li>
+                                <li>启动验证：启动后出现指定代码行即部署成功。</li>
+                            </ol>
+
+                            <h4>3. 兼容性说明</h4>
+                            <p>已适配25年仓位管理框架与选币框架，新币2.0公测版（PoW机制）暂未测试，需谨慎使用。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>选币框架核心功能详解（重点模块）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 交易初步分析（核心痛点解决）</h4>
+                            <p>功能目标：回答三个核心问题——哪些时间亏、哪些币亏、亏时K线是什么样。</p>
+                            <p>操作逻辑：</p>
+                            <ul>
+                                <li>时间筛选：通过资金曲线查看每月收益/回撤，支持区间筛选（如-40%~-30%回撤区间）；</li>
+                                <li>币种筛选：复选筛选区间内亏损的币种，支持排序与偏移调整；</li>
+                                <li>K线查看：联动显示亏损币种的K线图，辅助分析亏损场景。</li>
+                            </ul>
+                            <p>注意事项：Offset建议单次仅跑1个，多Offset可能出现合并问题，影响可视化效果。</p>
+
+                            <h4>2. 因子调试功能（策略优化核心）</h4>
+                            <p>功能目标：分析因子值在买入前/后的变化，以及其他因子同期变化，无需重新跑回测。</p>
+                            <p>操作逻辑：</p>
+                            <ul>
+                                <li>默认因子：自动加载factor列表中第一个因子（如低价因子），显示参数变化曲线；</li>
+                                <li>参数调整：直接修改因子参数（如250→500），点击刷新即可查看变化，无需跑回测；</li>
+                                <li>多因子支持：最多支持2条因子曲线同时显示，避免界面嘈杂（复杂画图建议使用其他免费工具）。</li>
+                            </ul>
+                            <p>已知问题：部分场景下参数修改后刷新无反应，后续会更新修复。</p>
+
+                            <h4>3. 策略比较功能</h4>
+                            <p>功能目标：对比两个策略（如Demo1与Demo2）的选币差异与交易时间差异。</p>
+                            <p>支持模式：</p>
+                            <ul>
+                                <li>相同买入时间：筛选同一时间买入但不同时间卖出的币种；</li>
+                                <li>完全不同时间：筛选买入/卖出时间均不同的币种；</li>
+                                <li>核心价值：验证过滤条件效果（如前置/后置过滤后是否筛除无效币种）。</li>
+                            </ul>
+                            <p>注意事项：运行速度较慢，需耐心等待结果。</p>
+
+                            <h4>4. 其他辅助功能</h4>
+                            <ul>
+                                <li>参数平原：支持多时间维度（如24小时）、多因子参数可视化，生成热力图；</li>
+                                <li>IC分析：抄自官方工具，支持自定义持续时间，默认仅算1小时，可修改天数；</li>
+                                <li>分域分析：将因子值分为10组（低3组绿色、中4组紫色、高3组橘红色），支持等宽/等频分箱，适配不同因子类型（如成交量用等频，排名类因子用等宽）；</li>
+                                <li>杠杆分析：显示不同杠杆比例（如杠杆0与杠杆1）的收益曲线，辅助判断杠杆效果。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>仓位管理框架核心功能</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 相关性分析</h4>
+                            <p>功能：生成两张核心图表——资金曲线关系图、选币差异百分比图，支持添加多个子策略对比。</p>
+                            <p>使用场景：判断不同子策略的协同性，避免过度集中风险。</p>
+
+                            <h4>2. 仓位占比统计</h4>
+                            <p>功能：筛选指定仓位占比区间（如多头占比0.5~0.65），统计该区间在整个策略周期中的出现次数、持续小时数及对应收益，联动显示子策略与主流币种（BTC/ETC）的曲线。</p>
+                            <p>使用场景：分析特定仓位分布下的策略表现，优化仓位配置。</p>
+
+                            <h4>3. 安装与使用说明</h4>
+                            <p>安装流程与选币框架一致：复制安装包到对应目录，执行命令即可；</p>
+                            <p>核心特点：功能简洁，操作门槛低，无需复杂配置，重点聚焦仓位核心问题。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>关键使用技巧与注意事项</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 选币框架使用技巧</h4>
+                            <ul>
+                                <li>因子选择：过滤因子仅显示变化值，调试时建议聚焦1-2个核心因子，避免多因子干扰；</li>
+                                <li>分箱选择：排名类因子（如传统因子）用等宽分箱，非排名类（如成交量）用等频分箱，避免币种过度集中；</li>
+                                <li>周期选择：成交量等因子建议用"当前小时"周期，与同期币种对比更合理；</li>
+                                <li>策略比较：优先对比相同买入时间的差异，快速验证过滤效果。</li>
+                            </ul>
+
+                            <h4>2. 常见问题与规避方法</h4>
+                            <ul>
+                                <li>Offset冲突：单次仅跑1个Offset，避免合并后可视化效果差；</li>
+                                <li>刷新无效：部分因子参数修改后刷新无反应，可重启工具或等待后续版本修复；</li>
+                                <li>功能局限：复杂画图（如3条以上因子曲线）建议使用其他免费工具（如确定余）；</li>
+                                <li>数据兼容性：新币2.0公测版暂未适配，需等待后续测试。</li>
+                            </ul>
+
+                            <h4>3. 核心功能优先级建议</h4>
+                            <p>新手优先掌握：交易初步分析（亏损时间/币种/K线）→ 因子调试（核心因子变化）→ 策略比较（选币差异）；</p>
+                            <p>进阶使用：参数平原→IC分析→分域分析→杠杆分析；</p>
+                            <p>仓位管理：先掌握相关性分析，再使用仓位占比统计，适配多策略组合场景。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>工具设计理念与后续优化方向</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 设计理念</h4>
+                            <ul>
+                                <li>简洁易用：刻意简化操作流程，多数功能傻瓜式设计，无需复杂学习；</li>
+                                <li>聚焦核心：优先解决策略优化的核心痛点（亏损分析、因子调试），非核心功能简化或集成其他工具；</li>
+                                <li>高效调试：支持无回测修改因子参数，提升策略迭代效率；</li>
+                                <li>个人开发：业余时间开发，功能优先级基于用户核心需求，非全面覆盖。</li>
+                            </ul>
+
+                            <h4>2. 后续优化方向</h4>
+                            <ul>
+                                <li>修复已知问题：因子参数刷新无效、部分功能可视化效果差；</li>
+                                <li>适配新环境：支持新币2.0公测版（PoW机制）；</li>
+                                <li>新增功能：实盘对比功能（当前未开发）；</li>
+                                <li>体验优化：提升策略比较速度，优化多因子显示效果。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 痛点驱动模型：工具设计围绕量化策略优化的核心痛点（亏损定位、因子调试、策略对比），优先解决高频需求；</p>
+                    <p>• 分层功能模型：选币框架聚焦"单一策略优化"，仓位管理框架聚焦"多策略组合分析"，分层设计避免功能冗余；</p>
+                    <p>• 效率优先模型：支持无回测调试因子，减少重复跑回测的时间成本，提升策略迭代效率。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 策略优化需求→工具核心功能（亏损分析→因子调试→策略对比）→ 高效迭代策略；</p>
+                    <p>• 单策略优化→多策略组合→ 仓位管理框架（相关性分析→仓位占比统计）→ 控制组合风险；</p>
+                    <p>• 功能简化设计→降低使用门槛→ 新手快速上手→ 聚焦核心需求而非全面覆盖。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：选币框架=策略"显微镜"，聚焦单一策略的细节优化（因子、参数、交易时机）；</p>
+                    <p>• 隐喻2：仓位管理框架=策略"望远镜"，聚焦多策略组合的整体风险与仓位分布；</p>
+                    <p>• 案例1：通过交易初步分析，快速定位某策略在2022年3月的亏损币种（如某垃圾币），发现其K线跌破关键支撑位，后续优化过滤条件；</p>
+                    <p>• 案例2：通过分域分析，发现某因子值低的币种在回测中上涨概率更高，调整策略优先选择低因子值标的。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">工具下载与安装部署</div>
+                <div class="step-content">
+                    <ol>
+                        <li>访问帖子链接6868333，下载选币框架与仓位管理框架安装包；</li>
+                        <li>创建对应目录：新建"选币"和"仓位管理"两个文件夹，将对应安装包复制粘贴到目录中；</li>
+                        <li>执行安装命令：在命令行中输入指定命令，完成工具安装；</li>
+                        <li>配置debug参数：打开配置文件，将debug模式改为false，避免自动刷新干扰；</li>
+                        <li>启动验证：执行启动命令（类似Python启动方式），出现指定代码行即安装成功。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：确保安装包放置目录正确，命令输入无误；若启动失败，检查Python环境与依赖包是否齐全。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">选币框架核心功能实操（交易分析+因子调试）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>加载策略：导入Demo1或Demo2策略，选择单个Offset（建议先跑1个）；</li>
+                        <li>交易初步分析：
+                            <ul>
+                                <li>查看资金曲线，筛选亏损区间（如-30%~-20%）；</li>
+                                <li>复选筛选该区间内的亏损币种，查看对应的K线图；</li>
+                                <li>记录亏损时间、币种及K线特征。</li>
+                            </ul>
+                        </li>
+                        <li>因子调试：
+                            <ul>
+                                <li>默认加载第一个因子（如低价因子），查看参数变化曲线；</li>
+                                <li>修改因子参数（如250→500），点击刷新查看变化（若刷新无效，重启工具）；</li>
+                                <li>对比买入前/后因子值变化，识别优化点。</li>
+                            </ul>
+                        </li>
+                        <li>策略比较：选择Demo1与Demo2，按"相同买入时间"模式运行，查看选币差异，验证过滤效果。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：多Offset同时运行可能导致可视化混乱，建议单次仅选1个；因子调试时最多显示2条曲线，避免界面嘈杂。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">选币框架进阶功能实操（参数平原+分域分析）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>参数平原：选择目标因子，设置时间维度（如24小时），运行生成热力图，分析参数稳定性；</li>
+                        <li>分域分析：
+                            <ul>
+                                <li>选择因子（如成交量），设置分箱方式（等频）；</li>
+                                <li>选择周期（当前小时），运行生成分域图；</li>
+                                <li>观察低/中/高因子值组的收益表现，调整策略选股偏好。</li>
+                            </ul>
+                        </li>
+                        <li>IC分析：设置持续时间（如7天），运行生成IC曲线，评估因子有效性；</li>
+                        <li>杠杆分析：选择不同杠杆比例（如0和1），对比收益曲线，判断杠杆对策略的影响。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：分箱方式需根据因子类型选择（排名类→等宽，非排名类→等频）；IC分析运行时间较长，需耐心等待。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">仓位管理框架实操</div>
+                <div class="step-content">
+                    <ol>
+                        <li>加载子策略：导入多个子策略（如Demo1的多个子策略）；</li>
+                        <li>相关性分析：运行生成资金曲线关系图与选币差异百分比图，判断子策略协同性；</li>
+                        <li>仓位占比统计：
+                            <ul>
+                                <li>设置仓位区间（如多头占比0.5~0.65）；</li>
+                                <li>运行统计该区间的出现次数、持续小时数及收益；</li>
+                                <li>查看子策略与BTC/ETC的曲线联动，分析仓位分布合理性。</li>
+                            </ul>
+                        </li>
+                        <li>优化调整：根据分析结果，调整子策略权重或仓位分布，降低组合风险。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：仓位管理框架功能简洁，重点关注核心数据（出现次数、收益），无需过度纠结细节；若子策略过多，可分批对比。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="5">
+                <div class="step-title">策略优化落地（基于工具分析结果）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>问题定位：通过交易分析找到策略亏损核心原因（如特定币种、时间区间）；</li>
+                        <li>因子优化：基于因子调试结果，调整因子参数（如增大/减小阈值）；</li>
+                        <li>过滤调整：根据策略比较结果，优化前置/后置过滤条件，筛除无效币种；</li>
+                        <li>组合优化：利用仓位管理框架分析，调整子策略权重与仓位分布；</li>
+                        <li>回测验证：将优化后的策略进行回测，对比优化前后的收益与回撤。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：优化后需通过回测验证效果，避免仅凭工具分析直接实盘；工具仅提供分析支持，不替代回测验证。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>工具局限性与替代方案</div>
+                <div class="ai-note-content">
+                    工具暂不支持实盘对比、复杂多因子可视化（3条以上曲线），需搭配其他工具使用：实盘对比可手动记录实盘数据与工具分析结果对比；复杂画图可使用Python matplotlib或免费工具（如确定余）；新币2.0公测版暂未适配，建议先在测试环境验证后再使用。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>策略优化的高效流程</div>
+                <div class="ai-note-content">
+                    建议按"交易分析定位问题→因子调试优化参数→策略比较验证过滤→分域分析确认选股偏好→仓位管理优化组合"的流程操作，避免无序调试；每次优化仅修改1个核心变量（如1个因子参数），便于定位优化效果来源。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>数据质量与参数选择注意事项</div>
+                <div class="ai-note-content">
+                    工具分析依赖输入数据的准确性，建议导入策略前验证数据完整性（如K线、因子值无缺失）；参数选择需结合策略类型（如小市值策略适配短周期因子，大市值适配长周期），避免盲目套用默认参数；Offset建议单次仅跑1个，多Offset需手动合并结果，避免可视化混乱。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>实盘应用的风险控制</div>
+                <div class="ai-note-content">
+                    工具分析结果仅作为策略优化参考，不可直接实盘落地；实盘前需通过回测验证优化效果，同时设置仓位上限（如单策略不超过总资金的30%）；杠杆功能需谨慎使用，建议先在模拟盘测试不同杠杆比例的表现，避免实盘因杠杆放大风险。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>工具后续更新与适配</div>
+                <div class="ai-note-content">
+                    关注工具后续版本更新，修复已知问题（如因子刷新无效）；新币2.0公测版适配后再使用，避免因机制差异导致分析结果失真；若需新增功能（如多因子同时调试），可结合Python自定义开发，与工具功能互补。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

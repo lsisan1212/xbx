@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026分享会股票预备课程-2-大a小市值策略组合</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #94a3b8;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fafafa;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: var(--shadow);
+        }
+        header h1 {
+            font-size: clamp(1.5rem, 3vw + 0.5rem, 2.2rem);
+            margin-bottom: 0.75rem;
+        }
+        header p {
+            font-size: clamp(1rem, 2vw + 0.3rem, 1.2rem);
+            opacity: 0.9;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 2rem 1rem;
+        }
+        section {
+            margin-bottom: 2.5rem;
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        @media (max-width: 600px) {
+            section {
+                padding: 1rem 0.75rem;
+            }
+            main {
+                padding: 1.5rem 0.75rem;
+            }
+        }
+        section h2 {
+            font-size: clamp(1.3rem, 2.5vw + 0.4rem, 1.8rem);
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        section h2 svg {
+            width: 24px;
+            height: 24px;
+        }
+        section h3 {
+            font-size: clamp(1.1rem, 2vw + 0.3rem, 1.4rem);
+            margin: 1rem 0 0.75rem;
+            color: var(--dark);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+        .dashboard-card {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+        }
+        .dashboard-card h3 {
+            font-size: clamp(1rem, 1.5vw + 0.2rem, 1.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .dashboard-card ul {
+            padding-left: 1.2rem;
+        }
+        .dashboard-card li {
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.9rem, 1.5vw + 0.3rem, 1rem);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            font-size: clamp(0.8rem, 1.2vw + 0.2rem, 0.9rem);
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        /* 时间轴样式 */
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-top: 1.5rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.8rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.1rem;
+            top: 1rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        @media (max-width: 600px) {
+            .timeline {
+                padding-left: 1.8rem;
+            }
+            .timeline::before {
+                left: 0.25rem;
+            }
+            .timeline-item::before {
+                left: -1.45rem;
+                width: 14px;
+                height: 14px;
+            }
+        }
+        .timeline-time {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: clamp(0.8rem, 1vw + 0.2rem, 0.9rem);
+            margin-bottom: 0.5rem;
+        }
+        details {
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        summary {
+            background-color: var(--light);
+            padding: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: clamp(0.95rem, 1.5vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 1rem;
+            background-color: white;
+        }
+        .checklist {
+            list-style-type: none;
+            padding: 0;
+        }
+        .checklist li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: clamp(0.95rem, 1.5vw + 0.3rem, 1.05rem);
+        }
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .checklist li strong {
+            color: var(--primary);
+        }
+        .ai-note {
+            background-color: rgba(37, 99, 235, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        .ai-note strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📁 2026分享会股票预备课程-2-大a小市值策略组合</h1>
+        <p>基于2号小市值选股策略的魔改教学，涵盖量价优化、基本面优化及实盘实操指南</p>
+    </header>
+    <main>
+        <section id="summary">
+            <h2>📊 执行仪表板</h2>
+            <div class="dashboard">
+                <div class="dashboard-card">
+                    <h3>🎯 核心定位</h3>
+                    <p>教你通过「照猫画虎」式魔改，优化小市值策略的收益、降低回撤与拥挤度，适配A股市场</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>👥 目标受众与先备条件</h3>
+                    <ul>
+                        <li>量化新手、股票投资者</li>
+                        <li>完成基础课程第一部分作业</li>
+                        <li>了解基础选股策略逻辑</li>
+                    </ul>
+                </div>
+                <div class="dashboard-card">
+                    <h3>✅ 关键收获</h3>
+                    <ul>
+                        <li>掌握2类小市值魔改核心方向</li>
+                        <li>学会因子替换的实操方法</li>
+                        <li>理解资金容量、选股重复度的重要性</li>
+                    </ul>
+                </div>
+                <div class="dashboard-card">
+                    <h3>⏱️ 时间投资与预期回报</h3>
+                    <ul>
+                        <li>学习时间：120分钟（直播全长）</li>
+                        <li>实盘准备：1-2周（策略调试）</li>
+                        <li>预期回报：18年后年化收益提升至13%-27%</li>
+                    </ul>
+                </div>
+                <div class="dashboard-card">
+                    <h3>🏷️ 标签</h3>
+                    <span class="badge badge-primary">小市值策略</span>
+                    <span class="badge badge-accent">策略魔改</span>
+                    <span class="badge badge-success">量化投资</span>
+                    <span class="badge badge-warning">A股实操</span>
+                    <span class="badge badge-secondary">新手友好</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 重点摘要与逻辑轴</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">[00:00-05:00]</div>
+                    <h3>原始小市值策略核心信息</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 核心逻辑：金融学第一定律（风险与收益成正比），全球长期有效</p>
+                            <p>• 历史表现：2009年-2026年2月，选5只股票，年化收益49%</p>
+                            <p>• 关键问题：最大回撤56%，阶段性失效（美股1968-1982年、A股2017-2019年）</p>
+                            <p>• 回放查看：完成基础课程第一部分作业后，进入小讲堂-课程-选股策略回撤及实盘</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[05:00-10:00]</div>
+                    <h3>策略魔改的核心目的</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 强化底层逻辑，实盘更安心</p>
+                            <p>• 避免交易拥挤（小市值股票同质化买入会导致策略失效）</p>
+                            <p>• 关键认知：魔改后收益可能下降，但需满足「回撤时敢加仓」的逻辑认可</p>
+                            <p>• 长期价值：魔改后的策略更贴近真实实盘结果</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[10:00-25:00]</div>
+                    <h3>魔改方向一：量价优化（方案一）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 核心逻辑：小市值股票生命周期（市值小→被选中→资金买入→价格上涨→市值变大→关注度下降→价格下跌→市值变小），优选「超跌+筑底」阶段</p>
+                            <p>• 因子组合：市值因子 + 20天涨跌幅（IT20，衡量超跌） + 成交额STD5（衡量筑底，标准差越小关注度越低）</p>
+                            <p>• 18年后表现：年化收益13%（原始6%），最大回撤51%（原始56%），收益回撤比提升</p>
+                            <p>• 核心价值：验证量价优化方向可行性，非最终可用策略</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[25:00-40:00]</div>
+                    <h3>量价优化（方案二）：因子替换</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 改进点：将20天涨跌幅（IT20）替换为「当前20天回撤」</p>
+                            <p>• 替换原因：IT20存在失真（股票先涨后跌时，涨跌幅无法反映真实下跌趋势）</p>
+                            <p>• 回撤计算：过去20天最大值与当前值的差值比例（代码将提供）</p>
+                            <p>• 历史表现：2009年起优于原始策略，18年后年化24%，最大回撤47%，收益回撤比提升0.4</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[40:00-50:00]</div>
+                    <h3>看不见的优化：选股重复度与资金容量</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 选股重复度：</p>
+                            <ul>
+                                <li>原始小市值 vs 量价优化方案一：6.24%</li>
+                                <li>原始小市值 vs 量价优化方案二：5%</li>
+                                <li>方案一 vs 方案二：41%</li>
+                            </ul>
+                            <p>• 资金容量（以市值分位数为代理变量）：</p>
+                            <ul>
+                                <li>原始小市值平均分位数：0.0049</li>
+                                <li>魔改后策略：0.0489/0.0483（提升10倍）</li>
+                                <li>核心意义：容量越大，抗拥挤性越强，历史表现越易复现</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[50:00-65:00]</div>
+                    <h3>魔改方向二：基本面优化（方案一）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 核心逻辑：小市值投资的底层是「高成长潜力」（10亿市值公司翻倍比茅台翻倍更易），优选「优质小市值公司」</p>
+                            <p>• 筛选条件：</p>
+                            <ul>
+                                <li>盈利能力：ROE非全市场最差20%（剔除亏损/劣质公司）</li>
+                                <li>高增长：归母净利润同比增速（增长率的二阶导）</li>
+                            </ul>
+                            <p>• 因子组合：总市值 + 盈利能力筛选 + 归母净利润同比增速</p>
+                            <p>• 18年后表现：大幅优于原始策略，收益回撤比显著提升（市场成熟后，垃圾股炒作减少，优质公司更受认可）</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[65:00-80:00]</div>
+                    <h3>基本面优化（方案二）：因子替换</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 改进点：将ROE替换为净利润率</p>
+                            <p>• 替换原因：</p>
+                            <ul>
+                                <li>ROE：衡量资本运作能力（含净利润、周转率、杠杆乘数）</li>
+                                <li>净利润率：衡量盈利能力与成本控制能力（产品定价权+生产成本控制），更贴合小公司「底子」</li>
+                            </ul>
+                            <p>• 筛选条件：剔除净利润率最差20%的股票，市值与高成长因子不变</p>
+                            <p>• 历史表现：2009年起优于原始策略，18年后年化27%，资金容量提升7倍（0.0049→0.03）</p>
+                            <p>• 选股重复度：与方案一88%（因子替换后核心股票池不变）</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[80:00-90:00]</div>
+                    <h3>策略魔改核心经验</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 核心方法：照猫画虎（新手优先，性价比最高）</p>
+                            <ul>
+                                <li>找「猫」：论坛优质策略帖（如周黎明老板的策略）、历史小组分享</li>
+                                <li>画虎：替换策略中的因子（保持核心逻辑不变）</li>
+                            </ul>
+                            <p>• 关键原则：拉开选股差异度，降低拥挤性，避免直接实盘公开策略</p>
+                            <p>• 举一反三：适用于所有策略（如1号策略的缩波/反转因子替换）</p>
+                            <p>• 终极口诀：先抄后超，一通百通</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[90:00-100:00]</div>
+                    <h3>进阶关键：抱团合作</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 核心价值：解放精力（论坛已有大量代码/方法分享）、扩展思路（群内消息可能带来策略灵感）、增长见闻（大佬分享投资理念）</p>
+                            <p>• 案例参考：2025年旗舰团队「定风波择时」策略（年化36%，最大回撤11%）源于群内消息灵感</p>
+                            <p>• 优质资源：月翻3倍的主观大佬腾讯会议分享（2026年3月2日21:00-00:00）</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[100:00-110:00]</div>
+                    <h3>小组任务核心信息</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 任务核心：基于2号小市值策略进行魔改/优化</p>
+                            <p>• 信息获取：重点关注当期小组群公告（进群必读、通关说明、资料汇总、截止时间）</p>
+                            <p>• 小白指引：群公告内有小白入门帖、常见问题自助解决、作业发帖案例</p>
+                            <p>• 关键资源：参与小组即可获得新版本代码，因子包将打包发放</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">[110:00-120:00]</div>
+                    <h3>答疑关键要点</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>• 禁止多人合作完成任务</p>
+                            <p>• 基础课程未看完：跟随小白入门帖完成任务</p>
+                            <p>• 数据/框架：无需购买数据，提供日线框架，需安装XBX-PY11库</p>
+                            <p>• 资金容量：原始小市值选500只股票可适配500万+资金规模</p>
+                            <p>• 回放查看：咨询助教，课程页面统一展示</p>
+                            <p>• 代码使用：参考基础课程，疑问咨询助教</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic">
+            <h2>🔍 底層邏輯與框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 小市值策略底层逻辑</h3>
+                    <p>• 核心定理：金融学第一定律（风险与收益成正比），小市值公司风险更高（经营/流动性风险），对应潜在收益更高</p>
+                    <p>• 成长逻辑：小市值公司基数小，业务扩张、业绩增长带来的市值提升空间远大于大市值公司（10亿→20亿易，万亿→两万亿难）</p>
+                    <p>• 失效本质：阶段性资金偏好转移（如A股2017-2019年、美股漂亮50行情），而非逻辑失效</p>
+
+                    <h3>2. 策略魔改的递进阶逻辑</h3>
+                    <p>• 一阶优化（规避缺陷）：通过量价因子（超跌、筑底）降低回撤，解决原始策略波动过大问题</p>
+                    <p>• 二阶优化（强化逻辑）：通过基本面因子（盈利、成长）筛选优质标的，剔除垃圾股，贴合小市值高成长核心逻辑</p>
+                    <p>• 三阶优化（抗拥挤）：通过因子替换提升选股差异度，扩大资金容量，避免同质化交易导致的策略失效</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻：「猫」= 优质策略框架（如量价结合小市值、基本面结合小市值），「虎」= 魔改后的个性化策略</p>
+                    <p>• 反例：2025年某旗舰策略因交易拥挤导致失效，证明资金容量与选股差异度的重要性</p>
+                    <p>• 正例：基本面优化策略在2018年后A股成熟阶段表现大幅提升，证明策略需适配市场环境</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps">
+            <h2>📋 實作步驟 Checklist</h2>
+            <ul class="checklist">
+                <li><strong>前置准备</strong>：完成基础课程第一部分作业，开通选股策略回放权限，加入当期小组获取代码与数据</li>
+                <li><strong>策略选择</strong>：确定魔改基础框架（量价优化/基本面优化二选一或结合）</li>
+                <li><strong>因子替换（量价方向）</strong>：
+                    <ul>
+                        <li>核心因子：市值因子（保留）</li>
+                        <li>替换选项1：超跌因子（IT20→当前20天回撤/其他跌幅指标）</li>
+                        <li>替换选项2：筑底因子（成交额STD5→成交量均线/其他关注度指标）</li>
+                    </ul>
+                </li>
+                <li><strong>因子替换（基本面方向）</strong>：
+                    <ul>
+                        <li>核心因子：市值因子+归母净利润同比增速（保留）</li>
+                        <li>替换选项：盈利能力指标（ROE→净利润率/毛利率/净利率增长率）</li>
+                        <li>筛选标准：剔除指标最差20%的股票（可调整比例）</li>
+                    </ul>
+                </li>
+                <li><strong>回测验证</strong>：按2009年至今、2018年至今两个时间段分别回测，记录年化收益、最大回撤、收益回撤比</li>
+                <li><strong>拥挤度检查</strong>：计算与原始策略的选股重复度（目标≤10%），查看资金容量分位数（目标≥0.03）</li>
+                <li><strong>实盘适配</strong>：确认策略资金容量与自身资金规模匹配（小资金可优先量价优化，大资金优先基本面优化）</li>
+                <li><strong>动态调整</strong>：实盘过程中监控策略表现，若出现连续回撤，验证逻辑是否依然成立，必要时再次优化因子</li>
+                <li><strong>小组提交</strong>：按群公告案例格式发帖，提交策略逻辑、回测数据、因子选择理由</li>
+            </ul>
+            <h3>⚠️ 卡關點提示</h3>
+            <p>• 代码使用：参考基础课程教程，咨询助教解决库安装（XBX-PY11）、数据读取问题</p>
+            <p>• 因子选择：论坛搜索历史优质因子案例，避免盲目创新（新手优先照猫画虎）</p>
+            <p>• 回测差异：若回测结果与直播示例差距较大，检查数据截止时间、股票选择数量、调仓频率是否一致</p>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 補充建議</h2>
+            <div class="ai-note">
+                <strong>【AI 建議】</strong> 关于因子替换的优先级：新手优先选择「低复杂度替换」（如ROE→净利润率、IT20→当前回撤），避免同时替换多个因子，便于定位优化效果来源。
+            </div>
+            <div class="ai-note">
+                <strong>【AI 提醒】</strong> 小市值策略的24年回撤（50%+）是行业共性风险，魔改后仍难以完全规避，实盘时需预留足够资金应对回撤加仓，避免因流动性问题无法执行策略。
+            </div>
+            <div class="ai-note">
+                <strong>【AI 建議】</strong> 资金容量的实际应用：个人投资者（资金50万以下）可适当降低容量要求，但需确保选股重复度≤15%；机构或大资金（100万以上）需优先选择分位数≥0.04的策略，避免因资金进出影响股价。
+            </div>
+            <div class="ai-note">
+                <strong>【AI 提醒】</strong> 市场环境适配：当前A股处于成熟阶段，基本面优化策略的有效性会持续高于纯量价优化，建议重点关注净利润率+高成长的组合，同时搭配量价因子过滤短期波动。
+            </div>
+            <div class="ai-note">
+                <strong>【AI 建議】</strong> 策略组合：单一魔改策略仍有局限性，可同时运行2-3个不同方向的魔改策略（如1个量价+1个基本面），分散阶段性失效风险。
+            </div>
+            <div class="ai-note">
+                <strong>【AI 提醒】</strong> 避免过度优化：回测时不要为了追求完美数据过度调整参数（如筛选比例、因子周期），否则可能导致策略过拟合，实盘表现大幅下滑，建议保留一定的容错空间。
+            </div>
+        </section>
+    </main>
+</body>
+</html>

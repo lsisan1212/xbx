@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260213_26分享会策略直播3_邢不行：大A旗舰策略介绍</title>
+    <style>
+        :root {
+            --primary: #0F172A;
+            --secondary: #64748B;
+            --accent: #F59E0B;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --border: #E2E8F0;
+            --success: #10B981;
+            --warning: #D97706;
+            --danger: #EF4444;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(245, 158, 11, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260213_26分享会策略直播3_邢不行：大A旗舰策略介绍</h1>
+            <p>2026大A旗舰策略初体验：个股分时择时新模式（小时/15分钟级）+ 3类核心择时策略详解</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    推出"选股策略+个股分时择时"新模式，支持小时/15分钟级K线操作，详解均线、海龟、布林带3类择时策略，兼容老策略并提供实盘框架支持
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>A股量化交易爱好者、分享会老学员</li>
+                        <li>熟悉选股策略（小市值、现金流等）基础</li>
+                        <li>了解基础量化概念（均线、回测等）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握"选股+个股分时择时"新模式核心逻辑</li>
+                        <li>学会3类择时策略（均线/海龟/布林带）的实盘应用</li>
+                        <li>理解选股数量对择时稳定性的影响（5只以上最优）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与回报</div>
+                <div class="summary-item-content">
+                    课程时长：1节直播（含答疑，约2小时）<br>
+                    实盘准备：3-4月（框架发布+策略测试）<br>
+                    预期回报：降低选股策略回撤（原56%→20%左右），提升收益回撤比
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">A股量化</span>
+                    <span class="badge badge-secondary">分时择时</span>
+                    <span class="badge badge-accent">旗舰策略</span>
+                    <span class="badge badge-warning">均线策略</span>
+                    <span class="badge badge-success">实盘框架</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>传统选股策略的痛点与新模式诞生</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 传统选股策略的局限</h4>
+                            <ul>
+                                <li>裸跑风险高：小市值等选股策略回撤达56%，2024年股灾时大量学员割在最低点；</li>
+                                <li>整体择时缺陷：定风波、风火轮等传统择时针对策略整体，忽略个股表现，易错失涨停股（如华融控股单周涨20%未捕捉）；</li>
+                                <li>持仓呆板：买入后需持有到期，无法应对盘中暴涨暴跌（如三夫户外涨停次日跌停）。</li>
+                            </ul>
+
+                            <h4>2. 2026旗舰新模式：选股+个股分时择时</h4>
+                            <p>核心逻辑：以日线级选股策略为基础（如小市值、现金流），持仓期间（2-10天）对个股单独进行小时/15分钟级择时，支持反复买卖。</p>
+                            <p>核心升级：</p>
+                            <ol>
+                                <li>K线级别：支持1小时/15分钟级数据（已清洗1小时数据，春节后上线15分钟数据）；</li>
+                                <li>操作灵活：个股独立择时，可止盈止损，避免"持股不动"的被动；</li>
+                                <li>兼容老策略：完全兼容定风波、风火轮，可叠加使用；</li>
+                                <li>实盘高效：仅监测持仓个股数据，运算速度快（几秒完成）。</li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>3类核心择时策略详解（附回测表现）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 单均线择时（最简单有效）</h4>
+                            <p>策略原理：个股价格在N小时均线上方→买入，下方→卖出（N为参数）。</p>
+                            <p>回测表现（小市值基本面+20只选股）：</p>
+                            <ul>
+                                <li>收益回撤比：0.69→1.45（翻倍）；</li>
+                                <li>最大回撤：56%→20%；</li>
+                                <li>参数特征：小市值适配12小时，现金流适配112小时（个股特性决定参数差异）；</li>
+                                <li>参数平原：40小时内表现稳定，历年波动小。</li>
+                            </ul>
+
+                            <h4>2. 海龟交易法则择时（趋势追踪）</h4>
+                            <p>策略原理：突破最近N小时最高价→买入，跌破最近M小时最低价→卖出。</p>
+                            <p>回测表现（原始小市值+5只选股）：</p>
+                            <ul>
+                                <li>收益：翻120倍（全offset覆盖）；</li>
+                                <li>适配性：对现金流策略提升显著（收益回撤比0.4→1.0）；</li>
+                                <li>参数特征：突破参数小一点更优，跌破参数不敏感，历年参数集中在特定区域。</li>
+                            </ul>
+
+                            <h4>3. 布林带择时（波动适配）</h4>
+                            <p>策略原理：均线+N倍标准差构成上轨/下轨，突破上轨→买入，跌破下轨→卖出。</p>
+                            <p>回测表现（小市值基本面+20只选股）：</p>
+                            <ul>
+                                <li>收益回撤比：1.43，最大回撤20%；</li>
+                                <li>局限性：参数稳定性弱于前两类策略，复杂策略未必更优；</li>
+                                <li>适配性：对现金流策略效果一般（仅翻3.5倍）。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>关键实验：选股数量决定择时稳定性</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 实验设计</h4>
+                            <p>样本：1600只上市超2800天的股票，随机选取1/10/20只构建股票池，用均线择时测试。</p>
+
+                            <h4>2. 实验结论</h4>
+                            <ul>
+                                <li>单只股票：择时效果差（参数平原坑洼，历年波动大，最大回撤50%+）；</li>
+                                <li>10只股票：参数平原趋于稳定，历年参数集中在100小时左右（对应20个交易日），回撤降至33%；</li>
+                                <li>20只股票：参数稳定性进一步提升，最优参数统一为104小时，符合A股20日均线有效规律；</li>
+                                <li>核心原理：统计学效应，多股票组合抵消个股随机性，提升择时可靠性。</li>
+                            </ul>
+
+                            <h4>3. 实操建议</h4>
+                            <p>选股数量建议≥5只，无需过多（5只与20只效果差异不大）；选股策略选中的股票更适配择时（趋势性更强）。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>新模式vs传统模式：参数平原稳定性对比</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 新模式（选股+个股择时）</h4>
+                            <p>参数平原特征：大部分参数收益回撤比≥1.0，30小时内表现稳定，整体波动小，可靠性高。</p>
+
+                            <h4>2. 传统模式（资金曲线再择时）</h4>
+                            <p>参数平原特征：大部分参数收益回撤比＜1.0，仅少数参数表现优异，稳定性差，易过拟合。</p>
+
+                            <h4>3. 核心差异</h4>
+                            <p>传统模式本质是"对单只股票（组合）择时"，新模式是"多只股票分别择时"，通过分散化提升稳定性，这是新模式更优的核心原因。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>暴力策略的择时优化（烂板策略案例）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>烂板策略基础：买入前一天盘中涨停、收盘未涨停的股票，持有2天，原始策略翻350倍但波动极大（暴涨次日暴跌）。</p>
+                            <p>择时优化效果：</p>
+                            <ul>
+                                <li>简单止盈止损（下跌5%卖出）：收益翻1200倍，收益回撤比1.89；</li>
+                                <li>均线择时：收益翻800倍，收益回撤比1.78；</li>
+                                <li>提醒：暴力策略回撤仍达43%，普通人不建议实盘，老学员可配5%资金尝试。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>策略覆盖与资金分配机制</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 多择时策略覆盖</h4>
+                            <p>一个选股策略可配置多个择时策略+多组参数，例如：</p>
+                            <ul>
+                                <li>择时策略A（均线）+ 参数组1（12小时）；</li>
+                                <li>择时策略A（均线）+ 参数组2（20小时）；</li>
+                                <li>择时策略B（海龟）+ 参数组1（4小时突破）。</li>
+                            </ul>
+
+                            <h4>2. 资金分配</h4>
+                            <p>可在不同择时策略/参数间分配仓位（如均线策略占60%，海龟策略占40%），信号独立无冲突，资金利用率高。</p>
+
+                            <h4>3. 组合优化</h4>
+                            <p>不同选股策略可组合（如小市值+现金流），进一步分散风险，提升资金曲线稳定性。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>T+1限制的应对与框架兼容性</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. T+1限制解决方案</h4>
+                            <p>场景：当日10:30买入，下午2:00发出卖出信号→无法卖出，信号延后至次日可交易时段执行。</p>
+                            <p>框架自动处理：无需手动干预，信号会根据T+1规则调整执行时间，确保合规交易。</p>
+
+                            <h4>2. 框架兼容性</h4>
+                            <ul>
+                                <li>兼容老策略：定风波、风火轮可作为顶层策略，叠加新模式使用；</li>
+                                <li>数据支持：包含小时/15分钟级量价数据，春节后重置并优化数据质量；</li>
+                                <li>实盘支持：可跑原有选股策略，仅需在config中新增择时模块配置（仅3行左右）。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>后续规划与开发时间表</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心规划</h4>
+                            <ul>
+                                <li>择时策略：新增更多精细择时策略，与现有策略形成互补；</li>
+                                <li>选股策略：新增暴利型选股策略（老学员适配），提供驾驭软知识；</li>
+                                <li>模式升级：推出更多策略模式，优化15分钟级策略；</li>
+                                <li>权益保护：往年分享会学员权益优先，新学员需逐步熟悉后再上资金。</li>
+                            </ul>
+
+                            <h4>2. 开发时间表</h4>
+                            <ul>
+                                <li>春节后第一周（2月底）：发布回测框架；</li>
+                                <li>3月中下旬：发布实盘客户端公测；</li>
+                                <li>4月：支持多账户功能（参考群公告时间表）。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 分散化择时模型：通过多股票组合抵消个股随机性，解决单一股票择时参数飘移问题，提升策略稳定性；</p>
+                    <p>• 分层策略模型：选股（日线级）+ 择时（分时级）分层设计，选股保证标的质量，择时优化交易时机，各司其职；</p>
+                    <p>• 简单优先模型：从单均线等简单策略入手，验证模式有效性，避免复杂策略带来的过拟合风险。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 个股择时不稳定→多股票组合→参数平原稳定（统计学效应）；</p>
+                    <p>• 传统整体择时缺陷→个股独立择时→避免错失涨停/被动持股；</p>
+                    <p>• 日线级数据局限→分时级数据→捕捉盘中波动机会（止盈止损）。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：新模式="集体作战"，多股票组合如同团队协作，抵消个体短板；传统模式="单兵作战"，依赖单一标的表现；</p>
+                    <p>• 案例1：小市值策略裸跑回撤56%，叠加均线择时后回撤降至20%，验证新模式对风险的控制；</p>
+                    <p>• 案例2：烂板策略通过简单止盈止损，收益从350倍提升至1200倍，证明择时对暴力策略的优化价值。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">回测框架部署与数据准备</div>
+                <div class="step-content">
+                    <ol>
+                        <li>下载春节后发布的回测框架（兼容老策略）；</li>
+                        <li>获取小时级数据（已清洗，春节后重置），等待15分钟级数据上线；</li>
+                        <li>选择基础选股策略（小市值/现金流/原始小市值），确定选股数量（建议5-20只）；</li>
+                        <li>配置选股参数：持仓周期（5天默认）、offset覆盖（全offset或部分）。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：选股数量不宜过少（＜5只），否则参数稳定性差；不同选股策略需匹配不同择时参数（小市值→12小时，现金流→112小时）。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">单均线择时策略配置（入门首选）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>在config中新增择时模块，选择单均线策略；</li>
+                        <li>设置均线参数（参考：小市值12小时，现金流112小时）；</li>
+                        <li>定义交易规则：价格在均线上方→买入，下方→卖出；</li>
+                        <li>运行回测，查看参数平原（重点关注40小时内表现）；</li>
+                        <li>优化参数：根据历年参数分布，选择稳定区间内的参数（如100小时左右）。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：参数并非越复杂越好，优先选择参数平原平稳的区间，避免单一最优参数（易过拟合）。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">多择时策略覆盖与资金分配</div>
+                <div class="step-content">
+                    <ol>
+                        <li>新增海龟交易法则择时策略，设置参数（突破4小时最高价，跌破4小时最低价）；</li>
+                        <li>新增布林带择时策略，设置均线+2倍标准差；</li>
+                        <li>分配仓位：均线策略60%，海龟策略30%，布林带策略10%；</li>
+                        <li>运行组合回测，对比单一策略与组合策略的收益/回撤；</li>
+                        <li>调整仓位比例，优先保留参数平原稳定、历年表现优异的策略。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：不同择时策略信号独立，无需担心冲突，资金分配需向稳定策略倾斜。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">实盘客户端公测与上线</div>
+                <div class="step-content">
+                    <ol>
+                        <li>3月中下旬下载实盘客户端，配置与回测一致的策略参数；</li>
+                        <li>小资金试跑（建议总资金的10%-20%），验证T+1规则下的信号处理；</li>
+                        <li>监测盘中交易：每小时/15分钟查看择时信号执行情况，记录买卖点；</li>
+                        <li>复盘优化：每周对比回测与实盘表现，调整参数（如均线小时数）；</li>
+                        <li>逐步加仓：实盘稳定1-2个月后，根据资金曲线情况逐步提升仓位。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：实盘初期需容忍小幅回撤，重点关注策略逻辑是否正常执行，避免因短期波动盲目调整参数。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>参数适配的重要性</div>
+                <div class="ai-note-content">
+                    不同选股策略的标的特性差异显著（小市值波动大，现金流稳健），需严格匹配择时参数，不可通用。建议通过参数平原热力图，针对每个选股策略单独优化参数，例如小市值适配短周期（12-20小时），现金流适配长周期（100-120小时），避免"一套参数用到底"。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>策略组合的进阶优化</div>
+                <div class="ai-note-content">
+                    除了多择时策略覆盖，还可进行多选股策略组合（如小市值50%+现金流50%），进一步分散风险；同时可引入大盘辅助信号（如沪深300均线），当大盘处于熊市时降低整体仓位，牛市时满仓运行，提升策略抗周期能力。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>实盘滑点与手续费控制</div>
+                <div class="ai-note-content">
+                    分时择时交易频率高于传统策略，需关注滑点与手续费影响。建议选择流动性好的标的（日均成交额≥1亿），避免小盘股滑点过大；与券商协商降低佣金（最低可至万1），长期下来可显著减少交易成本对收益的侵蚀。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>暴力策略的风险管控</div>
+                <div class="ai-note-content">
+                    若尝试烂板等暴力策略，需设置严格的风险控制：单策略仓位不超过总资金的5%，最大回撤阈值设为20%（触发后暂停交易）；同时避免过度优化参数，建议保留2-3组不同参数的暴力策略，通过组合降低单一策略的黑天鹅风险。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>数据质量的持续验证</div>
+                <div class="ai-note-content">
+                    分时级数据的准确性直接影响择时效果，需定期验证数据质量（如对比行情软件的价格、成交量）；春节后框架更新后，建议重新回测历史数据，确保数据清洗后无异常缺口或错误，避免因数据问题导致策略失效。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

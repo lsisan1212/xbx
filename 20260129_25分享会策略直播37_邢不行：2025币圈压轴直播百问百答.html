@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260129_25分享会策略直播37_邢不行：2025币圈压轴直播百问百答</title>
+    <style>
+        :root {
+            --primary: #165DFF;
+            --secondary: #6E7891;
+            --accent: #FF7D00;
+            --background: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --text-primary: #1D2129;
+            --text-secondary: #4E5969;
+            --border: #E5E9F2;
+            --success: #00B42A;
+            --warning: #FF7D00;
+            --danger: #F53F3F;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(255, 125, 0, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260129_25分享会策略直播37_邢不行：2025币圈压轴直播百问百答</h1>
+            <p>NBL策略全解析：双模式实操+至暗时刻应对+框架优化+高频问题答疑（2025币圈压轴直播）</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    详解NBL策略双模式（平仓囤币+USDT定投）的实操逻辑、至暗时刻应对方案、框架优化细节，解答实盘高频问题，帮助用户正确落地NBL策略
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>25分享会成员、币圈量化交易爱好者</li>
+                        <li>已了解NBL策略基础逻辑（看过25年压轴直播）</li>
+                        <li>具备币圈实盘基础（熟悉统一账户/子账户操作）</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握NBL双模式（平仓囤币/定投）的核心差异与操作规范</li>
+                        <li>学会应对NBL至暗时刻（山寨狂暴牛市/比特币长期下跌）的科学方法</li>
+                        <li>理解框架优化要点（四舍五入/USDC归集）与实盘常见问题解决方案</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与预期回报</div>
+                <div class="summary-item-content">
+                    学习耗时：2小时（直播核心内容）<br>
+                    实操耗时：1-2天（框架部署+账户配置）<br>
+                    预期回报：正确落地NBL策略，降低择时难度，规避实盘常见坑（仓位收缩/爆仓风险）
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">NBL策略</span>
+                    <span class="badge badge-secondary">币圈量化</span>
+                    <span class="badge badge-accent">实盘指南</span>
+                    <span class="badge badge-warning">至暗时刻应对</span>
+                    <span class="badge badge-success">问题答疑</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>NBL策略双模式：核心差异与操作规范</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 模式一：平仓囤币（现货平仓专用）</h4>
+                            <ul>
+                                <li>核心用途：平掉已有大币现货（BTC/ETH/BNB等），无需精准择时</li>
+                                <li>操作案例：邢不行以10.5万U价格平部分BTC，通过领口策略实际等效平仓价12万U，后续随上涨可等效15万/18万U平仓</li>
+                                <li>关键要求：
+                                    <ul>
+                                        <li>需自有现货，小币需额外加USDT做保证金（小币不可作为保证金）</li>
+                                        <li>需制定平仓计划（如阶梯平仓：12.5万/13万/13.5万U分阶段平）</li>
+                                        <li>独立账户运行，不可与定投模式混用</li>
+                                        <li>账户需额外存放USDT，避免统一账户负债超1000U产生利息</li>
+                                    </ul>
+                                </li>核心优势：对择时能力要求低，适合主观交易新手，可锁定更高等效平仓价</li>
+                            </ul>
+
+                            <h4>2. 模式二：USDT定投（持续现金流投入）</h4>
+                            <ul>
+                                <li>核心用途：用USDT持续定投，多空同时建仓，长期获取收益</li>
+                                <li>操作案例：邢不行从1月1日起每日定投1.2万U，1月13日补投前期资金，每月初充值当月定投资金</li>
+                                <li>关键要求：
+                                    <ul>
+                                        <li>必须投入USDT，不可用BTC等现货直接定投（现货定投属于模式一）</li>
+                                        <li>需具备持续现金流，避免定投中途断档（经济形势不佳时勿高估现金流）</li>
+                                        <li>独立账户运行，做好资金记账（用Excel记录每笔投入）</li>
+                                        <li>定投心法：每笔资金独立结算，长期均盈利，无需纠结高低位，坚持定投即可</li>
+                                    </ul>
+                                </li>核心禁忌：不可加择时逻辑（如低位少投空头、高位多投空头），避免过拟合</li>
+                            </ul>
+
+                            <h4>3. 双模式核心差异总结</h4>
+                            <table style="width:100%;border-collapse:collapse;margin-top:1rem;">
+                                <tr style="background-color:var(--background);">
+                                    <<th style="padding:0.8rem;text-align:left;border-bottom:1px solid var(--border);">对比维度</</th>
+                                    <<th style="padding:0.8rem;text-align:left;border-bottom:1px solid var(--border);">模式一（平仓囤币）</</th>
+                                    <<th style="padding:0.8rem;text-align:left;border-bottom:1px solid var(--border);">模式二（USDT定投）</</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">投入标的</td>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">已有大币现货+额外USDT</td>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">USDT（持续投入）</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">核心目的</td>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">平掉现货，锁定高等效平仓价</td>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">长期定投，多空平衡盈利</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">账户要求</td>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">独立账户，需备USDT防利息</td>
+                                    <td style="padding:0.5rem;border-bottom:1px solid var(--border);">独立账户，需记账</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0.5rem;">关键禁忌</td>
+                                    <td style="padding:0.5rem;">不可全平现货（最多平50%）</td>
+                                    <td style="padding:0.5rem;">不可中途断档、不可加择时</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>NBL至暗时刻：识别与应对方案</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 两类至暗时刻识别</h4>
+                            <ul>
+                                <li>场景一：比特币长期下跌（山寨币同步阴跌）
+                                    <ul>
+                                        <li>影响：整体利润不惊艳，但无大回撤，持仓体验舒适（无山寨币暴涨导致的空头大幅浮亏）</li>
+                                        <li>核心逻辑：硬逻辑支撑，山寨币会先于比特币归零，策略抗跌性强</li>
+                                    </ul>
+                                </li>
+                                <li>场景二：山寨狂暴大牛市（空头暴涨）
+                                    <ul>
+                                        <li>影响：模式一可能爆仓（全平现货后遇牛市），模式二早期可承受（资金投入少），定投后期难受（仓位占比高）</li>
+                                        <li>核心逻辑：山寨币暴涨后必回归，空头策略比固定山寨币表现更好</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>2. 模式一至暗时刻应对</h4>
+                            <ul>
+                                <li>信仰充值：默念"山寨币迟早归零"，强化硬逻辑认知</li>
+                                <li>仓位控制：最多用NBL平50%现货，剩余50%直接卖成USDT或保留，避免全平后爆仓</li>
+                                <li>保证金准备：若有大量其余资产（如现金），可全平现货，否则需留足USDT保证金</li>
+                            </ul>
+
+                            <h4>3. 模式二至暗时刻应对</h4>
+                            <ul>
+                                <li>定投初期（1年内）：欢迎至暗时刻，相当于回撤加仓（投入资金占比高，后续资金可抄底）</li>
+                                <li>定投后期（1年以上）：
+                                    <ul>
+                                        <li>提前准备全额资金：年初备好全年定投资金，遇至暗时刻可补保证金</li>
+                                        <li>降低杠杆：若无法准备全额资金，从1.5倍杠杆起步，而非2倍，优先保证存活</li>
+                                    </ul>
+                                </li>
+                                <li>核心原则：0和四五倍收益有本质区别，存活比高收益更重要</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>NBL框架优化：解决空头仓位非自然收缩问题</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心问题：空头仓位非自然收缩的四大原因</h4>
+                            <ul>
+                                <li>原因一：向下取整问题
+                                    <ul>
+                                        <li>原逻辑：框架默认向下取整（如9.845个币只下9.8个），导致每次调仓损失部分空头仓位，长期恶性循环</li>
+                                        <li>优化方案：NBL专属框架改为四舍五入，仓位双向波动平衡，避免持续收缩</li>
+                                    </ul>
+                                </li>
+                                <li>原因二：最小下单金额限制
+                                    <ul>
+                                        <li>规则：大部分币种5U起投，BTC100U起投，ETH/BCH/LTC/ETC/Link20U起投</li>
+                                        <li>问题：小资金调仓时金额不足，导致空头无法加仓，持续收缩</li>
+                                        <li>优化方案：USDC归集功能，汇总未达阈值的金额，通过USDC/USDT合约代替开空，保持空头总量不变</li>
+                                        <li>额外建议：拉黑ETH/BCH等20U起投的币种，避免频繁触发最小下单限制</li>
+                                    </ul>
+                                </li>
+                                <li>原因三：后置过滤
+                                    <ul>
+                                        <li>问题：后置过滤掉的空头仓位直接损失，导致整体收缩</li>
+                                        <li>优化方案：过滤掉的仓位用USDC合约填充，保持空头总量不变，支持自由添加后置过滤</li>
+                                    </ul>
+                                </li>
+                                <li>原因四：下架币
+                                    <ul>
+                                        <li>问题：币安下架合约导致空头仓位消失</li>
+                                        <li>优化方案：打开DELETE监控，下架前手动拉黑该币，让其自由平仓，无需强制平仓</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>2. 优化框架的额外特性</h4>
+                            <ul>
+                                <li>回测支持：USDC归集、后置过滤填充等功能同步支持回测，保证回测与实盘一致性</li>
+                                <li>定期对比：建议每月用回测框架跑一次，与实盘对比空头仓位，差异较大时手动调整（多退少补）</li>
+                                <li>临界误差：回测用1分钟均价，实盘成交价格可能有小幅差异，属正常情况，无需过度纠结</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>NBL进阶玩法与资金配置建议</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 进阶玩法：限制最大多空比</h4>
+                            <ul>
+                                <li>核心目的：避免长期定投后多空比失衡（如多头是空投3-5倍），降低比特币暴跌时的风险</li>
+                                <li>操作逻辑：设置最大多空比（如1.5或2），当比例超过阈值时，补充空头仓位，恢复平衡</li>
+                                <li>支持特性：回测可自定义初始状态（开仓时间、初始资金量、策略组合），适配不同定投场景</li>
+                            </ul>
+
+                            <h4>2. 资金配置核心建议</h4>
+                            <ul>
+                                <li>选币数量：资金量越大，空头选币数量越多；小资金定投（几百U/次）需减少选币数量（具体建议见学费后续直播）</li>
+                                <li>Offset覆盖：无需24个Offset全覆盖，小资金可选择部分Offset，降低操作复杂度</li>
+                                <li>最小定投金额：不建议低于200U，避免频繁触发最小下单限制</li>
+                                <li>盈利提取：仅当盈利丰厚导致杠杆率极低（如低于1倍）时，可提取部分USDT，其余优先作为保证金</li>
+                                <li>初始建仓：定投初期不建议投入50%以上资金，20%-30%即可，避免遇至暗时刻无资金补仓</li>
+                            </ul>
+
+                            <h4>3. 空头策略组合建议</h4>
+                            <ul>
+                                <li>核心策略：黄果树占比30%以上，保证策略硬逻辑</li>
+                                <li>辅助策略：可搭配落九天、落单狗、马嵬坡等，分散风险</li>
+                                <li>单币限制：设置最大单币持仓限制（如3%），超过部分用黄果树填充，避免单币风险集中</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>高频问题答疑（核心精选）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 模式混用相关</h4>
+                            <ul>
+                                <li>Q：能否用BTC现货定投NBL？
+                                    <li>A：不可，BTC现货属于模式一（平仓囤币），定投需用USDT（模式二），两者需分开账户运行</li>
+                                </li>
+                                <li>Q：种子计划的空头能否转为NBL？
+                                    <li>A：不建议，种子计划的U可直接开NBL，无需转换，避免杠杆叠加</li>
+                                </li>
+                            </ul>
+
+                            <h4>2. 仓位调整相关</h4>
+                            <ul>
+                                <li>Q：已收缩的空头仓位，升级框架后是否需要补？
+                                    <li>A：需要，用回测框架跑一遍，按回测结果补齐非自然收缩的仓位</li>
+                                </li>
+                                <li>Q：定投后期空头仓位少，是否需要补？
+                                    <li>A：自然收缩可按最大多空比规则补；非自然收缩（如未达最小下单金额）需补齐</li>
+                                </li>
+                            </ul>
+
+                            <h4>3. 资金与保证金相关</h4>
+                            <ul>
+                                <li>Q：NBL盈利的USDT是否可以提取？
+                                    <li>A：优先作为保证金，仅当杠杆率极低时可少量提取</li>
+                                </li>
+                                <li>Q：模式一账户需要额外加USDT吗？
+                                    <li>A：需要，避免统一账户负债超1000U产生利息，同时应对空头浮亏</li>
+                                </li>
+                            </ul>
+
+                            <h4>4. 风险与至暗时刻相关</h4>
+                            <ul>
+                                <li>Q：NBL如何规避肥尾效应（小币暴涨）？
+                                    <li>A：NBL会自动平掉暴涨小币，无需手动干预，后置过滤可加速平仓</li>
+                                </li>
+                                <li>Q：定投中途遇山寨牛市，是否要暂停？
+                                    <li>A：不建议，坚持定投，初期资金占比低，后期有补仓资金，无需恐慌</li>
+                                </li>
+                            </ul>
+
+                            <h4>5. 框架与操作相关</h4>
+                            <ul>
+                                <li>Q：普通账户能否跑NBL？
+                                    <li>A：支持，但普通账户亏U时会自动卖币，需注意保证金充足</li>
+                                </li>
+                                <li>Q：下架币对空头有影响吗？
+                                    <li>A：有，需打开DELETE监控，下架前拉黑该币，让其自由平仓</li>
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>重要风险提示与心态建设</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心风险提示</h4>
+                            <ul>
+                                <li>杠杆风险：NBL属于杠杆策略，至暗时刻可能爆仓，需严格控制仓位（模式一最多平50%现货，模式二用1.5倍杠杆）</li>
+                                <li>现金流风险：定投模式需保证持续投入，不可高估自身现金流，避免中途断档</li>
+                                <li>操作风险：禁止模式混用、禁止手动干预USDC合约仓位、禁止贷款跑策略</li>
+                                <li>收益预期：回测≠实盘，上一轮BR定投赚4-5倍不代表NBL可复现，需降低收益预期</li>
+                            </ul>
+
+                            <h4>2. 心态建设要点</h4>
+                            <ul>
+                                <li>放弃择时：NBL核心优势是降低择时难度，无需纠结高低位，坚持既定计划</li>
+                                <li>接受回撤：任何策略都有回撤，至暗时刻是必然经历，需用硬逻辑支撑信心</li>
+                                <li>拒绝上头：小资金盈利后不可盲目加资金、加杠杆，避免走火入魔（如贷款跑动量）</li>
+                                <li>长期视角：NBL是长期策略（建议2年以上），短期波动无需过度关注，聚焦长期收益</li>
+                            </ul>
+
+                            <h4>3. 新手特别建议</h4>
+                            <ul>
+                                <li>刚加入分享会（1-3个月）：先跑浪淘沙等基础策略，熟悉框架后再跑NBL，不急于求成</li>
+                                <li>小资金试错：初期投入资金占总资金20%以内，熟悉后再逐步加仓</li>
+                                <li>重视软知识：策略是"外功"，软知识是"内功"，需配套学习，避免走火入魔</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 双模式分离模型：平仓囤币与定投需独立账户、独立逻辑，避免杠杆叠加与操作混乱，核心是"专事专办"；</p>
+                    <p>• 风险前置模型：提前识别至暗时刻场景，通过仓位控制、保证金准备、框架优化等方式前置规避风险，而非事后补救；</p>
+                    <p>• 长期复利模型：NBL本质是长期策略，通过持续定投、多空平衡、分散风险，赚取长期复利，拒绝短期投机思维；</p>
+                    <p>• 硬逻辑支撑模型：依赖"山寨币暴涨后必回归"的硬逻辑，应对至暗时刻，避免因短期波动放弃策略。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 模式混用→操作混乱→杠杆叠加→爆仓风险上升（因此必须独立账户运行）；</p>
+                    <p>• 小资金定投→最小下单限制触发→空头非自然收缩→恶性循环（因此需USDC归集优化）；</p>
+                    <p>• 至暗时刻→仓位占比高→无补仓资金→大幅亏损（因此定投后期需备好全额资金）；</p>
+                    <p>• 缺乏软知识→小盈利上头→加资金加杠杆→走火入魔（因此策略与软知识需同步学习）。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：NBL策略=武侠小说中的"少林72绝技"，威力强大但需"内功心法"（软知识）配套，否则易走火入魔；</p>
+                    <p>• 隐喻2：至暗时刻=策略的"渡劫期"，渡过则收益上台阶，渡不过则可能爆仓，需提前准备"渡劫物资"（保证金、仓位控制）；</p>
+                    <p>• 案例1：某用户未加分享会，仅学基础课程跑动量，小赚后贷款加仓，最终亏损严重，凸显软知识与风险控制的重要性；</p>
+                    <p>• 案例2：邢不行用模式一平BTC，通过领口策略锁定12万U等效平仓价，证明NBL降低择时难度的核心优势。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">账户准备与模式选择</div>
+                <div class="step-content">
+                    <ol>
+                        <li>明确自身需求：有现货需平仓→模式一；有持续USDT现金流→模式二，禁止混用；</li>
+                        <li>开通独立账户：模式一/二分别使用不同子账户，避免资金与操作混乱；</li>
+                        <li>账户配置：
+                            <ul>
+                                <li>模式一：转入需平仓的现货，额外添加USDT（避免负债超1000U）；</li>
+                                <li>模式二：月初充值当月定投资金，做好Excel记账；</li>
+                                <li>统一账户优先，普通账户需注意亏U时自动卖币风险。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：模式选择需严格匹配自身条件，无持续现金流不可强行跑模式二；模式一不可全平现货，最多平50%。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">NBL框架部署与优化配置</div>
+                <div class="step-content">
+                    <ol>
+                        <li>下载NBL专属框架（含回测与实盘），等待学费直播演示与代码发放；</li>
+                        <li>框架配置优化：
+                            <ul>
+                                <li>开启四舍五入功能，关闭向下取整；</li>
+                                <li>启用USDC归集功能，汇总未达最小下单金额的资金；</li>
+                                <li>拉黑ETH/BCH/LTC/ETC/Link等20U起投的币种；</li>
+                                <li>打开DELETE监控，用于下架币预警；</li>
+                                <li>添加后置过滤（可选），框架会自动用USDC填充过滤仓位。</li>
+                            </ul>
+                        </li>
+                        <li>空头策略组合：黄果树占比≥30%，搭配落九天等辅助策略，设置单币最大持仓限制（如3%）。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：确保框架已开启所有优化功能（四舍五入/USDC归集），否则仍会出现空头非自然收缩。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">实盘启动与日常维护</div>
+                <div class="step-content">
+                    <ol>
+                        <li>模式一启动：制定平仓计划（如阶梯平仓价格），设置平仓仓位比例，启动实盘；</li>
+                        <li>模式二启动：设置定投金额（如每日1.2万U）、定投频率，启动实盘，坚持每日定投，不中途断档；</li>
+                        <li>日常维护：
+                            <ul>
+                                <li>每日查看账户：关注USDT余额（模式一避免负债超1000U）、空头仓位是否正常；</li>
+                                <li>每月回测对比：用回测框架跑一次，与实盘空头仓位对比，差异大时手动调整；</li>
+                                <li>下架币处理：收到DELETE预警后，及时拉黑该币，让其自由平仓；</li>
+                                <li>至暗时刻应对：按对应方案操作（模式一留足保证金，模式二用备用资金补仓）。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：日常维护不可忽视，每月回测对比能及时发现仓位异常；至暗时刻需冷静，不可盲目暂停策略。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">风险控制与心态管理</div>
+                <div class="step-content">
+                    <ol>
+                        <li>杠杆控制：模式一杠杆≤2倍，模式二杠杆≤1.5倍，不盲目加杠杆；</li>
+                        <li>资金控制：模式二投入资金不超过总资金的50%，定投初期不超过20%；</li>
+                        <li>心态建设：
+                            <ul>
+                                <li>放弃择时，坚持定投计划，不因高低位纠结；</li>
+                                <li>至暗时刻默念硬逻辑，不恐慌、不上头；</li>
+                                <li>盈利后不盲目提取，优先作为保证金，仅杠杆率极低时少量提取。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：风险控制是长期存活的关键，不可因短期盈利放松警惕；心态崩溃时可暂停操作，回顾策略硬逻辑，避免情绪化决策。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>账户与资金安全第一</div>
+                <div class="ai-note-content">
+                    务必确保模式一/二使用独立子账户，避免资金混淆导致的操作失误；模式一额外添加的USDT需充足，不仅要覆盖可能的空头浮亏，还要避免统一账户负债超1000U产生利息；禁止用贷款、杠杆资金跑NBL，避免放大风险，一旦至暗时刻来临可能面临重大亏损。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>框架优化功能不可忽视</div>
+                <div class="ai-note-content">
+                    四舍五入、USDC归集、后置过滤填充是解决空头非自然收缩的核心优化，必须全部开启；拉黑20U起投的币种能大幅减少最小下单限制触发频率，提升实盘体验；定期（每月）回测对比能及时发现仓位异常，避免长期积累导致的策略失效，建议设置日历提醒，养成维护习惯。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>至暗时刻应对需提前演练</div>
+                <div class="ai-note-content">
+                    山寨狂暴大牛市是NBL最危险的场景，建议提前用回测模拟该场景，熟悉应对流程（如模式一补保证金、模式二用备用资金加仓）；定投后期（1年以上）需在年初备好全年资金，避免至暗时刻无钱可补；新手可从小资金、短周期定投开始，积累至暗时刻应对经验，再逐步加大资金投入。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>新手循序渐进，拒绝急于求成</div>
+                <div class="ai-note-content">
+                    刚加入分享会的新手，建议先跑浪淘沙等基础策略，熟悉币圈实盘框架后再启动NBL；模式选择需匹配自身条件，无持续现金流不要强行跑模式二，有现货但无平仓计划不要跑模式一；小资金试错期间（前3-6个月），重点关注操作规范性与策略理解，而非收益，打好基础后再逐步加仓，避免因急于求成导致操作失误。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>软知识与策略同步学习</div>
+                <div class="ai-note-content">
+                    NBL策略依赖硬逻辑，但软知识（心态控制、风险认知）是长期存活的关键；建议同步学习分享会软知识系列直播，理解"快就是慢"的投资哲学，避免小盈利后上头；牢记"策略是外功，软知识是内功"，仅学策略不学软知识，容易走火入魔（如贷款跑策略），最终导致亏损。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

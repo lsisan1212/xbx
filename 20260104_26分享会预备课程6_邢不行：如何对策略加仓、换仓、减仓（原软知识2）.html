@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260104_26分享会预备课程6_邢不行：如何对策略加仓、换仓、减仓（原软知识2）</title>
+    <style>
+        :root {
+            --primary: #165DFF;
+            --secondary: #6E7891;
+            --accent: #FF4D4F;
+            --background: #F7F9FC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1D2129;
+            --text-secondary: #4E5969;
+            --border: #E5E9F2;
+            --success: #00B42A;
+            --warning: #FF7D00;
+            --danger: #F53F3F;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(255, 77, 79, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260104_26分享会预备课程6_邢不行：如何对策略加仓、换仓、减仓（原软知识2）</h1>
+            <p>量化交易软知识核心：详解策略建仓/加仓/换仓/减仓的实操逻辑、心态管理与避坑指南，破解追涨杀跌的人性陷阱</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    面向量化交易新手与分享会成员，聚焦策略执行中的"软知识"，解决建仓/加仓/换仓/减仓的实操难题，核心是对抗人性贪婪与恐惧，建立长期投资思维
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>量化交易新手、分享会成员，有基础策略回测/实盘经验</li>
+                        <li>了解基本投资概念（仓位、回撤、策略类型）</li>
+                        <li>经历过策略盈利/亏损波动，有心态波动困扰</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握加仓逻辑：风险可控策略分4份阶梯加仓，高风险策略50%回撤后慢加仓</li>
+                        <li>理解换仓原则：从近期表现好的策略切换到表现弱的策略，避免追涨杀跌</li>
+                        <li>建立正确心态：接受策略最大回撤必然被打破，放弃FOMO情绪，只赚应得收益</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与预期回报</div>
+                <div class="summary-item-content">
+                    学习耗时：1.5小时（直播核心内容）<br>
+                    实践耗时：长期打磨（心态与习惯养成）<br>
+                    预期回报：避免新手常见的加仓/换仓陷阱，提升策略实盘稳定性，建立可持续的投资体系
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">量化软知识</span>
+                    <span class="badge badge-secondary">加仓换仓</span>
+                    <span class="badge badge-accent">心态管理</span>
+                    <span class="badge badge-warning">避坑指南</span>
+                    <span class="badge badge-success">长期投资</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>新手常见陷阱：韭菜式加仓的典型路径</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>新手加仓的核心误区是"追涨杀跌+越跌越加"，完整路径如下：</p>
+                            <ol>
+                                <li>看到赚钱效应入场：通过新闻、群聊或晒单发现策略/标的，小资金试投（20%仓位）；</li>
+                                <li>暴涨后恐慌加仓：策略持续上涨，担心踏空，快速加仓至50%-70%；</li>
+                                <li>回调时盲目加仓：轻微回撤后，遵循"回调加仓"误区，加仓至90%-100%满仓；</li>
+                                <li>深跌后非理性加仓：超出计划额外追加资金，仓位达150%；</li>
+                                <li>绝望割肉离场：经历暴跌后心态崩溃，在最低点割肉，割肉后行情反弹。</li>
+                            </ol>
+                            <p>本质原因：受FOMO情绪（Fear Of Missing Out）驱动，贪婪与恐惧交替主导决策，忽视策略本身的风险边界。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>核心原则：回撤加仓与止损的适用场景</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>很多人困惑"回撤加仓"与"止损"的矛盾，实则适用场景不同，二者并不冲突：</p>
+                            <h4>1. 需止损的场景：主观交易的个股/单币</h4>
+                            <ul>
+                                <li>适用对象：手工买入的个股、单币，或听消息买入的标的；</li>
+                                <li>核心原因：个股/单币的基本面难以把控，可能出现退市、财务爆雷等极端情况，跌势无底线；</li>
+                                <li>操作要求：开仓前必须设置止损条件，亏损达到阈值立即平仓，避免无限损失。</li>
+                            </ul>
+                            <h4>2. 可回撤加仓的场景：量化策略/指数</h4>
+                            <ul>
+                                <li>适用对象：选股/选币策略、轮动策略、指数（本质是筛选标的的策略）；</li>
+                                <li>核心原因：策略会自动规避极端风险（如财务爆雷标的），通过换仓控制风险，长期有回归逻辑；</li>
+                                <li>操作要求：按回撤比例阶梯加仓，而非一次性满仓，接受策略的合理波动。</li>
+                            </ul>
+                            <p>补充：基金的止损/加仓判断：若基金是量化策略/指数型，可按回撤加仓；若基金是主观交易且风格不固定，需谨慎止损。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>关键认知：策略的最大回撤必然被打破</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>回测显示的最大回撤并非风险上限，未来实盘必然会打破，核心原因：</p>
+                            <ul>
+                                <li>历史无法完全预测未来：人类无法通过短期历史数据覆盖所有市场场景，黑天鹅事件必然出现；</li>
+                                <li>回测存在拟合偏差：即使是逻辑硬的策略，回测也会隐含一定的运气成分（如避开某段极端行情），实盘会回归真实风险；</li>
+                                <li>案例验证：
+                                    <ul>
+                                        <li>保温杯3（23年8月）：回测最大回撤16%，实盘两次达到16%-17%回撤；</li>
+                                        <li>保温杯4（24年1月）：回测最大回撤25%，实盘最大回撤达50%（含168惨案影响）；</li>
+                                        <li>定风波2（25年5月）：回测最大回撤12%，未来必然突破该阈值。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p>正确心态：回测最大回撤是"参考值"，需额外预留5%-10%的风险缓冲，做好极端行情的心理准备。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>加仓实操：阶梯式加仓的具体方法</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 风险可控策略（回撤≤25%，如旗舰量化策略）</h4>
+                            <ul>
+                                <li>资金分配：将计划资金分成4份，比例为1.5:2.5:3:3（例：10万→1.5万、2.5万、3万、3万）；</li>
+                                <li>回撤划分：将预估最大回撤（回测值+5%-10%缓冲）均分成4份（例：30%回撤→0%、10%、20%、30%）；</li>
+                                <li>加仓步骤：
+                                    <ol>
+                                        <li>试投阶段：任何时间可投入小额资金（如5000元），跑通实盘框架，验证策略运行正常（至少1个月）；</li>
+                                        <li>第一份加仓：策略回撤达10%时，投入1.5万（15%资金）；</li>
+                                        <li>第二份加仓：回撤达20%时，投入2.5万（25%资金）；</li>
+                                        <li>第三/四份加仓：回撤达30%时，分别投入3万、3万（各30%资金）。</li>
+                                    </ol>
+                                </li>
+                            </ul>
+                            <h4>2. 高风险策略（纯多策略、个股、囤币）</h4>
+                            <ul>
+                                <li>加仓前提：必须等待标的回撤50%以上（如股票从10元跌到5元），再考虑加仓；</li>
+                                <li>资金分配：分成7-8份，缓慢加仓，避免过早满仓（如腾讯800元跌到400元开始，每跌10%加1份）；</li>
+                                <li>核心原则：再好的资产都会有50%回撤（如茅台、特斯拉、比特币），耐心等待是关键。</li>
+                            </ul>
+                            <p>心态提醒：若策略未达预期回撤就上涨，无需焦虑，错过的收益本就不属于"应得收益"，只赚自己认知内的钱。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>换仓原则：从表现好的策略切换到表现弱的策略</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>换仓的核心误区是"追涨杀跌"（切换到近期表现好的策略），正确逻辑是"逆向切换"，原因：</p>
+                            <ul>
+                                <li>短期行情的欺骗性：媒体和市场情绪会放大短期表现，涨时只看利好，跌时只看利空，忽略标的本质价值；</li>
+                                <li>案例验证：
+                                    <ul>
+                                        <li>24年6-8月A股：市场极度悲观，多数人看空至2400点，9月后反弹，基本面无本质变化；</li>
+                                        <li>25年初索拉纳 vs ETH：索拉纳短期暴涨，大量人从ETH换成索拉纳，后续索拉纳回撤70%，ETH翻倍；</li>
+                                        <li>实盘坑例：某同学频繁切换策略A→B→C，既错失A的后续收益，又高位接盘B/C导致亏损。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <h4>正确换仓操作：</h4>
+                            <ul>
+                                <li>策略迭代：新策略B替代老策略A时，需等待B回撤一段时间，或A相对B表现更好时，逐步切换（如每月切换20%仓位）；</li>
+                                <li>仓位再平衡：多策略实盘时（如A占70%、B占30%），若A上涨至80%，将10%仓位挪至B，恢复原比例；</li>
+                                <li>核心禁忌：切勿因短期表现优劣，一次性从老策略切换到新策略。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>减仓逻辑：全天候策略"只加不减"，纯多策略谨慎减仓</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 全天候策略（如风火轮、定风波、保温杯）</h4>
+                            <ul>
+                                <li>核心原则：只加不减，资金长期放在策略中，无需主动平仓；</li>
+                                <li>减仓场景：
+                                    <ul>
+                                        <li>策略迭代：发现更好的全天候策略时，逐步切换（换仓逻辑）；</li>
+                                        <li>消费需求：仅在策略大幅盈利后，少量减仓用于消费（如盈利50%后减仓10%）；</li>
+                                        <li>禁忌：因策略回撤而减仓，或因短期盈利而清仓。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <h4>2. 纯多策略/个股/囤币（如小市值策略、比特币）</h4>
+                            <ul>
+                                <li>难点：减仓比加仓难，核心是对抗"贪念"（涨了还想涨）；</li>
+                                <li>参考思路：
+                                    <ul>
+                                        <li>分批减仓：盈利达到目标（如100%）后，分3-4批减仓，避免一次性清仓；</li>
+                                        <li>基于估值：标的估值远超历史中枢时，逐步减仓；</li>
+                                        <li>承认局限：无人能精准预判顶点，接受部分收益缩水，避免因追求完美错过减仓时机。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p>邢不行个人经验：纯多策略的减仓是修行，需不断打磨心态，目前也无完美解决方案，核心是"不贪心、留余地"。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>心态修炼：建立长期投资思维，放弃短期执念</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>软知识的核心是心态，长期盈利的关键是建立正确的投资认知：</p>
+                            <ul>
+                                <li>接受不完美：策略会回撤，换仓会错失部分收益，减仓会错过后续上涨，不追求"卖在顶点、买在低点"；</li>
+                                <li>只赚应得收益：陪策略经历低谷后赚到的钱，才是踏实的、应得的收益，短期追涨赚到的钱易凭运气亏回去；</li>
+                                <li>建立投资体系：加入分享会的核心不是短期赚钱，而是构建长期有效的投资体系，为人生提供现金流保障；</li>
+                                <li>逆向思考：参考《逆向投资》理念，市场悲观时敢加仓，市场乐观时不追高，避免被短期情绪裹挟。</li>
+                            </ul>
+                            <p>关键隐喻：投资如人生，30岁前靠硬知识（策略、技能），30岁后靠软知识（心态、格局），量化交易的终极比拼是心态的比拼。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 风险缓冲模型：回测最大回撤+5%-10%缓冲，避免极端行情击穿心理防线，如同给策略加"安全气囊"；</p>
+                    <p>• 逆向选择模型：换仓时从表现好的策略切换到表现弱的策略，本质是利用市场的"均值回归"规律，避免追涨杀跌；</p>
+                    <p>• 阶梯式加仓模型：通过资金与回撤的比例匹配，实现"风险越低、仓位越高"，平衡收益与风险；</p>
+                    <p>• 长期主义模型：全天候策略"只加不减"，聚焦策略的长期有效性，忽略短期波动，如同"滚雪球"，时间越长收益越丰厚。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 人性弱点（贪婪/恐惧）→ 追涨杀跌→ 加仓/换仓失误→ 亏损→ 心态崩溃→ 割肉离场（新手亏损链条）；</p>
+                    <p>• 正确认知（接受回撤打破）→ 制定阶梯加仓计划→ 逆向换仓→ 心态稳定→ 长期盈利（成熟投资者盈利链条）；</p>
+                    <p>• 短期行情影响→ 媒体放大情绪→ 投资者跟风→ 策略短期表现失真→ 错误换仓→ 错失收益（短期陷阱递进关系）；</p>
+                    <p>• 策略逻辑硬→ 回测拟合低→ 实盘回撤可控→ 阶梯加仓→ 长期跑赢市场（优质策略的盈利逻辑）。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：投资如登山，新手急于登顶（追涨），遇到陡坡就恐慌（割肉），成熟投资者按节奏爬坡（阶梯加仓），接受迂回（回撤），最终抵达山顶；</p>
+                    <p>• 案例1：24年保温杯4，回测最大回撤25%，实盘因168惨案回撤50%，但坚持持有后创新高，验证"只加不减"的有效性；</p>
+                    <p>• 隐喻2：策略如朋友，顺境时（上涨）容易亲近，逆境时（回撤）才见真心，只有陪策略经历低谷，才能共享高峰收益；</p>
+                    <p>• 案例2：25年初索拉纳暴涨，投资者从ETH换成索拉纳，后续索拉纳回撤70%，ETH翻倍，验证"逆向换仓"的重要性；</p>
+                    <p>• 隐喻3：最大回撤如水库防洪标准，历史最高水位（回测最大回撤）必然会被突破，需预留防洪库容（5%-10%缓冲），才能应对极端洪水（黑天鹅行情）。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">评估策略风险，预留缓冲空间</div>
+                <div class="step-content">
+                    <ol>
+                        <li>获取策略回测最大回撤（如25%），额外添加5%-10%缓冲，确定预估最大回撤（如30%）；</li>
+                        <li>区分策略类型：判断是风险可控策略（量化旗舰策略）还是高风险策略（纯多/个股/囤币）；</li>
+                        <li>设定心理预期：明确告知自己"预估最大回撤必然被打破"，做好极端行情的心理准备。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：新手易高估策略稳定性，低估回撤风险，建议保守预估（如回测20%回撤→预留至30%）。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">制定阶梯加仓计划，严格执行</div>
+                <div class="step-content">
+                    <ol>
+                        <li>风险可控策略（以10万资金为例）：
+                            <ul>
+                                <li>资金拆分：1.5万、2.5万、3万、3万（比例1.5:2.5:3:3）；</li>
+                                <li>回撤触发点：10%、20%、30%；</li>
+                                <li>执行步骤：
+                                    <ol>
+                                        <li>试投阶段：投入5000元，跑通实盘框架，验证1个月无异常；</li>
+                                        <li>10%回撤：投入1.5万（累计2万）；</li>
+                                        <li>20%回撤：投入2.5万（累计4.5万）；</li>
+                                        <li>30%回撤：投入3万+3万（累计10万）。</li>
+                                    </ol>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>高风险策略（以10万资金为例）：
+                            <ul>
+                                <li>资金拆分：分成8份（每份1.25万）；</li>
+                                <li>加仓触发点：标的回撤50%后，每再跌10%加1份；</li>
+                                <li>执行步骤：耐心等待回撤，拒绝在50%回撤前加仓。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：FOMO情绪易导致提前加仓，建议将计划写在纸上，严格按触发点执行，不临时更改。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">执行逆向换仓，避免追涨杀跌</div>
+                <div class="step-content">
+                    <ol>
+                        <li>多策略实盘（如A占70%、B占30%）：
+                            <ul>
+                                <li>再平衡触发：A上涨至80%或下跌至60%；</li>
+                                <li>操作：将超出比例的仓位挪至表现弱的策略，恢复70:30比例。</li>
+                            </ul>
+                        </li>
+                        <li>策略迭代（新策略B替代老策略A）：
+                            <ul>
+                                <li>等待条件：B策略回撤一段时间，或A相对B表现更优；</li>
+                                <li>操作：每月切换20%仓位，5个月完成全部切换，避免一次性切换。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：新手易被短期表现吸引，快速切换策略，建议设置"观察期"（如1个月），确认新策略逻辑硬再切换。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">明确减仓规则，对抗贪念</div>
+                <div class="step-content">
+                    <ol>
+                        <li>全天候策略（如风火轮、定风波）：
+                            <ul>
+                                <li>减仓场景：仅策略大幅盈利后（如盈利50%），或迭代新策略时；</li>
+                                <li>操作：盈利后减仓10%-20%用于消费，策略迭代时逐步切换，不主动清仓。</li>
+                            </ul>
+                        </li>
+                        <li>高风险策略（如纯多、囤币）：
+                            <ul>
+                                <li>减仓规则：盈利100%后分4批减仓（每批25%）；</li>
+                                <li>操作：到达目标后严格执行，不因"还会涨"而改变计划。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：减仓是最难的环节，建议提前设定硬性规则（如盈利翻倍必减仓），避免被贪念主导。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="5">
+                <div class="step-title">心态修炼，建立长期思维</div>
+                <div class="step-content">
+                    <ol>
+                        <li>每日复盘：记录自己的情绪波动（如因策略上涨想加仓、因回撤想减仓），分析是否符合计划；</li>
+                        <li>逆向思考：市场悲观时（如策略回撤30%），提醒自己"这是加仓机会"；市场乐观时（如策略上涨50%），提醒自己"不追高"；</li>
+                        <li>长期视角：每周回顾投资体系，避免纠结短期收益，聚焦策略的长期有效性。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：心态修炼非一日之功，建议加入分享会社群，与同学互相监督，避免独自决策时情绪化。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>新手优先聚焦风险可控策略，避开高风险标的</div>
+                <div class="ai-note-content">
+                    高风险策略（个股、纯多、囤币）的加仓/减仓难度极高，即使是成熟投资者也容易失误；新手应先从量化旗舰策略（风火轮、定风波）入手，这类策略已内置风险控制（如换仓、空仓），阶梯加仓的容错率更高，更容易建立信心。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>用工具固化计划，减少人为干预</div>
+                <div class="ai-note-content">
+                    人性弱点难以靠意志力完全克服，建议将加仓/换仓计划写入Excel或备忘录，明确触发条件（如"策略回撤10%→加仓1.5万"），执行时严格按计划操作，避免临时决策；也可使用量化框架的自动加仓功能，减少手动操作的情绪化干扰。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>区分"策略失效"与"正常回撤"，避免误减仓</div>
+                <div class="ai-note-content">
+                    新手易将正常回撤误认为策略失效，从而盲目减仓；判断标准：若策略逻辑未变（如选股规则、换仓频率），仅是短期行情不匹配，属于正常回撤，应坚持加仓；若策略逻辑被市场改变（如量化因子失效），才需要考虑换仓或停止策略。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>定期回听直播，强化正确认知</div>
+                <div class="ai-note-content">
+                    软知识的核心是认知固化，建议每月回听一次本直播，重温"最大回撤必然被打破""逆向换仓""只赚应得收益"等核心观点，对抗市场情绪的干扰；同时可阅读《逆向投资》《穷查理宝典》等书籍，深化长期投资思维。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>不要用生活资金做高风险投资，避免心态失衡</div>
+                <div class="ai-note-content">
+                    投资资金应是"闲钱"（3-5年不用的资金），避免用房贷、生活费等刚需资金投资；刚需资金会导致心态失衡，策略回撤时因"输不起"而割肉，违背长期投资原则；建议先保障生活质量，再用闲钱构建投资体系。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

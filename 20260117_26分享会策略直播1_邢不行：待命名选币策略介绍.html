@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20260117_26分享会策略直播1_邢不行：待命名选币策略介绍</title>
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --secondary: #64748B;
+            --accent: #F43F5E;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --border: #E2E8F0;
+            --success: #10B981;
+            --warning: #D97706;
+            --danger: #EF4444;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.4rem, 4vw + 0.5rem, 2.1rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.7rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.35rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(244, 63, 94, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 20260117_26分享会策略直播1_邢不行：待命名选币策略介绍</h1>
+            <p>币圈空头选币策略全解析：基于相关系数与涨跌量比的多空中性策略，从选币逻辑到实盘组合（含精心随机代码与参数优化）</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    以"特立独行币"为核心逻辑，通过相关系数构建选币域，叠加涨跌量比二次筛选，打造币圈空头选币策略，最终与多头组合成中性策略，实现低回撤高收益
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>币圈量化交易者、分享会成员（A股转币圈新手亦可）</li>
+                        <li>了解基础量化概念（选币策略、多空操作、合约交易）</li>
+                        <li>熟悉分享会回测框架与Offset概念</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握"相关系数选特立独行币+涨跌量比二次筛选"的空头策略逻辑</li>
+                        <li>学会多空中性策略组合方法（多头搭配比特币/ETH/四饼等蓝筹币）</li>
+                        <li>获取可直接实盘的精心随机代码，理解参数优化与风险控制要点</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与预期回报</div>
+                <div class="summary-item-content">
+                    学习耗时：1.5小时（直播核心内容）<br>
+                    实操耗时：1-2小时（参数配置+回测验证）<br>
+                    预期回报：策略单独做空翻3-4倍，与多头组合后最高翻100倍，最大回撤控制在35%以内
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">币圈量化</span>
+                    <span class="badge badge-secondary">空头策略</span>
+                    <span class="badge badge-accent">多空中性</span>
+                    <span class="badge badge-warning">相关系数</span>
+                    <span class="badge badge-success">涨跌量比</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>基础认知：选币策略与币圈市场特性</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 选币策略定义（面向新人）</h4>
+                            <ul>
+                                <li>核心逻辑：固定时间（如每小时/每天0点）、确定条件（如相关系数最低）、选出若干币种，均仓买入/卖出，持有固定时间（币圈常用24小时），永远满仓持有选中币种；</li>
+                                <li>Offset概念：分享会独有概念，用于优化策略轮动，新人需参考预备课程与论坛帖子深入理解；</li>
+                                <li>与A股差异：币圈支持7×24小时交易、可做空（通过永续合约）、多空双向收益，A股仅能做多。</li>
+                            </ul>
+
+                            <h4>2. 币圈市场特性与做空难点</h4>
+                            <ul>
+                                <li>市场环境：2025年为超级大熊市，全市场平均跌60%，比特币震荡、以太坊跌60%后反弹；</li>
+                                <li>做空难点：
+                                    <ul>
+                                        <li>收益上限：做多收益无限（利滚利），做空收益最高100%（价格归零），天生收益较低；</li>
+                                        <li>爆仓风险：币圈波动极大，暴涨币（如15分钟涨5倍）可能导致做空爆仓，即使不加杠杆也有风险；</li>
+                                        <li>交易范围：仅选择"有现货+有合约"的币种（383个），排除纯合约币（161个），后续将有单独直播解释原因。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>3. 策略定位：开胃菜而非旗舰</h4>
+                            <ul>
+                                <li>策略特点：代码与原理简单，逻辑硬，效果不简单，适合新人入门；</li>
+                                <li>26年突破：分享会传统策略以"固定时间选币+固定持有"为基础，26年可能尝试突破该模式；</li>
+                                <li>核心用途：不建议单独实盘，需与多头组合成中性策略，降低风险、提升收益。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>策略逻辑：选币域构建（相关系数因子）</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 核心逻辑：特立独行的弱势币</h4>
+                            <ul>
+                                <li>实盘观察：市场中部分币走势与大盘（比特币/以太坊）差异大（特立独行），这类币未来表现往往偏弱；</li>
+                                <li>量化刻画：用"相关系数"衡量币种与大盘的走势相关性，相关系数越接近0（或负），走势越独立；</li>
+                                <li>核心目标：筛选相关系数最低的币做空，利用其弱势获取收益。</li>
+                            </ul>
+
+                            <h4>2. 相关系数详解</h4>
+                            <ul>
+                                <li>定义：高中数学统计指标，范围在-1~1之间，1为完全正相关，-1为完全负相关，0为无相关；</li>
+                                <li>计算逻辑：基于币种与比特币的涨跌幅数据，通过协方差、标准差计算（Excel函数CORREL可直接计算）；</li>
+                                <li>案例演示：比特币与以太坊20小时涨跌幅相关系数0.9397（高度正相关），ACT币与比特币相关系数-0.1（弱负相关，特立独行）。</li>
+                            </ul>
+
+                            <h4>3. 选币域配置参数</h4>
+                            <ul>
+                                <li>选币范围：有现货+有合约的币种（383个）；</li>
+                                <li>选币逻辑：相关系数最低的前10%币种（如300个币选30个）；</li>
+                                <li>核心参数：计算相关系数的K线数量（默认750小时，可调整为400/600/800等）；</li>
+                                <li>其他配置：杠杆0.5倍、手续费万分之6、过滤新上线250小时内的币种、持仓24小时、Offset全覆盖；</li>
+                                <li>回测周期：2021年1月1日-2026年1月1日。</li>
+                            </ul>
+
+                            <h4>4. 选币域回测表现</h4>
+                            <ul>
+                                <li>单独做空：初始净值1→0.57（年化负10%），最大回撤75%，但显著跑赢"做空全市场"（净值0.2），有明显超额收益；</li>
+                                <li>反向验证：做多该选币域的币种，净值快速归零，证明选币域内币种确实偏弱；</li>
+                                <li>参数稳定性：参数平原宽广，21-25年各参数表现稳定，无明显最优参数漂移。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>策略优化：涨跌量比二次筛选</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 优化痛点：规避暴涨币风险</h4>
+                            <ul>
+                                <li>核心问题：选币域中包含暴涨币（特立独行但持续上涨），导致做空爆亏（如某币从0.2涨到1.4，翻7倍）；</li>
+                                <li>实盘观察：暴涨币必然伴随急剧放量，下跌币也可能放量，需区分"放量上涨"与"放量下跌"。</li>
+                            </ul>
+
+                            <h4>2. 涨跌量比因子定义</h4>
+                            <ul>
+                                <li>计算逻辑：过去N小时内，上涨K线的总成交量 ÷ 下跌K线的总成交量；</li>
+                                <li>因子含义：比值越大，说明放量上涨越明显（需规避）；比值越小，说明放量下跌越明显（符合做空需求）；</li>
+                                <li>案例演示：某币过去20根K线，上涨成交量汇总13089，下跌成交量汇总31805，涨跌量比=0.41。</li>
+                            </ul>
+
+                            <h4>3. 二次筛选配置与回测表现</h4>
+                            <ul>
+                                <li>筛选逻辑：在选币域内，按涨跌量比从小到大排序，取前50%币种做空；</li>
+                                <li>参数配置：涨跌量比计算周期与相关系数一致（默认750小时），两参数可强行保持一致以减少参数数量；</li>
+                                <li>回测结果：初始净值1→3-4倍（0.5倍杠杆），最大回撤50%，相比仅选币域有巨大提升；</li>
+                                <li>参数热力图：两参数最优区间集中，多数参数组合均能实现正收益，稳定性强。</li>
+                            </ul>
+
+                            <h4>4. 参数优化与覆盖</h4>
+                            <ul>
+                                <li>参数精简：将相关系数与涨跌量比参数强行一致，减少过拟合风险；</li>
+                                <li>参数覆盖：采用4个参数（400/600/800/1000），资金分成4份分别运行，进一步提升稳定性；</li>
+                                <li>最终表现：参数覆盖后净值翻3倍左右，回撤可控。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>实盘落地：多空中性策略组合</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 组合核心逻辑</h4>
+                            <ul>
+                                <li>原则：空头策略不单独实盘，需与多头组合成中性策略，平衡风险与收益；</li>
+                                <li>多头选择：优先选择基本面优质的"蓝筹币"（比特币、以太坊、BNB、SOL，简称"四饼"），新人可直接使用。</li>
+                            </ul>
+
+                            <h4>2. 经典组合方案（从易到难）</h4>
+                            <ul>
+                                <li>方案一：多头50%比特币 + 空头50%本策略
+                                    <ul>
+                                        <li>回测表现：净值翻10倍，最大回撤35%，23年后翻7倍，回撤15%；</li>
+                                        <li>特点：简单易操作，适合新人入门。</li>
+                                    </ul>
+                                </li>
+                                <li>方案二：多头25%比特币 + 25%以太坊 + 空头50%本策略
+                                    <ul>
+                                        <li>回测表现：净值翻14倍，最大回撤29%，年化收益69%，收益回撤比2.63；</li>
+                                        <li>特点：分散多头风险，表现更优。</li>
+                                    </ul>
+                                </li>
+                                <li>方案三：多头等权"四饼" + 空头本策略
+                                    <ul>
+                                        <li>回测表现：净值翻37倍，最大回撤20%，23年后翻8倍；</li>
+                                        <li>特点：多头更分散，长期表现稳定（有未来函数，但基本面支撑强）。</li>
+                                    </ul>
+                                </li>
+                                <li>方案四：多头2025年大学生策略 + 空头本策略
+                                    <ul>
+                                        <li>回测表现：净值翻100倍，最大回撤17%，多数时间回撤低于12%；</li>
+                                        <li>特点：收益极高，适合有25年策略的老学员。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                            <h4>3. 精心随机代码使用</h4>
+                            <ul>
+                                <li>核心目的：避免所有人使用相同参数导致交易拥挤，每个人下载的代码有细小差异（精心设计的随机）；</li>
+                                <li>使用方法：从分享会网站下载代码，直接运行，无需手动调整参数；</li>
+                                <li>新人建议：先用5000U（或2000U）实盘试错，熟悉策略后再加仓。</li>
+                            </ul>
+
+                            <h4>4. 风险控制要点</h4>
+                            <ul>
+                                <li>仓位管理：26年新人建议本策略仓位占比5%-10%，黄果树等核心策略占比30%以上；</li>
+                                <li>选币数量：当前策略选币约40个，实盘建议选币接近100个，降低单币爆拉风险；</li>
+                                <li>回撤预警：近期策略表现较好，可能面临大回撤，建议等回撤后再加仓。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>工具与辅助：策略查看器与监测报表</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 策略查看器（马尔代夫开发）</h4>
+                            <ul>
+                                <li>核心功能：可视化策略选币结果，展示因子计算区间、持仓区间、K线走势与因子值变化；</li>
+                                <li>使用场景：复盘赚钱/亏钱案例，如ANC币做空爆赚（如期下跌）、某币做空爆亏（持续暴涨）；</li>
+                                <li>直播预告：1月份将有专门直播介绍，功能大幅升级，支持多维度分析。</li>
+                            </ul>
+
+                            <h4>2. 监测报表</h4>
+                            <ul>
+                                <li>推送频率：每天在群内推送，包含策略净值、回撤、选币结果等；</li>
+                                <li>默认策略：包含本策略的多空组合，新人可直接参考实盘；</li>
+                                <li>复盘支持：后续将针对策略回撤、表现波动进行实盘分析。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>策略命名与后续规划</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <h4>1. 策略命名活动</h4>
+                            <ul>
+                                <li>命名要求：不低俗、能联想策略原理（不直接暴露核心逻辑），如"独行侠"（需规避，因是褒义词）；</li>
+                                <li>奖励：被采纳的同学获得10个银葫芦；</li>
+                                <li>提交方式：直播后在论坛或群内提交。</li>
+                            </ul>
+
+                            <h4>2. 后续直播规划</h4>
+                            <ul>
+                                <li>补充内容：策略细节完善、多空组合深入解析、参数优化进阶；</li>
+                                <li>新人服务：实盘操作专项直播，指导精心随机代码使用、仓位配置；</li>
+                                <li>策略升级：结合2026年新多头策略，优化组合表现。</li>
+                            </ul>
+
+                            <h4>3. 老学员福利</h4>
+                            <ul>
+                                <li>策略补充：可将本策略加入25年空头策略池（如马嵬坡、落九天），丰富组合；</li>
+                                <li>后置过滤：可叠加25年浪淘沙旗舰策略的择时增强，进一步提升收益（空头净值从3倍→7倍）。</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 弱币做空模型：通过"特立独行"特征筛选弱势币，利用市场均值回归逻辑获取收益，避免与强势市场对抗；</p>
+                    <p>• 二次筛选模型：先构建宽选币域（相关系数），再通过量价因子（涨跌量比）过滤风险，提升策略纯度；</p>
+                    <p>• 多空对冲模型：空头策略单独收益有限，与多头蓝筹币组合，对冲市场系统性风险，实现中性收益；</p>
+                    <p>• 参数稳健模型：优先选择参数平原宽广的策略，避免过度优化，通过多参数覆盖进一步提升实盘稳定性。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 特立独行币→相关系数低→选币域内币种偏弱→单独做空有超额收益（因果链条）；</p>
+                    <p>• 选币域存在暴涨币风险→引入涨跌量比因子→过滤放量上涨币→策略收益从0.57→3-4倍（递进关系）；</p>
+                    <p>• 空头单独收益有限→与多头蓝筹币组合→对冲系统性风险→净值从3倍→100倍，回撤降低（递进关系）；</p>
+                    <p>• 参数单一存在风险→多参数覆盖→策略表现更稳定→实盘容错率提升（因果链条）。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：选币域=弱势币池子，相关系数=筛选网，涨跌量比=提纯器，先网罗弱势币，再剔除杂质（暴涨币），得到高纯度做空标的；</p>
+                    <p>• 案例1：ACT币与比特币相关系数-0.1（特立独行），纳入选币域后做空，如期下跌实现盈利；</p>
+                    <p>• 案例2：某币从0.2涨到1.4（翻7倍），因相关系数低被纳入选币域，未优化前做空爆亏，优化后通过涨跌量比过滤，成功规避；</p>
+                    <p>• 隐喻2：多空组合=驾驶时的刹车与油门，多头是油门（追求收益），空头是刹车（控制风险），二者结合才能平稳行驶；</p>
+                    <p>• 案例3：多头四饼+空头本策略，23年后翻8倍，最大回撤20%，远超单独持有比特币（翻3倍），证明组合的有效性。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">工具准备与环境配置</div>
+                <div class="step-content">
+                    <ol>
+                        <li>确认回测框架：确保安装分享会最新回测框架，熟悉Config文件配置逻辑；</li>
+                        <li>下载精心随机代码：从分享会网站下载本策略的精心随机代码（每人代码略有差异）；</li>
+                        <li>数据准备：确保框架已同步"有现货+有合约"的币种数据（383个），无需手动爬虫（彩虹框架将集成开盘啦数据）；</li>
+                        <li>参数确认：默认参数为相关系数750小时、涨跌量比750小时，或使用多参数覆盖（400/600/800/1000）。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：新人需先理解Offset概念，否则可能影响策略轮动效果；数据需确保包含2021年后的完整涨跌幅数据。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">选币域与二次筛选配置</div>
+                <div class="step-content">
+                    <ol>
+                        <li>配置选币域：
+                            <ul>
+                                <li>选币范围：设置为"有现货+有合约"的币种；</li>
+                                <li>选币逻辑：相关系数最低的前10%；</li>
+                                <li>过滤条件：剔除新上线250小时内的币种。</li>
+                            </ul>
+                        </li>
+                        <li>配置二次筛选：
+                            <ul>
+                                <li>因子选择：涨跌量比；</li>
+                                <li>筛选逻辑：选币域内涨跌量比最低的前50%；</li>
+                                <li>参数统一：将相关系数与涨跌量比的计算周期设为一致（如750小时）。</li>
+                            </ul>
+                        </li>
+                        <li>其他配置：杠杆0.5倍、手续费万分之6、持仓24小时、Offset全覆盖。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：参数周期不宜设置过短（如小于400小时），否则可能导致策略波动过大；筛选比例不可过于严格（如前20%），否则选币数量过少，风险集中。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">回测验证与参数优化</div>
+                <div class="step-content">
+                    <ol>
+                        <li>单参数回测：运行默认参数（750小时），验证回测净值是否达到3-4倍，最大回撤是否在50%以内；</li>
+                        <li>多参数覆盖：添加400/600/800/1000小时参数，资金按等权分配（各25%），运行多参数组合；</li>
+                        <li>对比验证：对比单参数与多参数的表现，优先选择多参数组合（稳定性更强）；</li>
+                        <li>反向验证：做多该策略的选币域，验证净值是否快速归零，确认选币域有效性。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：回测时需包含资金费率、手续费等真实交易成本，避免乐观估计收益；若回测结果与预期差异大，检查选币范围是否正确（排除纯合约币）。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="4">
+                <div class="step-title">多空组合配置与实盘启动</div>
+                <div class="step-content">
+                    <ol>
+                        <li>选择多头标的：新人优先选择"四饼"（比特币、以太坊、BNB、SOL），等权配置；</li>
+                        <li>组合仓位分配：多头50%（四饼等权）+ 空头50%（本策略多参数组合）；</li>
+                        <li>实盘资金准备：初始资金建议5000U（或2000U），避免重仓试错；</li>
+                        <li>启动实盘：在回测框架中配置组合策略，开启自动选币与交易，关注群内监测报表。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：实盘前需确认合约交易权限已开通，资金费率规则已理解；避免在策略新高时重仓入场，建议等回撤后逐步加仓。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="5">
+                <div class="step-title">实盘监控与复盘优化</div>
+                <div class="step-content">
+                    <ol>
+                        <li>日常监控：每天查看监测报表，关注策略净值、回撤、选币数量（目标40个左右，逐步扩展至100个）；</li>
+                        <li>案例复盘：使用策略查看器，每周复盘2-3个赚钱/亏钱的案例，分析原因（如是否因暴涨币未过滤）；</li>
+                        <li>参数微调：若策略表现持续不佳，可调整相关系数/涨跌量比的计算周期（如从750调整为600），避免过度优化；</li>
+                        <li>策略迭代：后续加入2026年新多头策略，替换四饼，进一步提升组合收益。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：实盘期间若遇到单币爆拉导致回撤，无需恐慌，重点关注组合整体表现；复盘时重点排查是否因涨跌量比参数设置不合理导致暴涨币未被过滤。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>严格避免单独做空实盘</div>
+                <div class="ai-note-content">
+                    本策略单独做空收益有限且风险极高（最大回撤75%），必须与多头组合成中性策略实盘。新人优先选择"四饼等权+本策略"的组合，既保证收益稳定性，又降低学习门槛；老学员可搭配25年大学生策略，进一步提升收益。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>参数配置优先稳健性</div>
+                <div class="ai-note-content">
+                    建议直接使用多参数覆盖（400/600/800/1000小时），避免纠结单一最优参数；两参数（相关系数/涨跌量比）强行保持一致，减少参数数量，降低过拟合风险；若实盘后发现策略波动过大，可适当提高计算周期（如800/1000小时），增强稳定性。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>选币数量与风险控制</div>
+                <div class="ai-note-content">
+                    当前策略选币约40个，实盘时建议逐步扩展至100个左右，通过增加选币数量分散单币爆拉风险；仓位管理上，26年新人本策略占比不超过10%，老学员可提升至20%，核心仓位留给黄果树等成熟策略；近期策略表现较好，需警惕后续回撤，建议轻仓启动，回撤后加仓。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>新人入门简化流程</div>
+                <div class="ai-note-content">
+                    新人可跳过复杂参数优化，直接下载精心随机代码，采用默认多参数组合；多头标的优先选择比特币+以太坊（各25%），无需一开始就配置四饼，降低操作复杂度；实盘前先用小资金（2000U）跑1-2周，熟悉策略选币逻辑与波动特性，再逐步加大资金投入。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>关注后续工具与策略升级</div>
+                <div class="ai-note-content">
+                    1月份将有策略查看器升级直播，建议重点学习，提升策略复盘效率；后续分享会将推出2026年新多头策略，届时可替换当前的四饼多头，进一步优化组合表现；若遇到纯合约币过滤问题，等待后续专项直播讲解，当前无需自行修改选币范围。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

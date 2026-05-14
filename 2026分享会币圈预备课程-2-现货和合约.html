@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026分享会币圈预备课程-2-现货和合约</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #f97316;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --badge-radius: 999px;
+            --card-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem 0.75rem;
+            }
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: clamp(1.5rem, 4vw + 0.5rem, 2.2rem);
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        h2 {
+            font-size: clamp(1.2rem, 3vw + 0.5rem, 1.8rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 {
+            font-size: clamp(1.05rem, 2.5vw + 0.5rem, 1.4rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        p {
+            font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem);
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 48px;
+            text-align: center;
+        }
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .badge-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .badge-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        .badge-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+        #summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .summary-item-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2vw + 0.3rem, 1.05rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-item-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.8vw + 0.3rem, 1rem);
+        }
+        .summary-item-list {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        .summary-item-list li {
+            margin-bottom: 0.3rem;
+        }
+        #key-points {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        #key-points::before {
+            content: '';
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+px solid var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        .timeline-card {
+            position: relative;
+            z-index: 1;
+        }
+        .timestamp {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--badge-radius);
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            margin-bottom: 0.8rem;
+        }
+        details {
+            margin-bottom: 1rem;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        details > div {
+            padding: 0 1.5rem 1.5rem;
+        }
+        #steps {
+            margin-bottom: 2.5rem;
+        }
+        .step-item {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(0.8rem, 1.5vw + 0.3rem, 0.9rem);
+            font-weight: 600;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .step-content {
+            color: var(--text-secondary);
+        }
+        .step-note {
+            font-style: italic;
+            color: var(--accent);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.7vw + 0.3rem, 0.95rem);
+        }
+        #ai-notes {
+            margin-bottom: 2rem;
+        }
+        .ai-note-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background-color: rgba(249, 115, 22, 0.05);
+            border-radius: 0 var(--card-radius) var(--card-radius) 0;
+        }
+        .ai-note-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .ai-note-content {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📁 2026分享会币圈预备课程-2-现货和合约</h1>
+            <p>币圈现货与合约交易核心基础知识详解（含实操演示）</p>
+        </header>
+
+        <section id="summary">
+            <div class="summary-item card">
+                <div class="summary-item-title">🎯 核心定位</div>
+                <div class="summary-item-content">
+                    详解币圈现货与合约交易的定义、区别、操作逻辑及底层原理，含币安平台实操演示
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">👥 目标受众与先备条件</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>币圈交易新手</li>
+                        <li>有1-3年交易经验但基础不扎实的老鸟</li>
+                        <li>无强制先备条件，从零开始讲解</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">✅ 关键收获</div>
+                <div class="summary-item-content">
+                    <ul class="summary-item-list">
+                        <li>掌握现货"一手交钱一手交货"核心逻辑</li>
+                        <li>理解合约（期货）的零和博弈本质</li>
+                        <li>明确现货与合约的市场独立性及价格关联</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">⏱️ 时间投资与回报</div>
+                <div class="summary-item-content">
+                    课程时长：单节直播（未明确具体时长）<br>
+                    预期回报：清晰区分两大交易工具，具备基础操作能力
+                </div>
+            </div>
+            <div class="summary-item card">
+                <div class="summary-item-title">🏷️ 标签</div>
+                <div class="summary-item-content">
+                    <span class="badge badge-primary">币圈交易</span>
+                    <span class="badge badge-secondary">现货交易</span>
+                    <span class="badge badge-accent">合约交易</span>
+                    <span class="badge badge-warning">基础知识</span>
+                    <span class="badge badge-success">实操演示</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="key-points">
+            <h2>📝 核心要点详解</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>现货交易的定义与本质</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>现货交易类比"菜场买白菜"，核心是"一手交钱一手交货"——资金瞬间支付，标的资产（如比特币）即时到账。</p>
+                            <p>实操演示：讲师通过定投账户（4月起每日定投3000美金，账户总价值约24万）现场操作，以市价买入1000美金比特币，买入后资产即时计入账户（原有0.6576个比特币，买入后数量增加）。</p>
+                            <p>交易特点：操作直接，资产所有权即时转移，交易后标的资产存入现货账户。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>合约交易的定义与名称对应</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>币圈的"合约交易"对应传统市场的"期货"（英文Future），本质是未来交割的交易合同，课程暂不涉及期权（因复杂度高，2000元课程不包含）。</p>
+                            <p>合约类型：币安平台主要分为U本位合约、B本位合约，课程重点讲解B本位合约。</p>
+                            <p>核心逻辑：合约交易的本质是"签订合同"，买卖双方为对手方（多头看涨、空头看空），属于零和博弈——一方盈利完全来自另一方亏损。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>现货与合约的市场独立性</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>两大核心区别：</p>
+                            <ol>
+                                <li>价格差异：实操演示中，现货比特币价格71193，合约比特币价格7246，存在明显价差；</li>
+                                <li>盘口独立：现货与合约的订单簿完全不同，买一、卖一价格无关联；</li>
+                                <li>账户分离：现货账户与合约账户相互独立，资金需单独划转才能交易（讲师合约账户余额为0时无法交易）。</li>
+                            </ol>
+                            <p>价格趋势关联：两者长期价格趋势一致（同涨同跌），周线图走势基本相同，但短期价差存在。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>合约交易的对手方逻辑</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>合约交易需对手方才能成交：买入看涨合约（多头）的交易者，对手方是卖出看跌合约（空头）的交易者，双方意见相左是成交的前提。</p>
+                            <p>零和博弈本质：合约市场无新增价值，一方赚的钱完全等于另一方亏的钱，每一次买卖都是与对手方"签订合约"。</p>
+                            <p>交易心态：应感恩意见相左的对手方，无对手方则无法完成交易，无需鄙视或抬杠。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>合约交易的单位与合约要素</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>交易单位：合约以"张"为单位，例如"买入10张比特币看涨合约"、"卖出100张以太坊看跌合约"。</p>
+                            <p>合约要素：每张合约会明确标注交易标的（如比特币）、交割方式、面值等核心规定，确保交易双方权利义务清晰。</p>
+                            <p>命名优势："合约"比"期货"更贴合本质，因交易核心是基于标准化合同（contract）的权利义务约定。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-card card">
+                    <h3>币安平台交易入口与操作差异</h3>
+                    <details>
+                        <summary>点击展开详情</summary>
+                        <div>
+                            <p>入口区分：现货交易与合约交易有独立入口，合约交易入口明确标注U本位、B本位合约分类。</p>
+                            <p>操作差异：现货交易直接买入标的资产，合约交易买卖的是"合约"而非资产本身，无需实际持有标的资产即可交易。</p>
+                            <p>资产归属：现货交易后资产存入现货账户，合约交易仅涉及合约账户内的资金变动，不直接持有标的资产。</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="logic" class="card">
+            <h2>🔍 底层逻辑与框架</h2>
+            <details>
+                <summary>点击展开详情</summary>
+                <div>
+                    <h3>1. 核心思维模型</h3>
+                    <p>• 现货交易："所有权转移模型"——交易的核心是资产所有权的即时交割，适用于长期持有或定投策略（如讲师的每日定投账户）。</p>
+                    <p>• 合约交易："零和博弈模型"——交易的核心是对价格趋势的预判，盈利来自对手方的亏损，不涉及资产所有权转移，仅基于价格波动获利。</p>
+
+                    <h3>2. 因果/递进关系</h3>
+                    <p>• 市场独立性 → 价格差异：现货与合约是完全独立的交易市场，导致盘口价格不同，但长期趋势受同一标的资产价值影响，故走势一致。</p>
+                    <p>• 合约本质（签订合同）→ 对手方需求：合同需双方签订，故必须有意见相左的交易者（多头/空头）才能成交，构成零和博弈基础。</p>
+
+                    <h3>3. 关键隐喻与案例</h3>
+                    <p>• 隐喻1：现货交易=菜场买白菜（一手交钱一手交货），直观理解资产即时交割。</p>
+                    <p>• 隐喻2：合约交易=签订劳动合约（甲乙双方权利义务约定），类比合约双方的看涨/看空约定。</p>
+                    <p>• 案例：讲师定投账户（24万总价值）的现货买入演示，合约账户余额为0无法交易的实操展示，直观体现账户分离特性。</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="steps" class="card">
+            <h2>📋 实作步骤 Checklist</h2>
+            <div class="step-item" data-step="1">
+                <div class="step-title">现货交易实操步骤（币安平台）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>登录币安账户，进入"现货交易"入口；</li>
+                        <li>选择交易标的（如比特币），确认现货账户有足够资金（如USDT）；</li>
+                        <li>选择交易方式（市价/限价），输入交易金额（如1000U）；</li>
+                        <li>点击"买入"，确认交易后，标的资产即时计入现货账户；</li>
+                        <li>查看账户资产，核实标的资产数量是否增加。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：确保现货账户资金充足，市价交易适合盘口较大的标的（如比特币），成交速度更快。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="2">
+                <div class="step-title">合约交易准备步骤（币安平台）</div>
+                <div class="step-content">
+                    <ol>
+                        <li>登录币安账户，进入"合约交易"入口；</li>
+                        <li>选择合约类型（U本位/B本位，课程重点B本位）；</li>
+                        <li>将现货账户资金划转到合约账户（账户分离，需单独划转）；</li>
+                        <li>选择交易标的（如比特币），查看合约盘口与价格；</li>
+                        <li>根据预判选择"买入看涨"或"卖出看跌"，确定交易张数。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：合约账户资金为0时无法交易，需提前完成资金划转；首次操作建议先熟悉盘口差异，避免混淆现货与合约价格。</div>
+                </div>
+            </div>
+
+            <div class="step-item" data-step="3">
+                <div class="step-title">现货与合约市场区分验证步骤</div>
+                <div class="step-content">
+                    <ol>
+                        <li>同时打开币安现货交易与合约交易页面；</li>
+                        <li>选择同一标的资产（如比特币），对比两者价格（大概率存在价差）；</li>
+                        <li>查看双方订单簿，确认买一、卖一价格及挂单量差异；</li>
+                        <li>切换至周线图，对比两者长期走势（趋势一致）；</li>
+                        <li>核实现货账户与合约账户资产是否独立显示。</li>
+                    </ol>
+                    <div class="step-note">⚠️ 卡关点：若未找到独立入口，可在币安首页搜索"现货交易"、"合约交易"快速定位；价格差异属正常现象，无需担心操作错误。</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-notes">
+            <h2>💡 AI 补充建议与提醒</h2>
+            
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>合约交易风险高于现货</div>
+                <div class="ai-note-content">
+                    合约交易通常带有杠杆属性（课程未提及但属行业常规），零和博弈特性叠加杠杆会放大盈亏，新手建议先熟练掌握现货交易后，再小资金尝试合约，避免盲目跟风。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>账户资金管理要点</div>
+                <div class="ai-note-content">
+                    现货定投账户（如讲师每日3000U）适合长期布局，合约账户资金建议单独分配，避免与现货资金混用；建议设置止损止盈规则，尤其是合约交易，防止亏损扩大。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>术语一致性注意</div>
+                <div class="ai-note-content">
+                    牢记"合约=期货（Future）"，避免因术语混淆导致操作失误；币安平台的"币本位合约"即B本位合约，"U本位合约"以USDT为计价单位，需根据自身持仓选择合适类型。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 建议】</strong>实操练习优先级</div>
+                <div class="ai-note-content">
+                    第一步：用小额资金（如100-500U）练习现货市价/限价买入卖出，熟悉资产到账流程；第二步：完成现货与合约账户资金划转练习（无实际交易）；第三步：观察合约盘口与价格波动，暂不实际交易；第四步：小张数尝试合约交易，积累经验。
+                </div>
+            </div>
+
+            <div class="ai-note-item">
+                <div class="ai-note-title"><strong>【AI 提醒】</strong>课程内容边界说明</div>
+                <div class="ai-note-content">
+                    本课程不包含期权交易内容，若需学习期权，需另行了解高阶课程；币圈交易存在政策风险与市场波动风险，所有操作需基于自身风险承受能力，切勿盲目投入大额资金。
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
