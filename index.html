@@ -266,7 +266,7 @@
       clickTimer = setTimeout(() => clickCount = 0, 1200);
 
       if (clickCount === 3) {
-        const pw = prompt("🔒 請輸入密碼 (預設: 1)");
+        const pw = prompt("🔒 請輸入密碼");
         if (pw === "1") {
           document.getElementById('state').style.display = 'block';
           document.getElementById('subtitle').innerText = "已解密，正在載入檔案...";
